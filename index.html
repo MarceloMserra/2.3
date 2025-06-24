@@ -356,66 +356,72 @@
                     <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
                 </div>
                 
-                <form class="p-6">
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
-                            <input type="text" id="group-name" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        
-                        <div>
-                            <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
-                            <input type="text" id="representative" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
-                            <input type="email" id="email" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        
-                        <div>
-                            <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
-                            <input type="tel" id="phone" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
-                            <input type="text" id="city" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        
-                        <div>
-                            <label for="members" class="block text-gray-300 mb-2">Número de Membros*</label>
-                            <input type="number" id="members" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="social" class="block text-gray-300 mb-2">Redes Sociais (Instagram, Facebook, etc.)</label>
-                        <input type="text" id="social" class="w-full px-4 py-3 rounded-lg text-white">
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="description" class="block text-gray-300 mb-2">Breve descrição do grupo*</label>
-                        <textarea id="description" rows="4" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" required>
-                            <span class="ml-2 text-gray-300">Li e concordo com os termos do Movimento 2.3*</span>
-                        </label>
-                    </div>
-                    
-                    <div class="text-center">
-                        <button type="submit" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
-                            ENVIAR CREDENCIAMENTO
-                        </button>
-                    </div>
-                </form>
+               <form action="https://formsubmit.co/msmadureira@gmail.com" method="POST" class="p-6">
+
+    <!-- Desativa o captcha padrão e redireciona após envio -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://movimento23.com.br/obrigado.html">
+
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
+            <input type="text" id="group-name" name="Nome do Grupo" class="w-full px-4 py-3 rounded-lg text-white" required>
+        </div>
+        
+        <div>
+            <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
+            <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
+            <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
+        </div>
+        
+        <div>
+            <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
+            <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
+            <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
+        </div>
+        
+        <div>
+            <label for="members" class="block text-gray-300 mb-2">Número de Membros*</label>
+            <input type="number" id="members" name="Número de Membros" class="w-full px-4 py-3 rounded-lg text-white" required>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <label for="social" class="block text-gray-300 mb-2">Redes Sociais (Instagram, Facebook, etc.)</label>
+        <input type="text" id="social" name="Redes Sociais" class="w-full px-4 py-3 rounded-lg text-white">
+    </div>
+
+    <div class="mb-6">
+        <label for="description" class="block text-gray-300 mb-2">Breve descrição do grupo*</label>
+        <textarea id="description" name="Descrição do Grupo" rows="4" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
+    </div>
+
+    <div class="mb-6">
+        <label class="flex items-center">
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" required>
+            <span class="ml-2 text-gray-300">Li e concordo com os termos do Movimento 2.3*</span>
+        </label>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
+            ENVIAR CREDENCIAMENTO
+        </button>
+    </div>
+</form>
+
             </div>
         </div>
     </section>
@@ -723,10 +729,7 @@
             
             <div class="border-t border-gray-800 pt-8 text-center">
                 <p class="text-gray-400">
-                    &copy; 2023 Movimento 2.3 - Todos os direitos reservados
-                </p>
-                <p class="text-gray-500 text-sm mt-2">
-                    Desenvolvido por EnzoTVs
+                    &copy; 2025 Movimento 2.3 - Todos os direitos reservados
                 </p>
             </div>
         </div>
