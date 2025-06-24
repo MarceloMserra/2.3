@@ -130,59 +130,42 @@
       <i class="fas fa-bars"></i>
     </button>
   </div>
+
+  <!-- Menu Mobile (quadrado suspenso no topo) -->
+  <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
+    <a href="#inicio" onclick="closeMobileMenu()" class="block hover:text-red-500">Início</a>
+    <a href="#sobre" onclick="closeMobileMenu()" class="block hover:text-red-500">Sobre</a>
+    <a href="#galeria" onclick="closeMobileMenu()" class="block hover:text-red-500">Galeria</a>
+    <a href="#irmandade" onclick="closeMobileMenu()" class="block hover:text-red-500">Irmandade</a>
+    <a href="#eventos" onclick="closeMobileMenu()" class="block hover:text-red-500">Eventos</a>
+    <a href="#credenciamento" onclick="closeMobileMenu()" class="block hover:text-red-500">Credenciamento</a>
+    <a href="#contato" onclick="closeMobileMenu()" class="block hover:text-red-500">Contato</a>
+  </div>
 </header>
 
-<!-- Menu Mobile -->
-<div id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6 text-white text-xl hidden">
-  <a href="#inicio" onclick="toggleMobileMenu()" class="hover:text-red-500">Início</a>
-  <a href="#sobre" onclick="toggleMobileMenu()" class="hover:text-red-500">Sobre</a>
-  <a href="#galeria" onclick="toggleMobileMenu()" class="hover:text-red-500">Galeria</a>
-  <a href="#irmandade" onclick="toggleMobileMenu()" class="hover:text-red-500">Irmandade</a>
-  <a href="#eventos" onclick="toggleMobileMenu()" class="hover:text-red-500">Eventos</a>
-  <a href="#credenciamento" onclick="toggleMobileMenu()" class="hover:text-red-500">Credenciamento</a>
-  <a href="#contato" onclick="toggleMobileMenu()" class="hover:text-red-500">Contato</a>
-</div>
-
-<!-- Botão scroll para topo -->
-<button id="scrollTopBtn" class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  ↑
-</button>
-
-<!-- Scripts -->
+<!-- Script para menu mobile -->
 <script>
   const menuBtn = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
 
-  function toggleMobileMenu() {
+  menuBtn.addEventListener('click', function (e) {
+    e.stopPropagation(); // Evita que o clique feche imediatamente
     mobileMenu.classList.toggle('hidden');
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.add('hidden');
   }
 
-  menuBtn.addEventListener('click', toggleMobileMenu);
-
-  // Fecha o menu ao clicar fora dele
   window.addEventListener('click', function (e) {
     if (
-      !mobileMenu.classList.contains('hidden') &&
       !mobileMenu.contains(e.target) &&
       !menuBtn.contains(e.target)
     ) {
-      mobileMenu.classList.add('hidden');
-    }
-  });
-
-  // Botão de scroll para o topo
-  const scrollBtn = document.getElementById('scrollTopBtn');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      scrollBtn.style.display = 'block';
-    } else {
-      scrollBtn.style.display = 'none';
+      closeMobileMenu();
     }
   });
 </script>
-
-</body>
-</html>
 
 
 
