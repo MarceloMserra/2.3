@@ -29,7 +29,6 @@
             min-height: 100vh;
         }
 
-        
         .metal-text {
             background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
             -webkit-background-clip: text;
@@ -108,6 +107,9 @@
             border-color: #b91c1c;
         }
     </style>
+</head>
+<body>
+
 <!-- Header -->
 <header class="fixed w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -135,11 +137,45 @@
         </nav>
 
         <!-- Menu hamburguer (mobile) -->
-        <button class="md:hidden text-white text-2xl">
+        <button id="menuToggle" class="md:hidden text-white text-2xl">
             <i class="fas fa-bars"></i>
         </button>
     </div>
 </header>
+
+<!-- Menu Mobile -->
+<div id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-95 z-50 flex flex-col items-center justify-center space-y-6 text-white text-xl hidden">
+    <a href="#inicio" onclick="toggleMobileMenu()" class="hover:text-red-500">Início</a>
+    <a href="#sobre" onclick="toggleMobileMenu()" class="hover:text-red-500">Sobre</a>
+    <a href="#galeria" onclick="toggleMobileMenu()" class="hover:text-red-500">Galeria</a>
+    <a href="#irmandade" onclick="toggleMobileMenu()" class="hover:text-red-500">Irmandade</a>
+    <a href="#eventos" onclick="toggleMobileMenu()" class="hover:text-red-500">Eventos</a>
+    <a href="#credenciamento" onclick="toggleMobileMenu()" class="hover:text-red-500">Credenciamento</a>
+    <a href="#contato" onclick="toggleMobileMenu()" class="hover:text-red-500">Contato</a>
+</div>
+
+<!-- Script do Menu -->
+<script>
+    const menuBtn = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuBtn.addEventListener('click', toggleMobileMenu);
+
+    function toggleMobileMenu() {
+        mobileMenu.classList.toggle('hidden');
+    }
+
+    window.addEventListener('click', function(e) {
+        if (!mobileMenu.classList.contains('hidden') &&
+            !mobileMenu.contains(e.target) &&
+            !menuBtn.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+</script>
+
+</body>
+</html>
 
 
     <!-- Hero Section -->
