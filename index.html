@@ -356,7 +356,10 @@
                     <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
                 </div>
                 
-<form action="https://formspree.io/f/mnnvoana" method="POST" class="p-6" onsubmit="window.location.href='https://2ponto3.netlify.app/obrigado'; return false;">
+<form action="https://formspree.io/f/mnnvoana" method="POST" class="p-6">
+    <!-- Desativa o captcha padrão e define a página de obrigado -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://2ponto3.netlify.app/obrigado">
 
   <div class="grid md:grid-cols-2 gap-6 mb-6">
     <div>
