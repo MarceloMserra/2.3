@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movimento 2.3 - Unidos na Estrada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
+      body {
+        font-family: 'Oswald', sans-serif;
+        background-color: #000;
+        color: #fff;
+        scroll-behavior: smooth;
+      }
+      .logo-font {
+        font-family: 'Bebas Neue', cursive;
+      }
+      .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url('https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/fotocapa.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        min-height: 100vh;
+      }
+      .metal-text {
+        background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(185, 28, 28, 0.3);
+      }
+      input,
+      textarea {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+      input:focus,
+      textarea:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        outline: none;
+        border-color: #b91c1c;
+      }
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* Proporção 16:9 */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+      }
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+</head>
+<body>
+
+<header class="fixed w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex justify-center md:justify-start w-full md:w-auto">
+      <a href="#inicio">
+        <img
+          src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/logobranca.png"
+          alt="Logo Movimento 2.3"
+          class="h-12 w-auto max-w-[180px] object-contain transition duration-300 hover:opacity-80"
+        />
+      </a>
+    </div>
+
+    <nav class="hidden md:block">
+      <ul class="flex space-x-8">
+        <li><a href="#inicio" class="text-white hover:text-red-500 transition">Início</a></li>
+        <li><a href="#video" class="text-white hover:text-red-500 transition">O Projeto</a></li>
+        <li><a href="#sobre" class="text-white hover:text-red-500 transition">O Movimento</a></li>
+        <li><a href="#formulario" class="text-white hover:text-red-500 transition">Faça Parte</a></li>
+      </ul>
+    </nav>
+
+    <button id="menuToggle" class="md:hidden text-white text-2xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
+    <a href="#inicio" onclick="closeMobileMenu()" class="block hover:text-red-500">Início</a>
+    <a href="#video" onclick="closeMobileMenu()" class="block hover:text-red-500">O Projeto</a>
+    <a href="#sobre" onclick="closeMobileMenu()" class="block hover:text-red-500">O Movimento</a>
+    <a href="#formulario" onclick="closeMobileMenu()" class="block hover:text-red-500">Faça Parte</a>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  menuBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.add('hidden');
+  }
+
+  window.addEventListener('click', function (e) {
+    if (
+      !mobileMenu.contains(e.target) &&
+      !menuBtn.contains(e.target)
+    ) {
+      closeMobileMenu();
+    }
+  });
+</script>
+
+<section id="inicio" class="hero-section flex items-center justify-center pt-20">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 metal-text">
+            <span class="block">MUDE A HISTÓRIA DO MOTOCICLISMO</span>
+            <span class="block">CONOSCO</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-300">
+            Junte-se à maior irmandade sobre rodas do Brasil. Unidos, somos mais fortes.
+        </p>
+        <div class="flex justify-center">
+            <a href="#video" class="btn-primary text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg">
+                <i class="fas fa-play mr-2"></i> CONHEÇA O PROJETO
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="video" class="py-20 bg-black">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">ASSISTA E ENTENDA O MOVIMENTO</h2>
+      <div class="w-24 h-1 bg-red-600 mx-auto"></div>
+    </div>
+    <div class="max-w-4xl mx-auto rounded-lg overflow-hidden shadow-xl">
+      <div class="video-container">
+        <iframe 
+            src="https://www.youtube.com/embed/URL_DO_SEU_VIDEO_AQUI" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre" class="py-20 bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">O QUE É O MOVIMENTO 2.3?</h2>
+            <div class="w-24 h-1 bg-red-600 mx-auto"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-red-500">NASCIDO DA ESTRADA, VIVENDO DA UNIÃO</h3>
+            <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+                O Movimento 2.3 surgiu da necessidade de unir motociclistas e triciclistas em um só propósito: fortalecer a cultura sobre rodas no Brasil, sem distinção ou hierarquia. Nossa missão é criar uma rede nacional de apoio, respeito e irmandade entre todos os amantes de duas e três rodas.
+            </p>
+            
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-white">2 OU 3 RODAS — UMA SÓ VOZ</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+                Não importa o que você pilota, mas sim o amor pela estrada e o respeito pelo próximo. No Movimento 2.3, todos têm voz igual. Juntos, formamos uma força poderosa que pode transformar realidades, ajudar comunidades e promover a segurança e o prazer de pilotar em nosso país.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="formulario" class="py-20 bg-gradient-to-b from-black to-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">FAÇA PARTE DO MOVIMENTO</h2>
+            <div class="w-24 h-1 bg-red-600 mx-auto"></div>
+            <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+                Preencha o formulário abaixo para credenciar seu grupo e se juntar a esta grande irmandade sobre rodas.
+            </p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+            <div class="bg-red-600 py-4 px-6">
+                <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
+            </div>
+            
+            <form id="form" action="https://formspree.io/f/mnnvoana" method="POST" class="p-8">
+              <input type="hidden" name="_captcha" value="false">
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
+                  <input type="text" id="group-name" name="Nome do Grupo" class="w-full px-4 py-3 rounded-lg text-white" required>
+                </div>
+                <div>
+                  <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
+                  <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
+                  <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
+                </div>
+                <div>
+                  <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
+                  <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
+                <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+              
+              <div class="mb-6">
+                <label for="description" class="block text-gray-300 mb-2">Breve descrição do grupo*</label>
+                <textarea id="description" name="Descrição do Grupo" rows="4" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
+              </div>
+
+              <div class="mb-8">
+                <label class="flex items-center">
+                  <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 bg-gray-800 border-gray-600" required>
+                  <span class="ml-3 text-gray-300">Li e concordo com os termos do Movimento 2.3*</span>
+                </label>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn-primary text-white font-bold py-3 px-12 rounded-full text-lg w-full md:w-auto">
+                  ENVIAR CREDENCIAMENTO
+                </button>
+              </div>
+            </form>
+            
+            <script>
+              const form = document.getElementById('form');
+              form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const formData = new FormData(form);
+                try {
+                  const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                  });
+                  if (response.ok) {
+                    window.location.href = 'https://2ponto3.netlify.app/obrigado'; // Redireciona para a página de obrigado
+                  } else {
+                    alert('Ocorreu um erro ao enviar. Tente novamente.');
+                  }
+                } catch (error) {
+                  alert('Erro na conexão. Verifique sua internet.');
+                }
+              });
+            </script>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-black py-12 border-t border-gray-800">
+    <div class="container mx-auto px-4 text-center">
+        <a href="#inicio">
+          <img
+            src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/logobranca.png"
+            alt="Logo Movimento 2.3"
+            class="h-16 mx-auto mb-4 transition duration-300 hover:opacity-80"
+          />
+        </a>
+        <p class="text-xl font-bold text-white mb-6">
+            "Porque quem tem irmãos de estrada, nunca está sozinho."
+        </p>
+        <div class="flex justify-center space-x-6 mb-8">
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f text-xl"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube text-xl"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></a>
+        </div>
+        <div class="border-t border-gray-800 pt-8">
+            <p class="text-gray-400">
+                &copy; 2025 Movimento 2.3 - Todos os direitos reservados
+            </p>
+        </div>
+    </div>
+</footer>
+
+
+<a href="https://wa.me/SEUNUMEROWHATSAPP" target="_blank" class="fixed bottom-8 left-8 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40 hover:bg-green-600 transition-colors">
+    <i class="fab fa-whatsapp text-3xl"></i>
+</a>
+
+<button id="scrollToTopBtn" class="fixed bottom-8 right-8 bg-red-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40 opacity-0 transition-opacity duration-300">
+    <i class="fas fa-arrow-up text-xl"></i>
+</button>
+
+<script>
+    // Script do botão "Voltar ao Topo"
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.style.opacity = '1';
+        } else {
+            scrollToTopBtn.style.opacity = '0';
+        }
+    });
+    
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Script de rolagem suave para âncoras
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // O valor 80 é um ajuste para a altura do header fixo
+                const offsetPosition = targetElement.offsetTop - 80;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
