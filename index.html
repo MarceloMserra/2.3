@@ -1,840 +1,839 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Movimento 2.3 - Unidos na Estrada</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
-    body {
-      font-family: 'Oswald', sans-serif;
-      background-color: #000;
-      color: #fff;
-      scroll-behavior: smooth;
-    }
-    .logo-font {
-      font-family: 'Bebas Neue', cursive;
-    }
-    .hero-section {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url('https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/fotocapa.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: scroll;
-      min-height: 100vh;
-    }
-    .metal-text {
-      background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(185, 28, 28, 0.3);
-    }
-    .btn-secondary {
-      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-      transition: all 0.3s ease;
-    }
-    .btn-secondary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(30, 64, 175, 0.3);
-    }
-    .gallery-item {
-      transition: all 0.3s ease;
-    }
-    .gallery-item:hover {
-      transform: scale(1.03);
-    }
-    .scroll-to-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background-color: #b91c1c;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 9999px;
-      cursor: pointer;
-      font-size: 20px;
-      z-index: 50;
-      display: none;
-    }
-    .club-card,
-    .event-card {
-      transition: all 0.3s ease;
-    }
-    .club-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
-    }
-    .event-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(30, 64, 175, 0.3);
-    }
-    input,
-    textarea {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-    input:focus,
-    textarea:focus {
-      background-color: rgba(255, 255, 255, 0.2);
-      outline: none;
-      border-color: #b91c1c;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movimento 2.3 - Unidos na Estrada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
+      body {
+        font-family: 'Oswald', sans-serif;
+        background-color: #000;
+        color: #fff;
+        scroll-behavior: smooth;
+      }
+      .logo-font {
+        font-family: 'Bebas Neue', cursive;
+      }
+      .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url('https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/fotocapa.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        min-height: 100vh;
+      }
+      .metal-text {
+        background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #FFDD00 0%, #F9C80E 100%);
+        color: #000;
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 221, 0, 0.3);
+      }
+      .btn-secondary {
+        background: linear-gradient(135deg, #009C3B 0%, #007D2C 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 156, 59, 0.3);
+      }
+      .gallery-item {
+        transition: all 0.3s ease;
+      }
+      .gallery-item:hover {
+        transform: scale(1.03);
+      }
+      .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #FFDD00;
+        color: #000;
+        padding: 12px 16px;
+        border-radius: 9999px;
+        cursor: pointer;
+        font-size: 20px;
+        z-index: 50;
+        display: none;
+      }
+      .scroll-to-top.active {
+          display: flex;
+      }
+      .club-card,
+      .event-card {
+        transition: all 0.3s ease;
+      }
+      .club-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(255, 221, 0, 0.3);
+      }
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 156, 59, 0.3);
+      }
+      input,
+      textarea {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+      input:focus,
+      textarea:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        outline: none;
+        border-color: #FFDD00;
+      }
+      .text-brasil-blue {
+        color: #042D8E;
+      }
+      .bg-brasil-yellow {
+        background-color: #FFDD00;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="fixed w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <!-- Logo -->
+        <div class="flex justify-center md:justify-start w-full md:w-auto">
+          <a href="#inicio">
+            <img
+              src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/logobranca.png"
+              alt="Logo Movimento 2.3"
+              class="h-12 w-auto max-w-[180px] object-contain transition duration-300 hover:opacity-80"
+            />
+          </a>
+        </div>
 
-<!-- Header -->
-<header class="fixed w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
-  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-    <!-- Logo -->
-    <div class="flex justify-center md:justify-start w-full md:w-auto">
-      <a href="#inicio">
-        <img
-          src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/logobranca.png"
-          alt="Logo Movimento 2.3"
-          class="h-12 w-auto max-w-[180px] object-contain transition duration-300 hover:opacity-80"
-        />
-      </a>
-    </div>
+        <!-- Menu desktop -->
+        <nav class="hidden md:block">
+          <ul class="flex space-x-8">
+            <li><a href="#inicio" class="text-white hover:text-brasil-yellow transition">Início</a></li>
+            <li><a href="#sobre" class="text-white hover:text-brasil-yellow transition">Sobre</a></li>
+            <li><a href="#galeria" class="text-white hover:text-brasil-yellow transition">Galeria</a></li>
+            <li><a href="#irmandade" class="text-white hover:text-brasil-yellow transition">Irmandade</a></li>
+            <li><a href="#eventos" class="text-white hover:text-brasil-yellow transition">Eventos</a></li>
+            <li><a href="#credenciamento" class="text-white hover:text-brasil-yellow transition">Credenciamento</a></li>
+            <li><a href="#contato" class="text-white hover:text-brasil-yellow transition">Contato</a></li>
+          </ul>
+        </nav>
 
-    <!-- Menu desktop -->
-    <nav class="hidden md:block">
-      <ul class="flex space-x-8">
-        <li><a href="#inicio" class="text-white hover:text-red-500 transition">Início</a></li>
-        <li><a href="#sobre" class="text-white hover:text-red-500 transition">Sobre</a></li>
-        <li><a href="#galeria" class="text-white hover:text-red-500 transition">Galeria</a></li>
-        <li><a href="#irmandade" class="text-white hover:text-red-500 transition">Irmandade</a></li>
-        <li><a href="#eventos" class="text-white hover:text-red-500 transition">Eventos</a></li>
-        <li><a href="#credenciamento" class="text-white hover:text-red-500 transition">Credenciamento</a></li>
-        <li><a href="#contato" class="text-white hover:text-red-500 transition">Contato</a></li>
-      </ul>
-    </nav>
+        <!-- Ícone hambúrguer -->
+        <button id="menuToggle" class="md:hidden text-white text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
 
-    <!-- Ícone hambúrguer -->
-    <button id="menuToggle" class="md:hidden text-white text-2xl">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
+      <!-- Menu Mobile (quadrado suspenso no topo) -->
+      <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
+        <a href="#inicio" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Início</a>
+        <a href="#sobre" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Sobre</a>
+        <a href="#galeria" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Galeria</a>
+        <a href="#irmandade" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Irmandade</a>
+        <a href="#eventos" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Eventos</a>
+        <a href="#credenciamento" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Credenciamento</a>
+        <a href="#contato" onclick="closeMobileMenu()" class="block hover:text-brasil-yellow">Contato</a>
+      </div>
+    </header>
 
-  <!-- Menu Mobile (quadrado suspenso no topo) -->
-  <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
-    <a href="#inicio" onclick="closeMobileMenu()" class="block hover:text-red-500">Início</a>
-    <a href="#sobre" onclick="closeMobileMenu()" class="block hover:text-red-500">Sobre</a>
-    <a href="#galeria" onclick="closeMobileMenu()" class="block hover:text-red-500">Galeria</a>
-    <a href="#irmandade" onclick="closeMobileMenu()" class="block hover:text-red-500">Irmandade</a>
-    <a href="#eventos" onclick="closeMobileMenu()" class="block hover:text-red-500">Eventos</a>
-    <a href="#credenciamento" onclick="closeMobileMenu()" class="block hover:text-red-500">Credenciamento</a>
-    <a href="#contato" onclick="closeMobileMenu()" class="block hover:text-red-500">Contato</a>
-  </div>
-</header>
+    <!-- Script para menu mobile -->
+    <script>
+      const menuBtn = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
 
-<!-- Script para menu mobile -->
-<script>
-  const menuBtn = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
+      menuBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
 
-  menuBtn.addEventListener('click', function (e) {
-    e.stopPropagation(); // Evita que o clique feche imediatamente
-    mobileMenu.classList.toggle('hidden');
-  });
+      function closeMobileMenu() {
+        mobileMenu.classList.add('hidden');
+      }
 
-  function closeMobileMenu() {
-    mobileMenu.classList.add('hidden');
-  }
-
-  window.addEventListener('click', function (e) {
-    if (
-      !mobileMenu.contains(e.target) &&
-      !menuBtn.contains(e.target)
-    ) {
-      closeMobileMenu();
-    }
-  });
-</script>
-
+      window.addEventListener('click', function (e) {
+        if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+          closeMobileMenu();
+        }
+      });
+    </script>
 
 
 
     <!-- Hero Section -->
     <section id="inicio" class="hero-section flex items-center justify-center pt-20">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 metal-text">
-                <span class="block">JUNTOS NA ESTRADA</span>
-                <span class="block">FORTES NA LUTA</span>
-                <span class="block">UNIDOS NO MOVIMENTO 2.3</span>
-            </h1>
-            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-300">
-                A união dos grupos de 2 e 3 rodas do Brasil, valorizando todos igualmente com irmandade e respeito mútuo.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#credenciamento" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
-                    CREDENCIE SEU GRUPO
-                </a>
-                <a href="#eventos" class="btn-secondary text-white font-bold py-3 px-8 rounded-full text-lg">
-                    VER PRÓXIMOS EVENTOS
-                </a>
-            </div>
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 metal-text">
+          <span class="block">JUNTOS NA ESTRADA</span>
+          <span class="block">FORTES NA LUTA</span>
+          <span class="block">UNIDOS NO MOVIMENTO 2.3</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-300">
+          A união dos grupos de 2 e 3 rodas do Brasil, valorizando todos igualmente com irmandade e respeito mútuo.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="#credenciamento" class="btn-primary text-black font-bold py-3 px-8 rounded-full text-lg">
+            CREDENCIE SEU GRUPO
+          </a>
+          <a href="#eventos" class="btn-secondary text-white font-bold py-3 px-8 rounded-full text-lg">
+            VER PRÓXIMOS EVENTOS
+          </a>
         </div>
+      </div>
     </section>
 
     <!-- About Section -->
     <section id="sobre" class="py-20 bg-gradient-to-b from-black to-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">SOBRE O MOVIMENTO</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h3 class="text-2xl md:text-3xl font-bold mb-6 text-red-500">NASCE DA ESTRADA, VIVE DA UNIÃO</h3>
-                    <p class="text-gray-300 mb-6 text-lg">
-                        O Movimento 2.3 surgiu da necessidade de unir motociclistas e triciclistas em um só propósito: fortalecer a cultura sobre rodas no Brasil, sem distinção ou hierarquia.
-                    </p>
-                    <p class="text-gray-300 mb-6 text-lg">
-                        Nossa missão é criar uma rede nacional de apoio, respeito e irmandade entre todos os amantes de duas e três rodas, promovendo eventos, ações sociais e defendendo nossos direitos.
-                    </p>
-                    
-                    <h3 class="text-2xl md:text-3xl font-bold mb-6 text-blue-500">2 OU 3 RODAS — UMA SÓ VOZ</h3>
-                    <p class="text-gray-300 mb-6 text-lg">
-                        Não importa se você pilota uma moto ou um triciclo, o que importa é o amor pela estrada e o respeito pelo próximo. No Movimento 2.3, todos têm voz igual e são tratados com a mesma importância.
-                    </p>
-                    <p class="text-gray-300 text-lg">
-                        Juntos, formamos uma força poderosa que pode transformar realidades, ajudar comunidades e promover a segurança e o prazer de pilotar em nosso país.
-                    </p>
-                </div>
-                
-                <div class="relative">
-                    <img src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/fotomoto.png" 
-                         alt="Motos e triciclos juntos" 
-                         class="w-full rounded-lg shadow-xl">
-                    <div class="absolute -bottom-6 -right-6 bg-red-600 p-4 rounded-lg shadow-lg hidden md:block">
-                        <i class="fas fa-motorcycle text-4xl text-white"></i>
-                    </div>
-                </div>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">SOBRE O MOVIMENTO</h2>
+          <div class="w-24 h-1 bg-[#FFDD00] mx-auto"></div>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-[#009C3B]">NASCE DA ESTRADA, VIVE DA UNIÃO</h3>
+            <p class="text-gray-300 mb-6 text-lg">
+              O Movimento 2.3 surgiu da necessidade de unir motociclistas e triciclistas em um só propósito: fortalecer a cultura sobre rodas no Brasil, sem distinção ou hierarquia.
+            </p>
+            <p class="text-gray-300 mb-6 text-lg">
+              Nossa missão é criar uma rede nacional de apoio, respeito e irmandade entre todos os amantes de duas e três rodas, promovendo eventos, ações sociais e defendendo nossos direitos.
+            </p>
+
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-[#FFDD00]">2 OU 3 RODAS — UMA SÓ VOZ</h3>
+            <p class="text-gray-300 mb-6 text-lg">
+              Não importa se você pilota uma moto ou um triciclo, o que importa é o amor pela estrada e o respeito pelo próximo. No Movimento 2.3, todos têm voz igual e são tratados com a mesma importância.
+            </p>
+            <p class="text-gray-300 text-lg">
+              Juntos, formamos uma força poderosa que pode transformar realidades, ajudar comunidades e promover a segurança e o prazer de pilotar em nosso país.
+            </p>
+          </div>
+
+          <div class="relative">
+            <img src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/fotomoto.png"
+                 alt="Motos e triciclos juntos"
+                 class="w-full rounded-lg shadow-xl">
+            <div class="absolute -bottom-6 -right-6 bg-[#009C3B] p-4 rounded-lg shadow-lg hidden md:block">
+              <i class="fas fa-motorcycle text-4xl text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Gallery Section -->
     <section id="galeria" class="py-20 bg-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">GALERIA</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
-                <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-                    Momentos marcantes da nossa irmandade sobre rodas. Encontros, viagens e eventos que mostram a força do Movimento 2.3.
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Encontro de motos" 
-                         class="w-full h-64 object-cover">
-                    <div class="p-4 bg-gray-800">
-                        <h3 class="text-xl font-bold text-white">Encontro Nacional 2023</h3>
-                        <p class="text-gray-400">São Paulo - SP</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1580310614655-215a2d0b60c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Triciclos em grupo" 
-                         class="w-full h-64 object-cover">
-                    <div class="p-4 bg-gray-800">
-                        <h3 class="text-xl font-bold text-white">Rally Triciclos 2023</h3>
-                        <p class="text-gray-400">Belo Horizonte - MG</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1568772585407-936112e8e7a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Motos e triciclos juntos" 
-                         class="w-full h-64 object-cover">
-                    <div class="p-4 bg-gray-800">
-                        <h3 class="text-xl font-bold text-white">União 2.3</h3>
-                        <p class="text-gray-400">Rio de Janeiro - RJ</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1600673788421-439427a4a3c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Ação social" 
-                         class="w-full h-64 object-cover">
-                    <div class="p-4 bg-gray-800">
-                        <h3 class="text-xl font-bold text-white">Ação Social Movimento 2.3</h3>
-                        <p class="text-gray-400">Curitiba - PR</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1568605114967-8135a040f403?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Viagem em grupo" 
-                         class="w-full h-64 object-cover">
-                    <div class="p-4 bg-gray-800">
-                        <h3 class="text-xl font-bold text-white">Viagem Serra da Mantiqueira</h3>
-                        <p class="text-gray-400">São Paulo - SP</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1558981852-426c6c22d060?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Noite de confraternização" 
-                         class="w-full h-64 object-cover">
-                    <div class="p-4 bg-gray-800">
-                        <h3 class="text-xl font-bold text-white">Confraternização Anual</h3>
-                        <p class="text-gray-400">Porto Alegre - RS</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
-                    <i class="fas fa-camera mr-2"></i> ENVIE SUA FOTO
-                </button>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">GALERIA</h2>
+          <div class="w-24 h-1 bg-[#FFDD00] mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Momentos marcantes da nossa irmandade sobre rodas. Encontros, viagens e eventos que mostram a força do Movimento 2.3.
+          </p>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Encontro de motos"
+                 class="w-full h-64 object-cover">
+            <div class="p-4 bg-gray-800">
+              <h3 class="text-xl font-bold text-white">Encontro Nacional 2023</h3>
+              <p class="text-gray-400">São Paulo - SP</p>
+            </div>
+          </div>
+
+          <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1580310614655-215a2d0b60c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Triciclos em grupo"
+                 class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-white">Rally Triciclos 2023</h3>
+              <p class="text-gray-400">Belo Horizonte - MG</p>
+            </div>
+          </div>
+
+          <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1568772585407-936112e8e7a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Motos e triciclos juntos"
+                 class="w-full h-64 object-cover">
+            <div class="p-4 bg-gray-800">
+              <h3 class="text-xl font-bold text-white">União 2.3</h3>
+              <p class="text-gray-400">Rio de Janeiro - RJ</p>
+            </div>
+          </div>
+
+          <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1600673788421-439427a4a3c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Ação social"
+                 class="w-full h-64 object-cover">
+            <div class="p-4 bg-gray-800">
+              <h3 class="text-xl font-bold text-white">Ação Social Movimento 2.3</h3>
+              <p class="text-gray-400">Curitiba - PR</p>
+            </div>
+          </div>
+
+          <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1568605114967-8135a040f403?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Viagem em grupo"
+                 class="w-full h-64 object-cover">
+            <div class="p-4 bg-gray-800">
+              <h3 class="text-xl font-bold text-white">Viagem Serra da Mantiqueira</h3>
+              <p class="text-gray-400">São Paulo - SP</p>
+            </div>
+          </div>
+
+          <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1558981852-426c6c22d060?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Noite de confraternização"
+                 class="w-full h-64 object-cover">
+            <div class="p-4 bg-gray-800">
+              <h3 class="text-xl font-bold text-white">Confraternização Anual</h3>
+              <p class="text-gray-400">Porto Alegre - RS</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button class="btn-primary text-black font-bold py-3 px-8 rounded-full text-lg">
+            <i class="fas fa-camera mr-2"></i> ENVIE SUA FOTO
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Brotherhood Section -->
     <section id="irmandade" class="py-20 bg-black">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">IRMANDADE</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
-                <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-                    Conheça os grupos que fazem parte do Movimento 2.3 e fortalecem nossa rede nacional de irmandade sobre rodas.
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/MotoRock1.png">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Triciclos do Sul" class="max-h-24 w-auto">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Filhos da Estrada" class="max-h-24 w-auto">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Trio Rodas Livres" class="max-h-24 w-auto">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Asas de Aço" class="max-h-24 w-auto">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Triciclos Bahia" class="max-h-24 w-auto">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Cavaleiros da Noite" class="max-h-24 w-auto">
-                </div>
-                
-                <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
-                    <img src="https://via.placeholder.com/150x150" alt="Logo Trio Estradeiros" class="max-h-24 w-auto">
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
-                    Estes são alguns dos mais de 50 grupos que fazem parte do Movimento 2.3 em todo o Brasil. Juntos, formamos uma rede poderosa de irmandade sobre rodas.
-                </p>
-                <a href="#credenciamento" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
-                    FAÇA PARTE DA IRMANDADE
-                </a>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">IRMANDADE</h2>
+          <div class="w-24 h-1 bg-[#009C3B] mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Conheça os grupos que fazem parte do Movimento 2.3 e fortalecem nossa rede nacional de irmandade sobre rodas.
+          </p>
         </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://raw.githubusercontent.com/MarceloMserra/2.3/refs/heads/main/MotoRock1.png" alt="Logo MotoRock">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Triciclos+do+Sul" alt="Logo Triciclos do Sul" class="max-h-24 w-auto">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Filhos+da+Estrada" alt="Logo Filhos da Estrada" class="max-h-24 w-auto">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Trio+Rodas+Livres" alt="Logo Trio Rodas Livres" class="max-h-24 w-auto">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Asas+de+Aço" alt="Logo Asas de Aço" class="max-h-24 w-auto">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Triciclos+Bahia" alt="Logo Triciclos Bahia" class="max-h-24 w-auto">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Cavaleiros+da+Noite" alt="Logo Cavaleiros da Noite" class="max-h-24 w-auto">
+          </div>
+
+          <div class="club-logo bg-gray-900 rounded-lg overflow-hidden shadow-lg p-6 flex items-center justify-center">
+            <img src="https://placehold.co/150x150/505050/FFFFFF?text=Logo+Trio+Estradeiros" alt="Logo Trio Estradeiros" class="max-h-24 w-auto">
+          </div>
+        </div>
+
+        <div class="text-center">
+          <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
+            Estes são alguns dos mais de 50 grupos que fazem parte do Movimento 2.3 em todo o Brasil. Juntos, formamos uma rede poderosa de irmandade sobre rodas.
+          </p>
+          <a href="#credenciamento" class="btn-primary text-black font-bold py-3 px-8 rounded-full text-lg">
+            FAÇA PARTE DA IRMANDADE
+          </a>
+        </div>
+      </div>
     </section>
 
     <!-- Credential Section -->
     <section id="credenciamento" class="py-20 bg-gradient-to-b from-gray-900 to-black">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">CREDENCIAMENTO</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
-                <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-                    Credencie seu grupo no Movimento 2.3 e faça parte desta grande irmandade sobre rodas.
-                </p>
-            </div>
-            
-            <div class="max-w-3xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden">
-                <div class="bg-red-600 py-4 px-6">
-                    <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
-                </div>
-                
-<form id="form" action="https://formspree.io/f/mnnvoana" method="POST" class="p-6">
-  <input type="hidden" name="_captcha" value="false">
-
-  <div class="grid md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
-      <input type="text" id="group-name" name="Nome do Grupo" class="w-full px-4 py-3 rounded-lg text-white" required>
-    </div>
-
-    <div>
-      <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
-      <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
-    </div>
-  </div>
-
-  <div class="grid md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
-      <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
-    </div>
-
-    <div>
-      <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
-      <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
-    </div>
-  </div>
-
-  <div class="grid md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
-      <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
-    </div>
-
-    <div>
-      <label for="members" class="block text-gray-300 mb-2">Número de Membros*</label>
-      <input type="number" id="members" name="Número de Membros" class="w-full px-4 py-3 rounded-lg text-white" required>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <label for="social" class="block text-gray-300 mb-2">Redes Sociais (Instagram, Facebook, etc.)</label>
-    <input type="text" id="social" name="Redes Sociais" class="w-full px-4 py-3 rounded-lg text-white">
-  </div>
-
-  <div class="mb-6">
-    <label for="description" class="block text-gray-300 mb-2">Breve descrição do grupo*</label>
-    <textarea id="description" name="Descrição do Grupo" rows="4" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
-  </div>
-
-  <div class="mb-6">
-    <label class="flex items-center">
-      <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" required>
-      <span class="ml-2 text-gray-300">Li e concordo com os termos do Movimento 2.3*</span>
-    </label>
-  </div>
-
-  <div class="text-center">
-    <button type="submit" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
-      ENVIAR CREDENCIAMENTO
-    </button>
-  </div>
-
-</form>
-                
-<script>
-  const form = document.getElementById('form');
-
-  form.addEventListener('submit', async function (event) {
-    event.preventDefault(); // impede envio automático
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        window.location.href = 'https://2ponto3.netlify.app/obrigado'; // sua página personalizada
-      } else {
-        alert('Ocorreu um erro. Tente novamente.');
-      }
-    } catch (error) {
-      alert('Erro na conexão. Verifique sua internet.');
-    }
-  });
-</script>                
-
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">CREDENCIAMENTO</h2>
+          <div class="w-24 h-1 bg-[#FFDD00] mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Credencie seu grupo no Movimento 2.3 e faça parte desta grande irmandade sobre rodas.
+          </p>
         </div>
+
+        <div class="max-w-3xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+          <div class="bg-[#009C3B] py-4 px-6">
+            <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
+          </div>
+          <form id="form" action="https://formspree.io/f/mnnvoana" method="POST" class="p-6">
+            <input type="hidden" name="_captcha" value="false">
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
+                <input type="text" id="group-name" name="Nome do Grupo" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+
+              <div>
+                <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
+                <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
+                <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+
+              <div>
+                <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
+                <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
+                <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+
+              <div>
+                <label for="members" class="block text-gray-300 mb-2">Número de Membros*</label>
+                <input type="number" id="members" name="Número de Membros" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label for="social" class="block text-gray-300 mb-2">Redes Sociais (Instagram, Facebook, etc.)</label>
+              <input type="text" id="social" name="Redes Sociais" class="w-full px-4 py-3 rounded-lg text-white">
+            </div>
+
+            <div class="mb-6">
+              <label for="description" class="block text-gray-300 mb-2">Breve descrição do grupo*</label>
+              <textarea id="description" name="Descrição do Grupo" rows="4" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
+            </div>
+
+            <div class="mb-6">
+              <label class="flex items-center">
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-[#009C3B]" required>
+                <span class="ml-2 text-gray-300">Li e concordo com os termos do Movimento 2.3*</span>
+              </label>
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn-primary text-black font-bold py-3 px-8 rounded-full text-lg">
+                ENVIAR CREDENCIAMENTO
+              </button>
+            </div>
+          </form>
+          <script>
+            const form = document.getElementById('form');
+
+            form.addEventListener('submit', async function (event) {
+              event.preventDefault(); // impede envio automático
+              const formData = new FormData(form);
+
+              try {
+                const response = await fetch(form.action, {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                    'Accept': 'application/json'
+                  }
+                });
+
+                if (response.ok) {
+                  window.location.href = 'https://2ponto3.netlify.app/obrigado'; // sua página personalizada
+                } else {
+                  console.error('Ocorreu um erro. Tente novamente.');
+                }
+              } catch (error) {
+                console.error('Erro na conexão. Verifique sua internet.');
+              }
+            });
+          </script>
+        </div>
+      </div>
     </section>
 
     <!-- Events Section -->
     <section id="eventos" class="py-20 bg-black">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">EVENTOS</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
-                <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-                    Confira nossa agenda de eventos nacionais, estaduais e locais. Participe e fortaleça o Movimento 2.3!
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Encontro Nacional" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full">NACIONAL</span>
-                            <span class="text-gray-400">15/10/2023</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">3º Encontro Nacional Movimento 2.3</h3>
-                        <p class="text-gray-400 mb-4">São Paulo - SP</p>
-                        <p class="text-gray-300 mb-4">
-                            O maior encontro de motos e triciclos do Brasil. 3 dias de confraternização, shows, palestras e muito mais.
-                        </p>
-                        <a href="#" class="text-red-500 font-bold hover:text-red-400 transition">SAIBA MAIS →</a>
-                    </div>
-                </div>
-                
-                <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1580310614655-215a2d0b60c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Rally Triciclos" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-blue-600 text-white text-sm font-bold px-3 py-1 rounded-full">ESTADUAL</span>
-                            <span class="text-gray-400">22/09/2023</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">1º Rally Triciclos MG</h3>
-                        <p class="text-gray-400 mb-4">Belo Horizonte - MG</p>
-                        <p class="text-gray-300 mb-4">
-                            Roteiro de 300km pelas estradas mineiras, com paradas estratégicas e encerramento com churrasco.
-                        </p>
-                        <a href="#" class="text-red-500 font-bold hover:text-red-400 transition">SAIBA MAIS →</a>
-                    </div>
-                </div>
-                
-                <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1600673788421-439427a4a3c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Ação Social" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-green-600 text-white text-sm font-bold px-3 py-1 rounded-full">SOCIAL</span>
-                            <span class="text-gray-400">05/11/2023</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Ação Social Movimento 2.3</h3>
-                        <p class="text-gray-400 mb-4">Rio de Janeiro - RJ</p>
-                        <p class="text-gray-300 mb-4">
-                            Distribuição de alimentos e roupas para comunidades carentes. Participe com sua moto ou triciclo!
-                        </p>
-                        <a href="#" class="text-red-500 font-bold hover:text-red-400 transition">SAIBA MAIS →</a>
-                    </div>
-                </div>
-                
-                <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1568605114967-8135a040f403?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Viagem em grupo" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-yellow-600 text-white text-sm font-bold px-3 py-1 rounded-full">VIAGEM</span>
-                            <span class="text-gray-400">12/11/2023</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Serra da Mantiqueira - Edição Especial</h3>
-                        <p class="text-gray-400 mb-4">São Paulo - SP</p>
-                        <p class="text-gray-300 mb-4">
-                            Roteiro especial pelas serras com paradas em pontos turísticos e hospedagem em pousada rústica.
-                        </p>
-                        <a href="#" class="text-red-500 font-bold hover:text-red-400 transition">SAIBA MAIS →</a>
-                    </div>
-                </div>
-                
-                <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1558981852-426c6c22d060?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                         alt="Noite de confraternização" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-purple-600 text-white text-sm font-bold px-3 py-1 rounded-full">CONFRAT.</span>
-                            <span class="text-gray-400">25/12/2023</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Confraternização de Final de Ano</h3>
-                        <p class="text-gray-400 mb-4">Porto Alegre - RS</p>
-                        <p class="text-gray-300 mb-4">
-                            Noite de confraternização com jantar, premiações e música ao vivo para celebrar nosso ano.
-                        </p>
-                        <a href="#" class="text-red-500 font-bold hover:text-red-400 transition">SAIBA MAIS →</a>
-                    </div>
-                </div>
-                
-                <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                    <div class="h-48 bg-gray-800 flex items-center justify-center">
-                        <i class="fas fa-calendar-plus text-5xl text-gray-600"></i>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold text-white mb-4">SEU EVENTO AQUI</h3>
-                        <p class="text-gray-300 mb-4">
-                            Quer divulgar seu evento no Movimento 2.3? Entre em contato conosco!
-                        </p>
-                        <a href="#contato" class="btn-primary text-white font-bold py-2 px-6 rounded-full text-sm inline-block">
-                            ENVIAR EVENTO
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <a href="#" class="text-red-500 font-bold hover:text-red-400 transition text-lg">
-                    VER TODOS OS EVENTOS →
-                </a>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">EVENTOS</h2>
+          <div class="w-24 h-1 bg-[#FFDD00] mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Confira nossa agenda de eventos nacionais, estaduais e locais. Participe e fortaleça o Movimento 2.3!
+          </p>
         </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Encontro Nacional"
+                 class="w-full h-48 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-[#FFDD00] text-black text-sm font-bold px-3 py-1 rounded-full">NACIONAL</span>
+                <span class="text-gray-400">15/10/2023</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">3º Encontro Nacional Movimento 2.3</h3>
+              <p class="text-gray-400 mb-4">São Paulo - SP</p>
+              <p class="text-gray-300 mb-4">
+                O maior encontro de motos e triciclos do Brasil. 3 dias de confraternização, shows, palestras e muito mais.
+              </p>
+              <a href="#" class="text-[#FFDD00] font-bold hover:text-[#F9C80E] transition">SAIBA MAIS →</a>
+            </div>
+          </div>
+
+          <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1580310614655-215a2d0b60c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Rally Triciclos"
+                 class="w-full h-48 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-[#009C3B] text-white text-sm font-bold px-3 py-1 rounded-full">ESTADUAL</span>
+                <span class="text-gray-400">22/09/2023</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">1º Rally Triciclos MG</h3>
+              <p class="text-gray-400 mb-4">Belo Horizonte - MG</p>
+              <p class="text-gray-300 mb-4">
+                Roteiro de 300km pelas estradas mineiras, com paradas estratégicas e encerramento com churrasco.
+              </p>
+              <a href="#" class="text-[#FFDD00] font-bold hover:text-[#F9C80E] transition">SAIBA MAIS →</a>
+            </div>
+          </div>
+
+          <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1600673788421-439427a4a3c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Ação Social"
+                 class="w-full h-48 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-yellow-600 text-white text-sm font-bold px-3 py-1 rounded-full">SOCIAL</span>
+                <span class="text-gray-400">05/11/2023</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">Ação Social Movimento 2.3</h3>
+              <p class="text-gray-400 mb-4">Rio de Janeiro - RJ</p>
+              <p class="text-gray-300 mb-4">
+                Distribuição de alimentos e roupas para comunidades carentes. Participe com sua moto ou triciclo!
+              </p>
+              <a href="#" class="text-[#FFDD00] font-bold hover:text-[#F9C80E] transition">SAIBA MAIS →</a>
+            </div>
+          </div>
+
+          <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1568605114967-8135a040f403?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Viagem em grupo"
+                 class="w-full h-48 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-yellow-600 text-white text-sm font-bold px-3 py-1 rounded-full">VIAGEM</span>
+                <span class="text-gray-400">12/11/2023</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">Serra da Mantiqueira - Edição Especial</h3>
+              <p class="text-gray-400 mb-4">São Paulo - SP</p>
+              <p class="text-gray-300 mb-4">
+                Roteiro especial pelas serras com paradas em pontos turísticos e hospedagem em pousada rústica.
+              </p>
+              <a href="#" class="text-[#FFDD00] font-bold hover:text-[#F9C80E] transition">SAIBA MAIS →</a>
+            </div>
+          </div>
+
+          <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1558981852-426c6c22d060?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                 alt="Noite de confraternização"
+                 class="w-full h-48 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-purple-600 text-white text-sm font-bold px-3 py-1 rounded-full">CONFRAT.</span>
+                <span class="text-gray-400">25/12/2023</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">Confraternização de Final de Ano</h3>
+              <p class="text-gray-400 mb-4">Porto Alegre - RS</p>
+              <p class="text-gray-300 mb-4">
+                Noite de confraternização com jantar, premiações e música ao vivo para celebrar nosso ano.
+              </p>
+              <a href="#" class="text-[#FFDD00] font-bold hover:text-[#F9C80E] transition">SAIBA MAIS →</a>
+            </div>
+          </div>
+
+          <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <div class="h-48 bg-gray-800 flex items-center justify-center">
+              <i class="fas fa-calendar-plus text-5xl text-gray-600"></i>
+            </div>
+            <div class="p-6 text-center">
+              <h3 class="text-xl font-bold text-white mb-4">SEU EVENTO AQUI</h3>
+              <p class="text-gray-300 mb-4">
+                Quer divulgar seu evento no Movimento 2.3? Entre em contato conosco!
+              </p>
+              <a href="#contato" class="btn-primary text-black font-bold py-2 px-6 rounded-full text-sm inline-block">
+                ENVIAR EVENTO
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a href="#" class="text-[#FFDD00] font-bold hover:text-[#F9C80E] transition text-lg">
+            VER TODOS OS EVENTOS →
+          </a>
+        </div>
+      </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contato" class="py-20 bg-gradient-to-b from-black to-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">CONTATO</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
-                <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-                    Entre em contato com o Movimento 2.3 para dúvidas, sugestões ou parcerias.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-2xl font-bold mb-6 text-white">ENVIE UMA MENSAGEM</h3>
-                    <form>
-                        <div class="mb-6">
-                            <label for="contact-name" class="block text-gray-300 mb-2">Nome*</label>
-                            <input type="text" id="contact-name" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <label for="contact-email" class="block text-gray-300 mb-2">E-mail*</label>
-                            <input type="email" id="contact-email" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <label for="contact-phone" class="block text-gray-300 mb-2">Telefone</label>
-                            <input type="tel" id="contact-phone" class="w-full px-4 py-3 rounded-lg text-white">
-                        </div>
-                        
-                        <div class="mb-6">
-                            <label for="contact-message" class="block text-gray-300 mb-2">Mensagem*</label>
-                            <textarea id="contact-message" rows="5" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
-                        </div>
-                        
-                        <div class="text-center md:text-left">
-                            <button type="submit" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">
-                                ENVIAR MENSAGEM
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div>
-                    <h3 class="text-2xl font-bold mb-6 text-white">OUTRAS FORMAS DE CONTATO</h3>
-                    
-                    <div class="bg-gray-900 rounded-lg p-6 mb-8">
-                        <h4 class="text-xl font-bold text-white mb-4">REDES SOCIAIS</h4>
-                        <div class="flex space-x-4">
-                            <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition">
-                                <i class="fab fa-facebook-f text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition">
-                                <i class="fab fa-instagram text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition">
-                                <i class="fab fa-youtube text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition">
-                                <i class="fab fa-whatsapp text-xl"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gray-900 rounded-lg p-6 mb-8">
-                        <h4 class="text-xl font-bold text-white mb-4">E-MAILS</h4>
-                        <div class="space-y-3">
-                            <div class="flex items-start">
-                                <i class="fas fa-envelope text-red-500 mt-1 mr-3"></i>
-                                <div>
-                                    <p class="text-gray-300 font-bold">Geral</p>
-                                    <p class="text-gray-400">contato@movimento23.com.br</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-envelope text-blue-500 mt-1 mr-3"></i>
-                                <div>
-                                    <p class="text-gray-300 font-bold">Eventos</p>
-                                    <p class="text-gray-400">eventos@movimento23.com.br</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-envelope text-yellow-500 mt-1 mr-3"></i>
-                                <div>
-                                    <p class="text-gray-300 font-bold">Imprensa</p>
-                                    <p class="text-gray-400">imprensa@movimento23.com.br</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gray-900 rounded-lg p-6">
-                        <h4 class="text-xl font-bold text-white mb-4">ENDEREÇO</h4>
-                        <div class="flex items-start">
-                            <i class="fas fa-map-marker-alt text-red-500 mt-1 mr-3"></i>
-                            <div>
-                                <p class="text-gray-300">Sede Nacional Movimento 2.3</p>
-                                <p class="text-gray-400">Av. Paulista, 1000 - São Paulo/SP</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">CONTATO</h2>
+          <div class="w-24 h-1 bg-[#FFDD00] mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Entre em contato com o Movimento 2.3 para dúvidas, sugestões ou parcerias.
+          </p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">ENVIE UMA MENSAGEM</h3>
+            <form>
+              <div class="mb-6">
+                <label for="contact-name" class="block text-gray-300 mb-2">Nome*</label>
+                <input type="text" id="contact-name" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+
+              <div class="mb-6">
+                <label for="contact-email" class="block text-gray-300 mb-2">E-mail*</label>
+                <input type="email" id="contact-email" class="w-full px-4 py-3 rounded-lg text-white" required>
+              </div>
+
+              <div class="mb-6">
+                <label for="contact-phone" class="block text-gray-300 mb-2">Telefone</label>
+                <input type="tel" id="contact-phone" class="w-full px-4 py-3 rounded-lg text-white">
+              </div>
+
+              <div class="mb-6">
+                <label for="contact-message" class="block text-gray-300 mb-2">Mensagem*</label>
+                <textarea id="contact-message" rows="5" class="w-full px-4 py-3 rounded-lg text-white" required></textarea>
+              </div>
+
+              <div class="text-center md:text-left">
+                <button type="submit" class="btn-primary text-black font-bold py-3 px-8 rounded-full text-lg">
+                  ENVIAR MENSAGEM
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">OUTRAS FORMAS DE CONTATO</h3>
+
+            <div class="bg-gray-900 rounded-lg p-6 mb-8">
+              <h4 class="text-xl font-bold text-white mb-4">REDES SOCIAIS</h4>
+              <div class="flex space-x-4">
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-brasil-yellow transition">
+                  <i class="fab fa-facebook-f text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-brasil-yellow transition">
+                  <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-brasil-yellow transition">
+                  <i class="fab fa-youtube text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-brasil-yellow transition">
+                  <i class="fab fa-whatsapp text-2xl"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="bg-gray-900 rounded-lg p-6 mb-8">
+              <h4 class="text-xl font-bold text-white mb-4">E-MAILS</h4>
+              <div class="space-y-3">
+                <div class="flex items-start">
+                  <i class="fas fa-envelope text-[#FFDD00] mt-1 mr-3"></i>
+                  <div>
+                    <p class="text-gray-300 font-bold">Geral</p>
+                    <p class="text-gray-400">contato@movimento23.com.br</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <i class="fas fa-envelope text-[#009C3B] mt-1 mr-3"></i>
+                  <div>
+                    <p class="text-gray-300 font-bold">Eventos</p>
+                    <p class="text-gray-400">eventos@movimento23.com.br</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <i class="fas fa-envelope text-[#042D8E] mt-1 mr-3"></i>
+                  <div>
+                    <p class="text-gray-300 font-bold">Imprensa</p>
+                    <p class="text-gray-400">imprensa@movimento23.com.br</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-900 rounded-lg p-6">
+              <h4 class="text-xl font-bold text-white mb-4">ENDEREÇO</h4>
+              <div class="flex items-start">
+                <i class="fas fa-map-marker-alt text-[#FFDD00] mt-1 mr-3"></i>
+                <div>
+                  <p class="text-gray-300">Sede Nacional Movimento 2.3</p>
+                  <p class="text-gray-400">Av. Paulista, 1000 - São Paulo/SP</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-black py-12 border-t border-gray-800">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-8">
-                <img src="https://via.placeholder.com/120x60" alt="Movimento 2.3 Logo" class="h-16 mx-auto mb-4">
-                <p class="text-2xl font-bold text-white mb-6">
-                    "Porque quem tem irmãos de estrada, nunca está sozinho."
-                </p>
-                <div class="flex justify-center space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white transition">
-                        <i class="fab fa-facebook-f text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">
-                        <i class="fab fa-instagram text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">
-                        <i class="fab fa-youtube text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">
-                        <i class="fab fa-whatsapp text-xl"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="text-lg font-bold text-white mb-4">MOVIMENTO 2.3</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#sobre" class="text-gray-400 hover:text-white transition">Sobre Nós</a></li>
-                        <li><a href="#irmandade" class="text-gray-400 hover:text-white transition">Irmandade</a></li>
-                        <li><a href="#eventos" class="text-gray-400 hover:text-white transition">Eventos</a></li>
-                        <li><a href="#galeria" class="text-gray-400 hover:text-white transition">Galeria</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold text-white mb-4">LINKS ÚTEIS</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#credenciamento" class="text-gray-400 hover:text-white transition">Credenciamento</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Estatuto</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold text-white mb-4">AJUDA</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#contato" class="text-gray-400 hover:text-white transition">Contato</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Termos de Uso</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Política de Privacidade</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Trabalhe Conosco</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold text-white mb-4">NEWSLETTER</h4>
-                    <p class="text-gray-400 mb-4">
-                        Cadastre-se para receber novidades e eventos do Movimento 2.3
-                    </p>
-                    <form class="flex">
-                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg text-white bg-gray-800 w-full">
-                        <button type="submit" class="bg-red-600 text-white px-4 rounded-r-lg">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 pt-8 text-center">
-                <p class="text-gray-400">
-                    &copy; 2025 Movimento 2.3 - Todos os direitos reservados
-                </p>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-8">
+          <img src="https://placehold.co/120x60/000000/FFFFFF?text=Movimento+2.3+Logo" alt="Movimento 2.3 Logo" class="h-16 mx-auto mb-4">
+          <p class="text-2xl font-bold text-white mb-6">
+            "Porque quem tem irmãos de estrada, nunca está sozinho."
+          </p>
+          <div class="flex justify-center space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook-f text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-youtube text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+          </div>
         </div>
+
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h4 class="text-lg font-bold text-white mb-4">MOVIMENTO 2.3</h4>
+            <ul class="space-y-2">
+              <li><a href="#sobre" class="text-gray-400 hover:text-white transition">Sobre Nós</a></li>
+              <li><a href="#irmandade" class="text-gray-400 hover:text-white transition">Irmandade</a></li>
+              <li><a href="#eventos" class="text-gray-400 hover:text-white transition">Eventos</a></li>
+              <li><a href="#galeria" class="text-gray-400 hover:text-white transition">Galeria</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold text-white mb-4">LINKS ÚTEIS</h4>
+            <ul class="space-y-2">
+              <li><a href="#credenciamento" class="text-gray-400 hover:text-white transition">Credenciamento</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition">Estatuto</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold text-white mb-4">AJUDA</h4>
+            <ul class="space-y-2">
+              <li><a href="#contato" class="text-gray-400 hover:text-white transition">Contato</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition">Termos de Uso</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition">Política de Privacidade</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition">Trabalhe Conosco</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold text-white mb-4">NEWSLETTER</h4>
+            <p class="text-gray-400 mb-4">
+              Cadastre-se para receber novidades e eventos do Movimento 2.3
+            </p>
+            <form class="flex">
+              <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg text-white bg-gray-800 w-full">
+              <button type="submit" class="bg-[#009C3B] text-white px-4 rounded-r-lg">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-8 text-center">
+          <p class="text-gray-400">
+            &copy; 2025 Movimento 2.3 - Todos os direitos reservados
+          </p>
+        </div>
+      </div>
     </footer>
 
     <!-- Scroll to Top Button -->
-    <button class="scroll-to-top bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-        <i class="fas fa-arrow-up"></i>
+    <button class="scroll-to-top bg-[#FFDD00] text-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+      <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- WhatsApp Float Button -->
     <a href="#" class="fixed bottom-8 left-8 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40">
-        <i class="fab fa-whatsapp text-2xl"></i>
+      <i class="fab fa-whatsapp text-2xl"></i>
     </a>
-
     <script>
-        // Scroll to top button
-        const scrollToTopBtn = document.querySelector('.scroll-to-top');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('active');
-            } else {
-                scrollToTopBtn.classList.remove('active');
-            }
-        });
-        
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+      // Scroll to top button
+      const scrollToTopBtn = document.querySelector('.scroll-to-top');
 
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.classList.add('active');
+        } else {
+          scrollToTopBtn.classList.remove('active');
+        }
+      });
+
+      scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
