@@ -2,8 +2,8 @@
 
 backend:
   name: git-gateway
-  repo: MarceloMserra/2.3 # <-- IMPORTANTE: TROQUE AQUI
-  branch: main # Ramo principal do seu repositório. Use 'master' se for o caso.
+  repo: MarceloMserra/2.3 # Repositório do seu projeto
+  branch: main # Ramo principal do seu repositório
 
 media_folder: "img/uploads" # Onde as imagens enviadas pelo painel serão salvas
 public_folder: "/img/uploads" # Como o site irá acessar essas imagens
@@ -21,14 +21,17 @@ collections:
       - label: "Mídias do Álbum"
         name: "media_list"
         widget: "list"
-        field: { label: "Imagem ou Vídeo", name: "media", widget: "image" } # Começando com imagens, podemos adicionar vídeos depois
+        summary: "{{fields.media}}"
+        field: { label: "Imagem", name: "media", widget: "image" }
 
-  # Coleção para os Eventos
+  # Coleção para os Eventos (COM SLUG CORRIGIDO)
   - name: "events"
     label: "Eventos"
     folder: "_content/events"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    # CORREÇÃO: Usa apenas o nome do evento para o nome do arquivo, evitando nomes muito longos.
+    slug: "{{fields.name}}" 
+    identifier_field: name
     fields:
       - { label: "Nome do Evento", name: "name", widget: "string" }
       - { label: "Data", name: "date", widget: "datetime" }
@@ -41,7 +44,9 @@ collections:
     label: "Grupos da Irmandade"
     folder: "_content/groups"
     create: true
-    slug: "{{slug}}"
+    # CORREÇÃO: Usa apenas o nome do grupo para o nome do arquivo para consistência.
+    slug: "{{fields.name}}"
+    identifier_field: name
     fields:
       - { label: "Nome do Grupo", name: "name", widget: "string" }
       - { label: "Imagem do Brasão", name: "emblem", widget: "image" }
