@@ -1,151 +1,198 @@
-// --- LÓGICA DO MENU MOBILE, FORMULÁRIO E SCROLL (SEU CÓDIGO ORIGINAL) ---
+// ===================== utilidades =====================
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-// Lógica do menu mobile
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
+async function getJSON(url) {
+  try {
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) throw new Error(r.statusText);
+    return await r.json();
+  } catch (e) {
+    console.warn("Falha ao buscar JSON:", url, e);
+    return null;
+  }
+}
+
+function el(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+const asArray = (x) => (Array.isArray(x) ? x : x ? [x] : []);
+const pick = (obj, keys, def = undefined) => {
+  if (!obj) return def;
+  for (const k of keys) if (obj[k] !== undefined) return obj[k];
+  return def;
+};
+
+// ===================== Cloudinary (igual ao HCP - modo fetch) =====================
+const CLOUDINARY_CLOUD = "dae2wp1hy"; // 👈 seu cloud_name
+
+const isCloudinary = (url) => /^https?:\/\/res\.cloudinary\.com\//.test(url || "");
+
+// mantém transforms se já existirem
+function cloudPortrait(url, { w = 800 } = {}) {
+  if (!url || !isCloudinary(url)) return url;
+  const parts = url.split("/upload/");
+  if (parts.length > 1) {
+    const firstSeg = (parts[1] || "").split("/")[0];
+    const hasTransforms = /\b(c_|w_|h_|ar_|g_|z_)/.test(firstSeg);
+    if (hasTransforms) return url;
+  }
+  const t = `f_auto,q_auto,dpr_auto,c_fill,g_auto:subject,w_${w}`;
+  return url.replace("/upload/", `/upload/${t}/`);
+}
+
+// força QUALQUER URL (local/externa) a passar pelo Cloudinary
+function cloudAny(url, { w = 800 } = {}) {
+  if (!url) return url;
+  if (isCloudinary(url)) return cloudPortrait(url, { w });
+  const abs = new URL(url, window.location.origin).href;
+  const t = `f_auto,q_auto,dpr_auto,c_fill,g_auto:subject,w_${w}`;
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/${t}/${encodeURIComponent(abs)}`;
+}
+
+// ===================== UI básica: menu, formulário, scroll-to-top =====================
+
+// Menu mobile (opcional, só funciona se existir na página)
+const menuToggle = $("#menuToggle");
+const mobileMenu = $("#mobileMenu");
 if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
+  menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
 }
 
-
-// Lógica do Formulário Formspree
-const form = document.getElementById('form');
+// Form Formspree (opcional)
+const form = $("#form");
 if (form) {
-    form.addEventListener('submit', async function (event) {
-      event.preventDefault();
-      const formData = new FormData(form);
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-        if (response.ok) {
-          window.location.href = '/Obrigado.html'; // Redireciona para página de obrigado local
-        } else {
-          console.error('Ocorreu um erro no envio do formulário.');
-          alert('Ocorreu um erro no envio. Tente novamente.');
-        }
-      } catch (error) {
-        console.error('Erro de conexão:', error);
-        alert('Erro de conexão. Verifique sua internet.');
-      }
-    });
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const btn = form.querySelector("button[type=submit]");
+    const data = new FormData(form);
+    const payload = Object.fromEntries(data.entries());
+    try {
+      btn && (btn.disabled = true);
+      const r = await fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) throw 0;
+      form.reset();
+      alert("Mensagem enviada com sucesso!");
+    } catch {
+      alert("Não foi possível enviar. Tente novamente.");
+    } finally {
+      btn && (btn.disabled = false);
+    }
+  });
 }
 
-
-// Lógica do Botão de Scroll to Top
-const scrollToTopBtn = document.querySelector('.scroll-to-top');
+// Scroll-to-top (opcional)
+const scrollToTopBtn = $("#scrollToTop");
 if (scrollToTopBtn) {
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            scrollToTopBtn.style.opacity = '1';
-        } else {
-            scrollToTopBtn.style.opacity = '0';
-        }
-    });
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) scrollToTopBtn.classList.remove("hidden");
+    else scrollToTopBtn.classList.add("hidden");
+  }, { passive: true });
+  scrollToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
-// --- SCRIPT PRINCIPAL PARA CONTEÚDO DINÂMICO ---
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- LÓGICA DO CARROSSEL DA IRMANDADE ---
-    const renderCarousel = async () => {
-        console.log("Buscando brasões dos grupos...");
-        const container = document.getElementById('irmandade-container');
-        if (!container) return;
-        
-        try {
-            const response = await fetch('/_content/groups/index.json');
-            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-            const groups = await response.json();
-
-            if (groups && groups.items && groups.items.length > 0) {
-                container.innerHTML = ''; 
-                groups.items.forEach(group => {
-                    const slide = document.createElement('div');
-                    slide.className = 'swiper-slide';
-                    slide.innerHTML = `<img src="${group.emblem}" alt="${group.name}" class="mx-auto h-24 object-contain" title="${group.name}">`;
-                    container.appendChild(slide);
-                });
-            } else {
-                container.innerHTML = `<p class="text-center w-full">Nenhum grupo cadastrado ainda.</p>`;
-            }
-
-        } catch (error) {
-            console.error("Falha ao carregar os grupos da irmandade:", error);
-            container.innerHTML = `<p class="text-center w-full text-red-500">Não foi possível carregar os grupos.</p>`;
-        }
-
-        const swiper = new Swiper('.irmandade-carousel', {
-            loop: true,
-            slidesPerView: 2,
-            spaceBetween: 20,
-            autoplay: { delay: 2500, disableOnInteraction: false },
-            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            breakpoints: { 768: { slidesPerView: 5, spaceBetween: 30 } }
-        });
-    };
-    
-    // --- LÓGICA DOS EVENTOS (NOVA LÓGICA ADICIONADA AQUI) ---
-    const renderEvents = async () => {
-        console.log("Buscando eventos...");
-        const container = document.getElementById('eventos-container');
-        if (!container) return; // Se o container não existir na página, não faz nada.
-
-        try {
-            const response = await fetch('/_content/events/index.json');
-            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-            const events = await response.json();
-
-            if (events && events.items && events.items.length > 0) {
-                container.innerHTML = ''; // Limpa o container
-                events.items.forEach(event => {
-                    // Formata a data para um formato mais amigável (ex: 18/09/2025)
-                    const eventDate = new Date(event.date);
-                    const formattedDate = eventDate.toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-
-                    // Cria o HTML para o card do evento
-                    const eventCard = `
-                        <div class="event-card bg-gray-900 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300">
-                            <img src="${event.image}" alt="Imagem do evento ${event.name}" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="bg-yellow-400 text-black text-sm font-bold px-3 py-1 rounded-full">${event.location}</span>
-                                    <span class="text-gray-400 font-bold">${formattedDate}</span>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-2">${event.name}</h3>
-                                <p class="text-gray-300 mb-4">${event.description.substring(0, 100)}...</p>
-                                <a href="#" class="text-yellow-400 font-bold hover:text-yellow-500 transition">SAIBA MAIS →</a>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += eventCard;
-                });
-            } else {
-                container.innerHTML = `<p class="text-center w-full col-span-3">Nenhum evento cadastrado no momento.</p>`;
-            }
-
-        } catch(error) {
-            console.error("Falha ao carregar os eventos:", error);
-            container.innerHTML = `<p class="text-center w-full col-span-3 text-red-500">Não foi possível carregar os eventos.</p>`;
-        }
-    };
-
-    // --- LÓGICA DA GALERIA ---
-    const renderGallery = () => { console.log("Buscando álbuns..."); };
-
-    // Roda todas as funções de renderização
-    renderCarousel();
-    renderEvents();
-    renderGallery();
+// ===================== Conteúdo dinâmico =====================
+document.addEventListener("DOMContentLoaded", () => {
+  renderCarousel();
+  renderEvents();
+  renderGallery(); // se ainda não tiver, fica “no-op”
 });
+
+// --- Irmandade (carrossel/lista de grupos) ---
+async function renderCarousel() {
+  const container = $("#irmandade-container");
+  if (!container) return;
+
+  // tenta vários caminhos comuns
+  const data =
+    (await getJSON("/_content/groups.json")) ||
+    (await getJSON("/_content/irmandade.json")) ||
+    (await getJSON("/data/groups.json")) ||
+    (await getJSON("/data/irmandade.json")) ||
+    {};
+
+  const list =
+    asArray(data.groups) ||
+    asArray(data.itens) ||
+    asArray(data.items) ||
+    asArray(data.lista);
+
+  if (!list.length) {
+    container.innerHTML = `<p class="text-center text-gray-500">Nenhum grupo encontrado.</p>`;
+    return;
+  }
+
+  container.innerHTML = "";
+  list.forEach((group) => {
+    const name = pick(group, ["name", "nome", "title", "titulo"], "Grupo");
+    const emblem = pick(group, ["emblem", "logo", "icone", "image", "imagem"]);
+    const slide = el("div", "p-2");
+    slide.innerHTML = `
+      <img src="${cloudAny(emblem, { w: 400 })}"
+           alt="${name}"
+           class="mx-auto h-24 object-contain"
+           title="${name}">
+    `;
+    container.appendChild(slide);
+  });
+}
+
+// --- Eventos (cards) ---
+async function renderEvents() {
+  const container = $("#events-container");
+  if (!container) return;
+
+  const data =
+    (await getJSON("/_content/events.json")) ||
+    (await getJSON("/data/events.json")) ||
+    {};
+
+  const list =
+    asArray(data.events) ||
+    asArray(data.itens) ||
+    asArray(data.items) ||
+    asArray(data.lista);
+
+  if (!list.length) {
+    container.innerHTML = `<p class="text-center text-gray-500">Nenhum evento disponível.</p>`;
+    return;
+  }
+
+  container.innerHTML = "";
+  list.forEach((event) => {
+    const name = pick(event, ["name", "titulo", "title"], "Evento");
+    const date = pick(event, ["date", "data"], "");
+    const image = pick(event, ["image", "imagem", "banner", "capa"]);
+    const place = pick(event, ["place", "local", "location"], "");
+    const desc  = pick(event, ["description", "descricao", "descrição"], "");
+
+    const card = el("div", "rounded shadow bg-white overflow-hidden");
+    card.innerHTML = `
+      <div class="overflow-hidden h-48">
+        <img src="${cloudAny(image, { w: 1000 })}" alt="Imagem do evento ${name}" class="w-full h-48 object-cover">
+      </div>
+      <div class="p-4">
+        <h3 class="text-lg font-bold">${name}</h3>
+        ${date ? `<p class="text-sm text-gray-600">${date}${place ? " — " + place : ""}</p>` : ""}
+        ${desc ? `<p class="mt-2 text-gray-700 text-sm">${desc}</p>` : ""}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// --- Galeria (placeholder; adapte se precisar) ---
+function renderGallery() {
+  // se não houver galeria ainda, não faz nada.
+}

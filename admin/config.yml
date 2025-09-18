@@ -8,15 +8,16 @@ backend:
 # NOVA CONFIGURAÇÃO DE MÍDIA: CLOUDINARY
 media_library:
   name: cloudinary
+  output_filename_only: false
   config:
-    cloud_name: dae2wp1hy
-    api_key: "161675469855318"
-    upload_preset: "decap_cms_preset" 
+    cloud_name: "dae2wp1hy"            # exatamente como no painel (sem espaços)
+    api_key: "161675469855318"         # SUA API KEY (sem o secret)
     default_transformations:
       - - fetch_format: auto
           quality: auto
 
-# As linhas 'media_folder' e 'public_folder' não são mais necessárias e foram removidas.
+media_folder: "static/uploads"
+public_folder: "/uploads"
 
 collections:
   # Coleção para os Álbuns da Galeria (Atualizada para Cloudinary)
