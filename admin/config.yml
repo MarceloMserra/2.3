@@ -2,35 +2,46 @@
 
 backend:
   name: git-gateway
-  repo: MarceloMserra/2.3 # Repositório do seu projeto
-  branch: main # Ramo principal do seu repositório
+  repo: MarceloMserra/2.3
+  branch: main
 
-media_folder: "img/uploads" # Onde as imagens enviadas pelo painel serão salvas
-public_folder: "/img/uploads" # Como o site irá acessar essas imagens
+# NOVA CONFIGURAÇÃO DE MÍDIA: CLOUDINARY
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dae2wpfhy
+    api_key: "161675469855318"
+    default_transformations:
+      - - fetch_format: auto
+          quality: auto
+
+# As linhas 'media_folder' e 'public_folder' não são mais necessárias e foram removidas.
 
 collections:
-  # Coleção para os Álbuns da Galeria
-  - name: "albums" # nome técnico da coleção
-    label: "Álbuns da Galeria" # Nome que aparece no painel
-    folder: "_content/albums" # Pasta para salvar os arquivos de cada álbum
-    create: true # Permite criar novos álbuns
-    slug: "{{slug}}" # Usa o título para criar o nome do arquivo
-    fields: # Campos que cada álbum terá
+  # Coleção para os Álbuns da Galeria (Atualizada para Cloudinary)
+  - name: "albums"
+    label: "Álbuns da Galeria"
+    folder: "_content/albums"
+    create: true
+    slug: "{{slug}}"
+    fields:
       - { label: "Título do Álbum", name: "title", widget: "string" }
       - { label: "Foto de Capa", name: "cover_image", widget: "image" }
-      - label: "Mídias do Álbum"
+      - label: "Mídias do Álbum (permite múltiplos uploads)"
         name: "media_list"
         widget: "list"
         summary: "{{fields.media}}"
-        field: { label: "Imagem", name: "media", widget: "image" }
+        field: { label: "Imagem ou Vídeo", name: "media", widget: "image" }
+        # Habilita o upload de múltiplos arquivos de uma vez
+        allow_add: true
+        allow_multiple: true
 
-  # Coleção para os Eventos (COM SLUG CORRIGIDO)
+  # Coleção para os Eventos (Atualizada para Cloudinary)
   - name: "events"
     label: "Eventos"
     folder: "_content/events"
     create: true
-    # CORREÇÃO: Usa apenas o nome do evento para o nome do arquivo, evitando nomes muito longos.
-    slug: "{{fields.name}}" 
+    slug: "{{fields.name}}"
     identifier_field: name
     fields:
       - { label: "Nome do Evento", name: "name", widget: "string" }
@@ -39,12 +50,11 @@ collections:
       - { label: "Imagem Principal", name: "image", widget: "image" }
       - { label: "Descrição Completa", name: "description", widget: "markdown" }
 
-  # Coleção para os Brasões da Irmandade
+  # Coleção para os Brasões da Irmandade (Atualizada para Cloudinary)
   - name: "groups"
     label: "Grupos da Irmandade"
     folder: "_content/groups"
     create: true
-    # CORREÇÃO: Usa apenas o nome do grupo para o nome do arquivo para consistência.
     slug: "{{fields.name}}"
     identifier_field: name
     fields:
