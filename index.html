@@ -18,16 +18,11 @@
         color: #fff;
         scroll-behavior: smooth;
       }
-      .logo-font {
-        font-family: 'Bebas Neue', cursive;
-      }
       .hero-section {
         background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-          url('img/fotocapa.png'); /* Caminho da imagem já corrigido */
+          url('img/fotocapa.png');
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: scroll;
         min-height: 100vh;
       }
       .metal-text {
@@ -41,7 +36,7 @@
         background-color: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
-      /* ADICIONADO: Estilos para as setas do carrossel */
+      /* Estilos para as setas do carrossel */
       .swiper-button-next, .swiper-button-prev {
         color: #FFDD00 !important;
       }
@@ -49,6 +44,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      .scroll-to-top.active {
+          display: flex !important;
       }
     </style>
   </head>
@@ -61,12 +59,11 @@
         <nav class="hidden md:block">
           <ul class="flex space-x-8">
             <li><a href="#inicio" class="text-white hover:text-yellow-400 transition">Início</a></li>
-            <li><a href="#sobre" class="text-white hover:text-yellow-400 transition">Sobre</a></li>
+            <li><a href="movimento.html" class="text-white hover:text-yellow-400 transition">O Movimento</a></li>
             <li><a href="#galeria" class="text-white hover:text-yellow-400 transition">Galeria</a></li>
             <li><a href="#irmandade" class="text-white hover:text-yellow-400 transition">Irmandade</a></li>
             <li><a href="#eventos" class="text-white hover:text-yellow-400 transition">Eventos</a></li>
             <li><a href="#credenciamento" class="text-white hover:text-yellow-400 transition">Credenciamento</a></li>
-            <li><a href="#contato" class="text-white hover:text-yellow-400 transition">Contato</a></li>
           </ul>
         </nav>
         <button id="menuToggle" class="md:hidden text-white text-2xl">
@@ -74,7 +71,13 @@
         </button>
       </div>
       <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
-        </div>
+        <a href="#inicio" class="block hover:text-yellow-400">Início</a>
+        <a href="movimento.html" class="block hover:text-yellow-400">O Movimento</a>
+        <a href="#galeria" class="block hover:text-yellow-400">Galeria</a>
+        <a href="#irmandade" class="block hover:text-yellow-400">Irmandade</a>
+        <a href="#eventos" class="block hover:text-yellow-400">Eventos</a>
+        <a href="#credenciamento" class="block hover:text-yellow-400">Credenciamento</a>
+      </div>
     </header>
 
     <section id="inicio" class="hero-section flex items-center justify-center pt-20">
@@ -98,9 +101,6 @@
       </div>
     </section>
 
-    <section id="sobre" class="py-20 bg-gradient-to-b from-black to-gray-900">
-      </section>
-
     <section id="galeria" class="py-20 bg-gray-900">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
@@ -112,11 +112,6 @@
         </div>
         <div id="galeria-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           </div>
-        <div class="text-center">
-          <button class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg">
-            <i class="fas fa-camera mr-2"></i> ENVIE SUA FOTO
-          </button>
-        </div>
       </div>
     </section>
 
@@ -135,7 +130,7 @@
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
         </div>
-        </div>
+      </div>
     </section>
 
     <section id="credenciamento" class="py-20 bg-gradient-to-b from-gray-900 to-black">
@@ -158,6 +153,20 @@
                             <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
                         </div>
                     </div>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
+                            <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
+                            <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
+                        <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg">
                             ENVIAR CREDENCIAMENTO
@@ -176,21 +185,16 @@
         </div>
         <div id="eventos-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           </div>
-        <div class="text-center">
-          <a href="#" class="text-yellow-400 font-bold hover:text-yellow-500 transition text-lg">
-            VER TODOS OS EVENTOS →
-          </a>
-        </div>
       </div>
     </section>
 
-    <section id="contato" class="py-20 bg-gradient-to-b from-black to-gray-900">
-       </section>
+    <footer class="bg-gray-900 py-12 border-t border-gray-800">
+      <div class="container mx-auto px-4 text-center text-gray-400">
+        <p>&copy; 2025 Movimento 2.3 - Todos os direitos reservados</p>
+      </div>
+    </footer>
 
-    <footer class="bg-black py-12 border-t border-gray-800">
-        </footer>
-
-    <button class="scroll-to-top bg-yellow-400 text-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+    <button class="scroll-to-top bg-yellow-400 text-black w-12 h-12 rounded-full items-center justify-center shadow-lg hidden">
       <i class="fas fa-arrow-up"></i>
     </button>
     <a href="#" class="fixed bottom-8 left-8 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40">
@@ -200,47 +204,12 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
     <script>
-      // ADICIONADO: Script de redirecionamento do Netlify Identity
       if (window.location.hash.includes("_token=")) {
         window.location.replace('/admin/' + window.location.hash);
       }
-
-      // SEU SCRIPT ORIGINAL: Menu Mobile, Scroll, etc.
-      // (Todo o seu script original para o menu e scroll foi preservado aqui)
-      const menuBtn = document.getElementById('menuToggle');
-      const mobileMenu = document.getElementById('mobileMenu');
-      // ... resto do seu código de menu ...
-
-      // SEU SCRIPT ORIGINAL: Formulário Formspree
-      const form = document.getElementById('form');
-      form.addEventListener('submit', async function (event) {
-        // ... seu código original do formulário ...
-      });
-      
-      // SEU SCRIPT ORIGINAL: Botão de Scroll to Top
-      const scrollToTopBtn = document.querySelector('.scroll-to-top');
-      // ... seu código original do scroll ...
-      
-      // ADICIONADO: Script para conteúdo dinâmico
-      document.addEventListener('DOMContentLoaded', () => {
-        const renderCarousel = () => {
-            console.log("Inicializando carrossel...");
-            const swiper = new Swiper('.irmandade-carousel', {
-                loop: true,
-                slidesPerView: 2,
-                spaceBetween: 20,
-                autoplay: { delay: 2500, disableOnInteraction: false },
-                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-                breakpoints: { 768: { slidesPerView: 5, spaceBetween: 30 } }
-            });
-        };
-        const renderEvents = () => { console.log("Buscando eventos..."); };
-        const renderGallery = () => { console.log("Buscando álbuns..."); };
-
-        renderCarousel();
-        renderEvents();
-        renderGallery();
-      });
     </script>
+
+    <script src="app.js"></script>
+
   </body>
 </html>
