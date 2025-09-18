@@ -11,6 +11,7 @@ media_library:
   config:
     cloud_name: dae2wpfhy
     api_key: "{{env.CLOUDINARY_API_KEY}}"
+    upload_preset: "decap_cms_preset" 
     default_transformations:
       - - fetch_format: auto
           quality: auto
