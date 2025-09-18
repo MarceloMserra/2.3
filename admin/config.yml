@@ -15,50 +15,72 @@ media_library:
     default_transformations:
       - - fetch_format: auto
           quality: auto
+backend:
+  name: git-gateway
+  branch: main
 
-media_folder: "static/uploads"
-public_folder: "/uploads"
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+# (Opcional) Deixe como 'simple' se não usa o fluxo de revisão
+publish_mode: simple
 
 collections:
-  # Coleção para os Álbuns da Galeria (Atualizada para Cloudinary)
-  - name: "albums"
-    label: "Álbuns da Galeria"
-    folder: "_content/albums"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Título do Álbum", name: "title", widget: "string" }
-      - { label: "Foto de Capa", name: "cover_image", widget: "image" }
-      - label: "Mídias do Álbum (permite múltiplos uploads)"
-        name: "media_list"
-        widget: "list"
-        summary: "{{fields.media}}"
-        field: { label: "Imagem ou Vídeo", name: "media", widget: "image" }
-        # Habilita o upload de múltiplos arquivos de uma vez
-        allow_add: true
-        allow_multiple: true
-
-  # Coleção para os Eventos (Atualizada para Cloudinary)
-  - name: "events"
-    label: "Eventos"
-    folder: "_content/events"
-    create: true
-    slug: "{{fields.name}}"
-    identifier_field: name
-    fields:
-      - { label: "Nome do Evento", name: "name", widget: "string" }
-      - { label: "Data", name: "date", widget: "datetime" }
-      - { label: "Local (Cidade/UF)", name: "location", widget: "string" }
-      - { label: "Imagem Principal", name: "image", widget: "image" }
-      - { label: "Descrição Completa", name: "description", widget: "markdown" }
-
-  # Coleção para os Brasões da Irmandade (Atualizada para Cloudinary)
+  # IRMANDADE (um JSON com uma lista de grupos)
   - name: "groups"
     label: "Grupos da Irmandade"
-    folder: "_content/groups"
-    create: true
-    slug: "{{fields.name}}"
-    identifier_field: name
-    fields:
-      - { label: "Nome do Grupo", name: "name", widget: "string" }
-      - { label: "Imagem do Brasão", name: "emblem", widget: "image" }
+    files:
+      - name: "groups_file"
+        label: "Grupos"
+        file: "_content/groups.json"
+        format: "json"
+        create: true
+        delete: true  
+        fields:
+          - label: "Grupos"
+            name: "groups"
+            widget: "list"
+            fields:
+              - { label: "Nome", name: "name", widget: "string" }
+              - { label: "Emblema (URL ou upload)", name: "emblem", widget: "image", choose_url: true }
+
+  # EVENTOS (um JSON com uma lista de eventos)
+  - name: "events"
+    label: "Eventos"
+    files:
+      - name: "events_file"
+        label: "Eventos"
+        file: "_content/events.json"
+        format: "json"
+        create: true
+        delete: true  
+        fields:
+          - label: "Eventos"
+            name: "events"
+            widget: "list"
+            fields:
+              - { label: "Título", name: "name", widget: "string" }
+              - { label: "Data", name: "date", widget: "string", required: false }
+              - { label: "Local", name: "place", widget: "string", required: false }
+              - { label: "Imagem (URL ou upload)", name: "image", widget: "image", choose_url: true }
+              - { label: "Descrição", name: "description", widget: "text", required: false }
+
+  # GALERIA (um JSON simples com lista de fotos)
+  - name: "galeria"
+    label: "Galeria"
+    files:
+      - name: "galeria_file"
+        label: "Galeria (fotos)"
+        file: "_content/galeria.json"
+        format: "json"
+        create: true
+        delete: true  
+        fields:
+          - label: "Fotos"
+            name: "fotos"
+            widget: "list"
+            field:
+              label: "Imagem (URL ou upload)"
+              name: "src"
+              widget: "image"
+              choose_url: true
