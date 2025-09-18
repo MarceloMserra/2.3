@@ -1,96 +1,215 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Movimento 2.3</title>
-  <meta name="description" content="Site oficial do Movimento 2.3" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movimento 2.3 - Unidos na Estrada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
+      body {
+        font-family: 'Oswald', sans-serif;
+        background-color: #000;
+        color: #fff;
+        scroll-behavior: smooth;
+      }
+      .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url('img/fotocapa.png');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+      }
+      .metal-text {
+        background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      }
+      input,
+      textarea {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      /* Estilos para as setas do carrossel */
+      .swiper-button-next, .swiper-button-prev {
+        color: #FFDD00 !important;
+      }
+      .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .scroll-to-top.active {
+          display: flex !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="fixed w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="#inicio">
+          <img src="img/logobranca.png" alt="Logo Movimento 2.3" class="h-12 w-auto"/>
+        </a>
+        <nav class="hidden md:block">
+          <ul class="flex space-x-8">
+            <li><a href="#inicio" class="text-white hover:text-yellow-400 transition">Início</a></li>
+            <li><a href="movimento.html" class="text-white hover:text-yellow-400 transition">O Movimento</a></li>
+            <li><a href="#galeria" class="text-white hover:text-yellow-400 transition">Galeria</a></li>
+            <li><a href="#irmandade" class="text-white hover:text-yellow-400 transition">Irmandade</a></li>
+            <li><a href="#eventos" class="text-white hover:text-yellow-400 transition">Eventos</a></li>
+            <li><a href="#credenciamento" class="text-white hover:text-yellow-400 transition">Credenciamento</a></li>
+          </ul>
+        </nav>
+        <button id="menuToggle" class="md:hidden text-white text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
+        <a href="#inicio" class="block hover:text-yellow-400">Início</a>
+        <a href="movimento.html" class="block hover:text-yellow-400">O Movimento</a>
+        <a href="#galeria" class="block hover:text-yellow-400">Galeria</a>
+        <a href="#irmandade" class="block hover:text-yellow-400">Irmandade</a>
+        <a href="#eventos" class="block hover:text-yellow-400">Eventos</a>
+        <a href="#credenciamento" class="block hover:text-yellow-400">Credenciamento</a>
+      </div>
+    </header>
 
-  <!-- (se você usa Tailwind via CDN, descomente a linha abaixo) -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-
-  <!-- Netlify Identity na home para capturar token de convite e mandar ao /admin -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
-
-  <style>
-    /* opcional: overlay do lightbox caso você use um modal #lightbox */
-    #lightbox:not(.hidden) {
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,.85);
-    }
-  </style>
-</head>
-<body class="antialiased text-gray-900">
-  <!-- HEADER (exemplo) -->
-  <header class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="font-bold text-xl">Movimento 2.3</a>
-    <button id="menuToggle" class="md:hidden border px-3 py-1 rounded">Menu</button>
-    <nav class="hidden md:flex gap-4">
-      <a href="#irmandade" class="hover:underline">Irmandade</a>
-      <a href="#eventos" class="hover:underline">Eventos</a>
-      <a href="#contato" class="hover:underline">Contato</a>
-    </nav>
-  </header>
-
-  <!-- MENU MOBILE (opcional) -->
-  <nav id="mobileMenu" class="hidden md:hidden px-4">
-    <a href="#irmandade" class="block py-2 border-b">Irmandade</a>
-    <a href="#eventos" class="block py-2 border-b">Eventos</a>
-    <a href="#contato" class="block py-2">Contato</a>
-  </nav>
-
-  <main class="max-w-6xl mx-auto px-4">
-    <!-- HERO -->
-    <section class="py-10">
-      <h1 class="text-3xl font-extrabold">Bem-vindo ao Movimento 2.3</h1>
-      <p class="text-gray-600 mt-2">Conteúdo introdutório do site.</p>
+    <section id="inicio" class="hero-section flex items-center justify-center pt-20">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 metal-text">
+          <span class="block">JUNTOS NA ESTRADA</span>
+          <span class="block">FORTES NA LUTA</span>
+          <span class="block">UNIDOS NO MOVIMENTO 2.3</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-300">
+          A união dos grupos de 2 e 3 rodas do Brasil, valorizando todos igualmente com irmandade e respeito mútuo.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="#credenciamento" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg">
+            CREDENCIE SEU GRUPO
+          </a>
+          <a href="#eventos" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full text-lg">
+            VER PRÓXIMOS EVENTOS
+          </a>
+        </div>
+      </div>
     </section>
 
-    <!-- IRMANDADE -->
-    <section id="irmandade" class="py-10">
-      <h2 class="text-2xl font-bold mb-4">Irmandade</h2>
-      <div id="irmandade-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"></div>
+    <section id="galeria" class="py-20 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">GALERIA</h2>
+          <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Momentos marcantes da nossa irmandade sobre rodas.
+          </p>
+        </div>
+        <div id="galeria-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          </div>
+      </div>
     </section>
 
-    <!-- EVENTOS -->
-    <section id="eventos" class="py-10">
-      <h2 class="text-2xl font-bold mb-4">Eventos</h2>
-      <div id="events-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <section id="irmandade" class="py-20 bg-black">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">IRMANDADE</h2>
+          <div class="w-24 h-1 bg-green-600 mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Conheça os grupos que fazem parte do Movimento 2.3.
+          </p>
+        </div>
+        <div class="swiper irmandade-carousel">
+          <div id="irmandade-container" class="swiper-wrapper flex items-center">
+            </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
     </section>
 
-    <!-- CONTATO -->
-    <section id="contato" class="py-10">
-      <h2 class="text-2xl font-bold mb-4">Contato</h2>
-      <form id="form" action="https://formspree.io/f/SEU_ID" method="POST" class="grid gap-3 max-w-lg">
-        <input name="nome" class="border p-2 rounded" placeholder="Seu nome" required>
-        <input type="email" name="email" class="border p-2 rounded" placeholder="Seu e-mail" required>
-        <textarea name="mensagem" class="border p-2 rounded" rows="4" placeholder="Mensagem" required></textarea>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Enviar</button>
-      </form>
+    <section id="credenciamento" class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">CREDENCIAMENTO</h2>
+            </div>
+            <div class="max-w-3xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+                <div class="bg-green-600 py-4 px-6">
+                    <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
+                </div>
+                <form id="form" action="https://formspree.io/f/mnnvoana" method="POST" class="p-6">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
+                            <input type="text" id="group-name" name="Nome do Grupo" class="w-full px-4 py-3 rounded-lg text-white" required>
+                        </div>
+                        <div>
+                            <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
+                            <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
+                            <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
+                            <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
+                        <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg">
+                            ENVIAR CREDENCIAMENTO
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="py-8 text-center text-sm text-gray-500">
-    © <span id="ano"></span> Movimento 2.3 — Todos os direitos reservados.
-    <script>document.getElementById('ano').textContent = new Date().getFullYear();</script>
-  </footer>
+    <section id="eventos" class="py-20 bg-black">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">EVENTOS</h2>
+          <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+        </div>
+        <div id="eventos-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          </div>
+      </div>
+    </section>
 
-  <!-- Scroll-to-top (opcional) -->
-  <button id="scrollToTop" class="hidden fixed right-4 bottom-4 bg-black/70 text-white px-3 py-2 rounded">Topo ↑</button>
+    <footer class="bg-gray-900 py-12 border-t border-gray-800">
+      <div class="container mx-auto px-4 text-center text-gray-400">
+        <p>&copy; 2025 Movimento 2.3 - Todos os direitos reservados</p>
+      </div>
+    </footer>
 
-  <!-- Seu JS -->
-  <script src="/app.js"></script>
-</body>
+    <button class="scroll-to-top bg-yellow-400 text-black w-12 h-12 rounded-full items-center justify-center shadow-lg hidden">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <a href="#" class="fixed bottom-8 left-8 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40">
+      <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script>
+      if (window.location.hash.includes("_token=")) {
+        window.location.replace('/admin/' + window.location.hash);
+      }
+    </script>
+
+    <script src="app.js"></script>
+
+  </body>
 </html>
