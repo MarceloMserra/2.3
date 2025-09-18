@@ -9,8 +9,8 @@ backend:
 media_library:
   name: cloudinary
   config:
-    cloud_name: dae2wpfhy
-    api_key: "{{env.CLOUDINARY_API_KEY}}"
+    cloud_name: dae2wp1hy
+    api_key: "161675469855318"
     upload_preset: "decap_cms_preset" 
     default_transformations:
       - - fetch_format: auto
