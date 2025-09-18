@@ -1,0 +1,11 @@
+# Configurações de build do Netlify
+[build]
+  # A pasta de publicação é a raiz do projeto, onde está o index.html
+  publish = "."
+
+# Regra para o painel de administração funcionar corretamente.
+# Se alguém acessar /admin/qualquer-coisa, ele serve a página principal do painel.
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
