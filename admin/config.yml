@@ -10,7 +10,7 @@ media_library:
   name: cloudinary
   config:
     cloud_name: dae2wpfhy
-    api_key: "{{env.CLOUDINARY_API_KEY}}"
+    api_key: "161675469855318"
     default_transformations:
       - - fetch_format: auto
           quality: auto
