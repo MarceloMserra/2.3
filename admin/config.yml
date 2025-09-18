@@ -1,0 +1,47 @@
+# Arquivo de configuração do Decap CMS
+
+backend:
+  name: git-gateway
+  repo: MarceloMserra/2.3 # <-- IMPORTANTE: TROQUE AQUI
+  branch: main # Ramo principal do seu repositório. Use 'master' se for o caso.
+
+media_folder: "img/uploads" # Onde as imagens enviadas pelo painel serão salvas
+public_folder: "/img/uploads" # Como o site irá acessar essas imagens
+
+collections:
+  # Coleção para os Álbuns da Galeria
+  - name: "albums" # nome técnico da coleção
+    label: "Álbuns da Galeria" # Nome que aparece no painel
+    folder: "_content/albums" # Pasta para salvar os arquivos de cada álbum
+    create: true # Permite criar novos álbuns
+    slug: "{{slug}}" # Usa o título para criar o nome do arquivo
+    fields: # Campos que cada álbum terá
+      - { label: "Título do Álbum", name: "title", widget: "string" }
+      - { label: "Foto de Capa", name: "cover_image", widget: "image" }
+      - label: "Mídias do Álbum"
+        name: "media_list"
+        widget: "list"
+        field: { label: "Imagem ou Vídeo", name: "media", widget: "image" } # Começando com imagens, podemos adicionar vídeos depois
+
+  # Coleção para os Eventos
+  - name: "events"
+    label: "Eventos"
+    folder: "_content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Nome do Evento", name: "name", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime" }
+      - { label: "Local (Cidade/UF)", name: "location", widget: "string" }
+      - { label: "Imagem Principal", name: "image", widget: "image" }
+      - { label: "Descrição Completa", name: "description", widget: "markdown" }
+
+  # Coleção para os Brasões da Irmandade
+  - name: "groups"
+    label: "Grupos da Irmandade"
+    folder: "_content/groups"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nome do Grupo", name: "name", widget: "string" }
+      - { label: "Imagem do Brasão", name: "emblem", widget: "image" }
