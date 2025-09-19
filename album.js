@@ -64,19 +64,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   descricaoEl.textContent = album.descricao || "";
   gridEl.innerHTML = ""; // Limpa a área
 
-  // ===== AJUSTE FINAL APLICADO AQUI =====
-  let fotosArray = [];
-  if (album.fotos) {
-    // Se 'album.fotos' for um texto (string), quebra ele pela vírgula.
-    // Se já for uma lista (array), usa a lista diretamente.
-    fotosArray = typeof album.fotos === 'string' ? album.fotos.split(',') : asArray(album.fotos);
-  }
-  
-  const todasAsMidias = [
-    ...fotosArray.map(src => ({ tipo: 'imagem', src: src.trim() })), // .trim() remove espaços extras
-    ...asArray(album.videos).map(item => ({ tipo: 'video', src: item.url }))
-  ];
-  // =====================================
+  // ===== AJUSTE PARA LER A ESTRUTURA CORRETA DO CONFIG.YML =====
+  const fotosArray = asArray(album.fotos_multi).map(item => {
+    // A estrutura agora pode ser um objeto { imagem: "url" } ou só a "url"
+    const src = (typeof item === 'object' && item.imagem) ? item.imagem : item;
+    return { tipo: 'imagem', src };
+  });
+
+  const videosArray = asArray(album.videos).map(item => ({ tipo: 'video', src: item.url }));
+
+  const todasAsMidias = [...fotosArray, ...videosArray];
+  // ==============================================================
   
   if (todasAsMidias.length === 0) {
     gridEl.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
@@ -84,17 +82,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   todasAsMidias.forEach(item => {
+    if (!item.src) return; // Pula itens sem link de imagem/vídeo
+
     const card = document.createElement('div');
     card.className = "rounded-lg bg-gray-800 overflow-hidden cursor-pointer aspect-square flex items-center justify-center";
 
-    if (item.tipo === 'imagem' && item.src) { // Adicionada verificação se src existe
+    if (item.tipo === 'imagem') {
       card.innerHTML = `
         <img src="${cloudAny(item.src, { w: 600 })}" alt="Foto do álbum" class="w-full h-full object-contain transition-transform duration-300 hover:scale-105">
       `;
       card.addEventListener('click', () => {
         basicLightbox.create(`<img src="${cloudAny(item.src, { w: 1800 })}">`).show();
       });
-    } else if (item.tipo === 'video' && item.src) { // Adicionada verificação se src existe
+    } else { // Vídeo
       card.innerHTML = `
         <div class="w-full h-full bg-black flex items-center justify-center relative">
           <p class="text-gray-400">Vídeo</p>

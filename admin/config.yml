@@ -69,23 +69,19 @@ collections:
               - { label: "Título do Álbum", name: "titulo", widget: "string" }
               - { label: "Descrição (opcional)", name: "descricao", widget: "text", required: false }
               - { label: "Imagem de Capa", name: "capa", widget: "image" }
-              - label: "Fotos (selecione várias de uma vez)"
+              # ===== AJUSTE FINAL APLICADO AQUI (IGUAL AO SEU SITE HCP) =====
+              - label: "Fotos (múltiplas)"
                 name: "fotos_multi"
                 widget: "list"
-                summary: "{{fields.imagem}}"
+                summary: "Foto"
                 field:
                   label: "Imagem"
                   name: "imagem"
                   widget: "image"
-                  # ===== CORREÇÃO APLICADA AQUI =====
-                  # Repetimos a configuração para garantir que ele não se perca
                   media_library:
-                    name: cloudinary
                     config:
                       multiple: true
-                      cloud_name: "dae2wp1hy"
-                      api_key: "161675469855318"
-                  # ====================================
+              # =============================================================
               - label: "Vídeos (links do YouTube, etc)"
                 name: "videos"
                 widget: "list"
