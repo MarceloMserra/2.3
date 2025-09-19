@@ -28,58 +28,50 @@ function cloudAny(url, { w = 800 } = {}) {
 
 // ===================== Conteúdo Dinâmico =====================
 document.addEventListener("DOMContentLoaded", () => {
-  renderCarousel();
+  renderRingCarousel(); // Chama a nova função do carrossel 3D
   renderEvents();
   renderGallery();
 });
 
-// --- Irmandade (Carrossel) - COM EFEITO COVERFLOW ---
-async function renderCarousel() {
-  const container = $("#irmandade-container");
-  if (!container) return;
+// --- Irmandade (Carrossel 3D em Anel) ---
+async function renderRingCarousel() {
+  const ringContainer = $("#ring-container");
+  if (!ringContainer) return;
+
   const data = await getJSON("/_content/groups.json") || {};
   const list = asArray(data.groups) || [];
   if (!list.length) return;
-  container.innerHTML = "";
-  list.forEach((group) => {
+
+  ringContainer.innerHTML = ""; // Limpa o container
+
+  list.forEach(group => {
     const name = pick(group, ["name", "nome"]);
     const emblem = pick(group, ["emblem", "logo"]);
-    const slide = document.createElement('div');
-    slide.className = "swiper-slide"; // Apenas a classe base é necessária aqui
-    slide.innerHTML = `
-      <div class="flex items-center justify-center h-full">
-        <img src="${cloudAny(emblem, { w: 400 })}" alt="${name}" class="max-h-36 w-auto object-contain" title="${name}">
+    
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.innerHTML = `
+      <div class="badge">
+        <img src="${cloudAny(emblem, { w: 300 })}" alt="${name}" title="${name}">
       </div>
     `;
-    container.appendChild(slide);
+    ringContainer.appendChild(item);
   });
 
-  // NOVA CONFIGURAÇÃO DO SWIPER COM EFEITO DE RODA 3D
-  new Swiper('.irmandade-carousel', {
-    effect: 'coverflow', // Ativa o efeito de "roda"
-    grabCursor: true,    // Mostra a mãozinha ao passar o mouse
-    centeredSlides: true,  // Garante que um slide fique sempre no centro
-    slidesPerView: 'auto', // Deixa o Swiper calcular quantos slides cabem
-    loop: true,            // Cria um loop infinito
-    autoplay: {
-      delay: 2500,         // Pausa de 2.5 segundos em cada brasão
-      disableOnInteraction: false, // Não para ao ser tocado pelo usuário
-    },
-    coverflowEffect: {
-      rotate: 50,       // Rotação dos slides laterais
-      stretch: 0,
-      depth: 100,       // Profundidade do efeito 3D
-      modifier: 1,
-      slideShadows: false, // Remove sombras desnecessárias
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
+  // Lógica para posicionar os itens em um círculo 3D
+  const items = [...ringContainer.querySelectorAll('.item')];
+  const n = items.length;
+  const rootStyle = getComputedStyle(document.documentElement);
+  const raio = parseInt(rootStyle.getPropertyValue('--raio'));
+
+  items.forEach((item, i) => {
+    const angDeg = (360 / n) * i;
+    item.style.transform = `rotateY(${angDeg}deg) translateZ(${raio}px)`;
   });
 }
 
 // --- Eventos (Cards) ---
+// (Esta função permanece sem alterações)
 async function renderEvents() {
   const container = $("#eventos-container");
   if (!container) return;
@@ -105,6 +97,7 @@ async function renderEvents() {
 }
 
 // --- Galeria (Cards dos Álbuns) ---
+// (Esta função permanece sem alterações)
 async function renderGallery() {
   const container = $("#galeria-container");
   if (!container) return;
@@ -128,11 +121,4 @@ async function renderGallery() {
     `;
     container.appendChild(card);
   });
-}
-
-// --- UI Básica ---
-const menuToggle = $("#menuToggle");
-const mobileMenu = $("#mobileMenu");
-if (menuToggle && mobileMenu) {
-  menuToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 }

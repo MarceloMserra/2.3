@@ -1,221 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movimento 2.3 - Unidos na Estrada</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
-      body {
-        font-family: 'Oswald', sans-serif;
-        background-color: #000;
-        color: #fff;
-        scroll-behavior: smooth;
-      }
-      .hero-section {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-          url('img/fotocapa.png');
-        background-size: cover;
-        background-position: center;
-        min-height: 100vh;
-      }
-      .metal-text {
-        background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-      }
-      input,
-      textarea {
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-      /* Estilos para as setas do carrossel */
-      .swiper-button-next, .swiper-button-prev {
-        color: #FFDD00 !important;
-      }
-      .scroll-to-top.active {
-          display: flex !important;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movimento 2.3 - Unidos na Estrada</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
+    body { font-family: 'Oswald', sans-serif; background-color: #000; color: #fff; }
+    .metal-text {
+      background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
 
-      /* ===== CÓDIGO NOVO ADICIONADO AQUI ===== */
-      .irmandade-carousel .swiper-slide {
-        min-height: 200px; /* Força uma altura mínima para o slide */
-        align-items: center;
-        justify-content: center;
-        display: flex;
-      }
-      /* ========================================= */
-    </style>
-  </head>
-  <body>
-    <header class="fixed w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
-      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <a href="#inicio">
-          <img src="img/logobranca.png" alt="Logo Movimento 2.3" class="h-12 w-auto"/>
-        </a>
-        <nav class="hidden md:block">
-          <ul class="flex space-x-8">
-            <li><a href="#inicio" class="text-white hover:text-yellow-400 transition">Início</a></li>
-            <li><a href="movimento.html" class="text-white hover:text-yellow-400 transition">O Movimento</a></li>
-            <li><a href="#galeria" class="text-white hover:text-yellow-400 transition">Galeria</a></li>
-            <li><a href="#irmandade" class="text-white hover:text-yellow-400 transition">Irmandade</a></li>
-            <li><a href="#eventos" class="text-white hover:text-yellow-400 transition">Eventos</a></li>
-            <li><a href="#credenciamento" class="text-white hover:text-yellow-400 transition">Credenciamento</a></li>
-          </ul>
-        </nav>
-        <button id="menuToggle" class="md:hidden text-white text-2xl">
-          <i class="fas fa-bars"></i>
-        </button>
-      </div>
-      <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
-        <a href="#inicio" class="block hover:text-yellow-400">Início</a>
-        <a href="movimento.html" class="block hover:text-yellow-400">O Movimento</a>
-        <a href="#galeria" class="block hover:text-yellow-400">Galeria</a>
-        <a href="#irmandade" class="block hover:text-yellow-400">Irmandade</a>
-        <a href="#eventos" class="block hover:text-yellow-400">Eventos</a>
-        <a href="#credenciamento" class="block hover:text-yellow-400">Credenciamento</a>
-      </div>
-    </header>
+    /* ===== CÓDIGO DO CARROSSEL 3D INSERIDO AQUI ===== */
+    :root {
+      --raio: 30vw;    /* Distância do centro (ajusta com a tela) */
+      --w: 180px;       /* Largura do brasão */
+      --h: 180px;       /* Altura do brasão */
+      --dur: 30s;       /* Duração da volta completa (maior = mais lento) */
+    }
+    .stage {
+      width: 100%;
+      height: 400px;
+      perspective: 1200px;
+      overflow: hidden;
+    }
+    .ring {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate var(--dur) linear infinite; /* Animação de rotação */
+    }
+    .ring:hover {
+      animation-play-state: paused; /* Pausa a animação ao passar o mouse */
+    }
+    @keyframes rotate {
+      from { transform: rotateY(0deg); }
+      to   { transform: rotateY(-360deg); } /* Negativo = sentido horário */
+    }
+    .item {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      transform-style: preserve-3d;
+    }
+    .badge {
+      width: var(--w); height: var(--h);
+      background: rgba(30, 30, 30, 0.5); /* Fundo semi-transparente */
+      border-radius: 16px;
+      display: grid; place-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .badge:hover {
+      transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+    }
+    .badge img {
+      max-width: 85%; max-height: 85%; object-fit: contain;
+    }
+    /* ================================================= */
+  </style>
+</head>
+<body class="bg-black">
+  <header class="w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html">
+        <img src="img/logobranca.png" alt="Logo Movimento 2.3" class="h-12 w-auto"/>
+      </a>
+      <a href="index.html#galeria" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded-full text-md">
+        <i class="fas fa-arrow-left mr-2"></i> Voltar para Galeria
+      </a>
+    </div>
+  </header>
 
-    <section id="inicio" class="hero-section flex items-center justify-center pt-20">
-      <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6 metal-text">
-          <span class="block">JUNTOS NA ESTRADA</span>
-          <span class="block">FORTES NA LUTA</span>
-          <span class="block">UNIDOS NO MOVIMENTO 2.3</span>
-        </h1>
-        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-300">
-          A união dos grupos de 2 e 3 rodas do Brasil, valorizando todos igualmente com irmandade e respeito mútuo.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="#credenciamento" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg">
-            CREDENCIE SEU GRUPO
-          </a>
-          <a href="#eventos" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full text-lg">
-            VER PRÓXIMOS EVENTOS
-          </a>
-        </div>
-      </div>
-    </section>
-
+  <main>
     <section id="galeria" class="py-20 bg-gray-900">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">GALERIA</h2>
           <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
-          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-            Momentos marcantes da nossa irmandade sobre rodas.
-          </p>
         </div>
-        <div id="galeria-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          </div>
+        <div id="galeria-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
       </div>
-    </section>
+    </main>
 
     <section id="irmandade" class="py-20 bg-black">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">IRMANDADE</h2>
-          <div class="w-24 h-1 bg-green-600 mx-auto"></div>
-          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
-            Conheça os grupos que fazem parte do Movimento 2.3.
-          </p>
+          <p class="text-gray-400 max-w-2xl mx-auto">Conheça os grupos que fazem parte do Movimento 2.3.</p>
         </div>
-        <div class="swiper irmandade-carousel">
-          <div id="irmandade-container" class="swiper-wrapper">
+        <div class="stage">
+          <div class="ring" id="ring-container">
             </div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
         </div>
       </div>
     </section>
-
-    <section id="credenciamento" class="py-20 bg-gradient-to-b from-gray-900 to-black">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">CREDENCIAMENTO</h2>
-            </div>
-            <div class="max-w-3xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden">
-                <div class="bg-green-600 py-4 px-6">
-                    <h3 class="text-xl font-bold text-white">FICHA DE CREDENCIAMENTO</h3>
-                </div>
-                <form id="form" action="https://formspree.io/f/mnnvoana" method="POST" class="p-6">
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="group-name" class="block text-gray-300 mb-2">Nome do Grupo*</label>
-                            <input type="text" id="group-name" name="Nome do Grupo" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        <div>
-                            <label for="representative" class="block text-gray-300 mb-2">Representante*</label>
-                            <input type="text" id="representative" name="Representante" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="email" class="block text-gray-300 mb-2">E-mail*</label>
-                            <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                        <div>
-                            <label for="phone" class="block text-gray-300 mb-2">Telefone*</label>
-                            <input type="tel" id="phone" name="Telefone" class="w-full px-4 py-3 rounded-lg text-white" required>
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <label for="city" class="block text-gray-300 mb-2">Cidade/UF*</label>
-                        <input type="text" id="city" name="Cidade/UF" class="w-full px-4 py-3 rounded-lg text-white" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg">
-                            ENVIAR CREDENCIAMENTO
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <section id="eventos" class="py-20 bg-black">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">EVENTOS</h2>
-          <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
-        </div>
-        <div id="eventos-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          </div>
-      </div>
-    </section>
-
-    <footer class="bg-gray-900 py-12 border-t border-gray-800">
-      <div class="container mx-auto px-4 text-center text-gray-400">
-        <p>&copy; 2025 Movimento 2.3 - Todos os direitos reservados</p>
-      </div>
-    </footer>
-
-    <button class="scroll-to-top bg-yellow-400 text-black w-12 h-12 rounded-full items-center justify-center shadow-lg hidden">
-      <i class="fas fa-arrow-up"></i>
-    </button>
-    <a href="#" class="fixed bottom-8 left-8 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-40">
-      <i class="fab fa-whatsapp text-2xl"></i>
-    </a>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
-    <script>
-      if (window.location.hash.includes("_token=")) {
-        window.location.replace('/admin/' + window.location.hash);
-      }
-    </script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
-    <script src="app.js"></script>
+    </main>
 
-  </body>
+  <footer class="bg-gray-900 py-12 border-t border-gray-800 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-400">
+      <p>&copy; 2025 Movimento 2.3 - Todos os direitos reservados</p>
+    </div>
+  </footer>
+  
+  <script src="app.js"></script>
+</body>
 </html>
