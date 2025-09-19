@@ -1,40 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Álbum • Movimento 2.3</title>
-
-  <!-- Tailwind (se usa build próprio, remova a CDN) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álbum - Movimento 2.3</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* overlay do lightbox */
-    #lightbox.hidden { display: none; }
-    #lightbox {
-      position: fixed; inset: 0; background: rgba(0,0,0,.85);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 50;
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
+    body {
+      font-family: 'Oswald', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+    .metal-text {
+      background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     }
   </style>
 </head>
-<body class="antialiased text-gray-900 bg-gray-50">
-  <header class="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
-    <a href="/" class="text-sm text-sky-700 hover:underline">← Voltar</a>
-    <h1 id="album-title" class="text-xl font-bold">Álbum</h1>
+<body class="bg-black">
+  <header class="w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html">
+        <img src="img/logobranca.png" alt="Logo Movimento 2.3" class="h-12 w-auto"/>
+      </a>
+      <a href="index.html#galeria" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded-full text-md">
+        <i class="fas fa-arrow-left mr-2"></i> Voltar para Galeria
+      </a>
+    </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-4">
-    <p id="album-desc" class="text-gray-600 mb-4"></p>
-    <div id="album-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+  <main class="container mx-auto px-4 py-12">
+    <div class="max-w-6xl mx-auto">
+      <h1 id="album-titulo" class="text-4xl md:text-6xl font-bold mb-2 text-center metal-text">Carregando Álbum...</h1>
+      <p id="album-descricao" class="text-lg text-gray-400 mb-10 text-center"></p>
+      
+      <div id="album-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        </div>
+    </div>
   </main>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="hidden" data-close="lightbox">
-    <img id="lightbox-img" alt="" class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl" />
-    <!-- controles criados via JS -->
-  </div>
+  <footer class="bg-gray-900 py-12 border-t border-gray-800 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-400">
+      <p>&copy; 2025 Movimento 2.3 - Todos os direitos reservados</p>
+    </div>
+  </footer>
 
-  <script src="/album.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+
+  <script src="album.js"></script>
 </body>
 </html>
