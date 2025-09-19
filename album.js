@@ -7,7 +7,7 @@ async function getJSON(url) {
 }
 const asArray = (x) => (Array.isArray(x) ? x : x ? [x] : []);
 
-// ===================== Cloudinary (adaptado para o Movimento 2.3) =====================
+// ===================== Cloudinary =====================
 const CLOUDINARY_CLOUD = "dae2wp1hy";
 function cloudAny(url, { w = 800 } = {}) {
   if (!url || typeof url !== 'string') return '';
@@ -23,7 +23,7 @@ function cloudAny(url, { w = 800 } = {}) {
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/${t}/${encodeURIComponent(abs)}`;
 }
 
-// ===================== Lógica da Página do Álbum (baseada no HCP) =====================
+// ===================== Lógica da Página do Álbum =====================
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const albumId = parseInt(params.get('id'));
@@ -50,19 +50,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   descricaoEl.textContent = album.descricao || "";
   gridEl.innerHTML = "";
 
-  const fotosArray = asArray(album.fotos_multi).map(item => {
-    const src = (typeof item === 'object' && item.imagem) ? item.imagem : item;
-    if (typeof src === 'string' && src) return { tipo: 'imagem', src };
-    return null;
-  }).filter(Boolean); // Remove itens nulos
-
-  const videosArray = asArray(album.videos).map(item => {
-    if (item && item.url) return { tipo: 'video', src: item.url };
-    return null;
-  }).filter(Boolean);
-
-  const todasAsMidias = [...fotosArray, ...videosArray];
+  // Lógica para ler o campo 'fotos' que é um texto com links separados por vírgula
+  let fotosArray = [];
+  if (album.fotos && typeof album.fotos === 'string') {
+    fotosArray = album.fotos.split(','); // Separa o texto em uma lista de links
+  }
   
+  const todasAsMidias = [
+    ...fotosArray.map(src => ({ tipo: 'imagem', src: src.trim() })),
+    ...asArray(album.videos).map(item => ({ tipo: 'video', src: item ? item.url : '' }))
+  ].filter(item => item && item.src);
+
   if (todasAsMidias.length === 0) {
     gridEl.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
     return;
