@@ -1,87 +1,233 @@
-// ===================== Funções Utilitárias =====================
+// ========= helpers =========
 const $ = (sel) => document.querySelector(sel);
+const asArray = (x) => (Array.isArray(x) ? x : x ? [x] : []);
+const pick = (obj, keys, def = undefined) => { if (!obj) return def; for (const k of keys) if (obj[k] !== undefined) return obj[k]; return def; };
+
 async function getJSON(url) {
   try {
-    const r = await fetch(url, { cache: "no-store" }); if (!r.ok) throw new Error(r.statusText); return await r.json();
-  } catch (e) { console.warn("Falha ao buscar JSON:", url, e); return null; }
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) throw 0;
+    return await r.json();
+  } catch { return null; }
 }
-const asArray = (x) => (Array.isArray(x) ? x : x ? [x] : []);
 
-// ===================== Cloudinary =====================
+// ========= Cloudinary (fetch) =========
 const CLOUDINARY_CLOUD = "dae2wp1hy";
-function cloudAny(url, { w = 800 } = {}) {
-  if (!url || typeof url !== 'string') return '';
-  const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`;
-  if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
-    const parts = url.split("/upload/");
-    if (parts.length > 1) {
-      if (/\b(c_|w_|h_)/.test(parts[1])) return url;
-      return url.replace("/upload/", `/upload/${t}/`);
-    }
+const isCloudinary = (url) => /^https?:\/\/res\.cloudinary\.com\//.test(url || "");
+function cloudPortrait(url, { w = 1600 } = {}) {
+  if (!url || !isCloudinary(url)) return url;
+  const parts = url.split("/upload/");
+  if (parts.length > 1) {
+    const firstSeg = (parts[1] || "").split("/")[0];
+    const hasTransforms = /\b(c_|w_|h_|ar_|g_|z_)/.test(firstSeg);
+    if (hasTransforms) return url;
   }
+  const t = `f_auto,q_auto,dpr_auto,c_fill,g_auto:subject,w_${w}`;
+  return url.replace("/upload/", `/upload/${t}/`);
+}
+function cloudAny(url, { w = 1600 } = {}) {
+  if (!url) return url;
+  if (isCloudinary(url)) return cloudPortrait(url, { w });
   const abs = new URL(url, window.location.origin).href;
+  const t = `f_auto,q_auto,dpr_auto,c_fill,g_auto:subject,w_${w}`;
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/${t}/${encodeURIComponent(abs)}`;
 }
 
-// ===================== Lógica da Página do Álbum =====================
-document.addEventListener("DOMContentLoaded", async () => {
-  const params = new URLSearchParams(window.location.search);
-  const albumId = parseInt(params.get('id'));
+// ========= lightbox state =========
+let LB_ITEMS = []; // [{tipo:'foto'|'video', src, alt}]
+let LB_INDEX = 0;
 
-  const tituloEl = $("#album-titulo");
-  const descricaoEl = $("#album-descricao");
-  const gridEl = $("#album-grid");
-
-  if (isNaN(albumId)) {
-    tituloEl.textContent = "Álbum não encontrado";
-    return;
+function ensureLightboxControls() {
+  const lb = $("#lightbox");
+  if (!lb) return;
+  let ctrls = document.getElementById("lb-ctrls");
+  if (!ctrls) {
+    ctrls = document.createElement("div");
+    ctrls.id = "lb-ctrls";
+    ctrls.style.position = "fixed";
+    ctrls.style.inset = "0";
+    ctrls.style.pointerEvents = "none";
+    lb.appendChild(ctrls);
   }
+  ctrls.innerHTML = "";
 
-  const data = await getJSON("/_content/galeria.json");
-  const albuns = asArray(data.albuns);
-  const album = albuns[albumId];
+  const mkBtn = (id, text, pos) => {
+    const b = document.createElement("button");
+    b.id = id;
+    b.textContent = text;
+    b.className = "pointer-events-auto bg-black/60 text-white rounded-full w-10 h-10 grid place-items-center hover:bg-black/80 focus:outline-none";
+    b.style.position = "fixed";
+    pos.split(" ").forEach(c => b.classList.add(c));
+    return b;
+  };
 
-  if (!album) {
-    tituloEl.textContent = "Álbum não encontrado";
-    return;
-  }
+  const prev = mkBtn("lb-prev", "‹", "left-4 top-1/2 -translate-y-1/2");
+  const next = mkBtn("lb-next", "›", "right-4 top-1/2 -translate-y-1/2");
+  const close= mkBtn("lb-close","✕","right-4 top-4");
+  const back = document.createElement("a");
+  back.textContent = "Voltar ao álbum";
+  back.href = "javascript:void(0)";
+  back.className = "pointer-events-auto bg-white/90 text-gray-900 rounded px-3 py-1 text-sm hover:bg-white fixed left-4 bottom-4";
 
-  tituloEl.textContent = album.titulo || "Álbum sem título";
-  descricaoEl.textContent = album.descricao || "";
-  gridEl.innerHTML = "";
+  prev.addEventListener("click", () => openLightboxIndex(LB_INDEX - 1));
+  next.addEventListener("click", () => openLightboxIndex(LB_INDEX + 1));
+  close.addEventListener("click", closeLightbox);
+  back.addEventListener("click", closeLightbox);
 
-  // Lógica para ler o campo 'fotos' que é um texto com links separados por vírgula
-  let fotosArray = [];
-  if (album.fotos && typeof album.fotos === 'string') {
-    fotosArray = album.fotos.split(','); // Separa o texto em uma lista de links
-  }
-  
-  const todasAsMidias = [
-    ...fotosArray.map(src => ({ tipo: 'imagem', src: src.trim() })),
-    ...asArray(album.videos).map(item => ({ tipo: 'video', src: item ? item.url : '' }))
-  ].filter(item => item && item.src);
+  ctrls.appendChild(prev);
+  ctrls.appendChild(next);
+  ctrls.appendChild(close);
+  ctrls.appendChild(back);
+}
 
-  if (todasAsMidias.length === 0) {
-    gridEl.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
-    return;
-  }
+function openLightboxIndex(i) {
+  const lb = $("#lightbox");
+  const img = $("#lightbox-img");
+  if (!lb || !img) return;
+  LB_INDEX = (i + LB_ITEMS.length) % LB_ITEMS.length;
+  const item = LB_ITEMS[LB_INDEX];
 
-  todasAsMidias.forEach(item => {
-    const card = document.createElement('div');
-    card.className = "rounded-lg bg-gray-800 overflow-hidden cursor-pointer aspect-square flex items-center justify-center";
+  ensureLightboxControls();
 
-    if (item.tipo === 'imagem') {
-      card.innerHTML = `<img src="${cloudAny(item.src, { w: 600 })}" alt="Foto do álbum" class="w-full h-full object-contain transition-transform duration-300 hover:scale-105">`;
-      card.addEventListener('click', () => {
-        basicLightbox.create(`<img src="${cloudAny(item.src, { w: 1800 })}">`).show();
-      });
-    } else { // Vídeo
-      card.innerHTML = `<div class="w-full h-full bg-black flex items-center justify-center relative"><p class="text-gray-400">Vídeo</p><div class="absolute inset-0 bg-black/30 flex items-center justify-center text-white text-5xl"><i class="fas fa-play-circle"></i></div></div>`;
-      card.addEventListener('click', () => {
-        const videoUrl = item.src.replace('watch?v=', 'embed/');
-        basicLightbox.create(`<div class="w-full" style="padding-top: 56.25%; position: relative;"><iframe src="${videoUrl}" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>`).show();
-      });
+  // se for vídeo, substitui por iframe/video; se for foto, mostra imagem
+  if (item.tipo === "video") {
+    if (img.tagName !== "DIV") {
+      const holder = document.createElement("div");
+      holder.id = "lightbox-img";
+      img.replaceWith(holder);
     }
-    gridEl.appendChild(card);
+    const holder = $("#lightbox-img");
+    holder.className = "w-[90vw] h-[90vh] max-w-[90vw] max-h-[90vh] mx-auto block rounded shadow-xl";
+    const url = item.src || "";
+    if (/youtube\.com|youtu\.be/.test(url)) {
+      const idMatch = url.match(/(?:v=|be\/|shorts\/)([A-Za-z0-9_-]{6,})/) || url.match(/[?&]v=([A-Za-z0-9_-]{6,})/);
+      const vid = idMatch ? idMatch[1] : "";
+      holder.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (/vimeo\.com/.test(url)) {
+      const idMatch = url.match(/vimeo\.com\/(\d+)/);
+      const vid = idMatch ? idMatch[1] : "";
+      holder.innerHTML = `<iframe class="w-full h-full" src="https://player.vimeo.com/video/${vid}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (/\.mp4($|\?)/i.test(url)) {
+      holder.innerHTML = `<video class="w-full h-full object-contain" controls src="${url}"></video>`;
+    } else {
+      holder.innerHTML = `<img class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl" src="${cloudAny(url, { w: 2200 })}" alt="">`;
+    }
+  } else {
+    if (img.tagName !== "IMG") {
+      const newImg = document.createElement("img");
+      newImg.id = "lightbox-img";
+      $("#lightbox-img").replaceWith(newImg);
+    }
+    const im = $("#lightbox-img");
+    im.className = "max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl";
+    im.src = cloudAny(item.src, { w: 2200 });
+    im.alt = item.alt || "";
+  }
+
+  lb.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox() {
+  const lb = $("#lightbox");
+  if (!lb) return;
+  lb.classList.add("hidden");
+  document.body.style.overflow = "auto";
+  const holder = $("#lightbox-img");
+  if (holder && holder.tagName !== "IMG") {
+    const img = document.createElement("img");
+    img.id = "lightbox-img";
+    img.className = "max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl";
+    holder.replaceWith(img);
+  }
+}
+
+// ========= página do álbum =========
+function normalizePhotoItem(x) {
+  if (!x) return null;
+  if (typeof x === "string") return x;
+  return x.src || x.url || x.image || x.imagem || x.foto || x.path || null;
+}
+function parseFotosCSV(csv) {
+  if (!csv || typeof csv !== "string") return [];
+  return csv.split(",").map(s => s.trim()).filter(Boolean);
+}
+
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const id = Number(params.get("id") || "0");
+
+  const data =
+    (await getJSON("/_content/galeria.json")) ||
+    (await getJSON("/_content/gallery.json")) ||
+    (await getJSON("/data/galeria.json"))     ||
+    (await getJSON("/data/gallery.json"))     ||
+    {};
+
+  const albuns =
+    asArray(data.albuns) ||
+    asArray(data["álbuns"]) ||
+    asArray(data.albums) || [];
+
+  const album = albuns[id];
+  if (!album) {
+    $("#album-title").textContent = "Álbum não encontrado";
+    return;
+  }
+
+  const titulo = pick(album, ["titulo", "title", "nome"], "Álbum");
+  const descricao = pick(album, ["descricao", "descrição", "description"], "");
+  const fotosField = pick(album, ["fotos", "photos", "imagens", "images"], []);
+  const videosList = asArray(pick(album, ["videos", "vídeos", "clips"], []));
+
+  $("#album-title").textContent = titulo;
+  $("#album-desc").textContent = descricao || "";
+
+  // Normaliza fotos: aceita lista de objetos/strings OU CSV de URLs
+  let fotos = [];
+  if (Array.isArray(fotosField)) {
+    fotos = fotosField.map(normalizePhotoItem).filter(Boolean);
+  } else if (typeof fotosField === "string") {
+    fotos = parseFotosCSV(fotosField);
+  }
+
+  // Monta a lista da lightbox
+  LB_ITEMS = [
+    ...fotos.map((src) => ({ tipo: "foto", src, alt: titulo })),
+    ...videosList.map((v) => ({ tipo: "video", src: v.url || v.src || "" }))
+  ].filter(it => it.src);
+
+  // Renderiza grid
+  const grid = $("#album-grid");
+  grid.innerHTML = "";
+  LB_ITEMS.forEach((item, i) => {
+    const wrap = document.createElement("div");
+    wrap.className = "rounded overflow-hidden bg-white relative aspect-square";
+    if (item.tipo === "video") {
+      const thumb = document.createElement("div");
+      thumb.className = "w-full h-full bg-black/10 grid place-items-center cursor-pointer";
+      thumb.innerHTML = `<span class="text-xs text-gray-700">▶ Vídeo</span>`;
+      thumb.addEventListener("click", () => openLightboxIndex(i));
+      wrap.appendChild(thumb);
+    } else {
+      const img = document.createElement("img");
+      img.src = cloudAny(item.src, { w: 1200 });
+      img.alt = titulo;
+      img.className = "w-full h-full object-contain cursor-pointer";
+      img.addEventListener("click", () => openLightboxIndex(i));
+      wrap.appendChild(img);
+    }
+    grid.appendChild(wrap);
   });
-});
+
+  // close overlay / teclas
+  const lb = $("#lightbox");
+  lb.addEventListener("click", (e) => {
+    if (e.target.dataset.close === "lightbox" || e.target === lb) closeLightbox();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (lb.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") openLightboxIndex(LB_INDEX + 1);
+    if (e.key === "ArrowLeft")  openLightboxIndex(LB_INDEX - 1);
+  });
+})();
