@@ -69,19 +69,14 @@ collections:
               - { label: "Título do Álbum", name: "titulo", widget: "string" }
               - { label: "Descrição (opcional)", name: "descricao", widget: "text", required: false }
               - { label: "Imagem de Capa", name: "capa", widget: "image" }
-              # ===== AJUSTE FINAL APLICADO AQUI (IGUAL AO SEU SITE HCP) =====
-              - label: "Fotos (múltiplas)"
-                name: "fotos_multi"
-                widget: "list"
-                summary: "Foto"
-                field:
-                  label: "Imagem"
-                  name: "imagem"
-                  widget: "image"
-                  media_library:
-                    config:
-                      multiple: true
-              # =============================================================
+              # ===== ESTA É A VERSÃO MAIS ESTÁVEL =====
+              - label: "Fotos do Álbum"
+                name: "fotos"
+                widget: "image"
+                media_library:
+                  config:
+                    multiple: true
+              # ==========================================
               - label: "Vídeos (links do YouTube, etc)"
                 name: "videos"
                 widget: "list"
