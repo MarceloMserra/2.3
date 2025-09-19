@@ -19,7 +19,7 @@
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     }
-    /* Estilo para o Lightbox que será criado pelo JS */
+    /* Estilos para o Lightbox e seus controles */
     #lightbox {
       position: fixed;
       inset: 0;
@@ -29,6 +29,24 @@
       align-items: center;
       justify-content: center;
       padding: 1rem;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox-btn {
+      position: fixed;
+      pointer-events: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border-radius: 9999px;
+      width: 2.75rem; /* 44px */
+      height: 2.75rem; /* 44px */
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: background-color 0.2s;
+    }
+    .lightbox-btn:hover {
+      background-color: rgba(0, 0, 0, 0.8);
     }
   </style>
 </head>
@@ -62,7 +80,7 @@
 
   <div id="lightbox" class="hidden" data-close="lightbox">
     <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl">
-  </div>
+    </div>
 
   <script src="album.js"></script>
 </body>
