@@ -3,6 +3,14 @@
     {
       "name": "teste01",
       "emblem": "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758287268/fotomoto_ihla0l.png"
+    },
+    {
+      "name": "teste02",
+      "emblem": "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758217684/cld-sample-2.jpg"
+    },
+    {
+      "name": "teste03",
+      "emblem": "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758217681/samples/balloons.jpg"
     }
   ]
 }
