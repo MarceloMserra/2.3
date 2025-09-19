@@ -10,11 +10,12 @@ async function getJSON(url) {
   } catch (e) { console.warn("Falha ao buscar JSON:", url, e); return null; }
 }
 
-// ===================== Cloudinary =====================
+// ===================== Cloudinary - VERSÃO CORRIGIDA =====================
 const CLOUDINARY_CLOUD = "dae2wp1hy";
 function cloudAny(url, { w = 800 } = {}) {
   if (!url || typeof url !== 'string') return '';
-  const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`;
+  // AJUSTE FINAL: q_auto:best para melhor qualidade e e_brightness:20 para clarear
+  const t = `f_auto,q_auto:best,e_brightness:20,dpr_auto,c_limit,w_${w}`;
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
     const parts = url.split("/upload/");
     if (parts.length > 1) {

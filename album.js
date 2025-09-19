@@ -9,13 +9,14 @@ async function getJSON(url) {
   } catch { return null; }
 }
 
-// ========= Cloudinary (fetch) =========
+// ========= Cloudinary (fetch) - VERSÃO CORRIGIDA =========
 const CLOUDINARY_CLOUD = "dae2wp1hy";
 
 function cloudAny(url, { w = 1600 } = {}) {
   if (!url || typeof url !== 'string') return '';
-  // CORREÇÃO DE BRILHO E QUALIDADE APLICADA AQUI
-  const t = `f_auto,q_auto:good,e_brightness:5,dpr_auto,c_limit,w_${w}`;
+  // AJUSTE FINAL: q_auto:best para melhor qualidade e e_brightness:20 para clarear
+  const t = `f_auto,q_auto:best,e_brightness:20,dpr_auto,c_limit,w_${w}`;
+  
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
     const parts = url.split("/upload/");
     if (parts.length > 1) {
@@ -41,22 +42,27 @@ function ensureLightboxControls() {
     ctrls.style.pointerEvents = "none";
     lb.appendChild(ctrls);
   }
-  ctrls.innerHTML = ""; // Limpa os botões antigos
+  ctrls.innerHTML = "";
 
-  const prev = document.createElement("button");
-  prev.id = "lb-prev";
-  prev.innerHTML = "‹";
-  prev.className = "lightbox-btn left-4 top-1/2 -translate-y-1/2";
-  
-  const next = document.createElement("button");
-  next.id = "lb-next";
-  next.innerHTML = "›";
-  next.className = "lightbox-btn right-4 top-1/2 -translate-y-1/2";
+  const mkBtn = (id, text, pos) => {
+    const b = document.createElement("button");
+    b.id = id;
+    b.innerHTML = text;
+    b.className = "lightbox-btn";
+    b.style.position = "fixed";
+    pos.split(" ").forEach(p => {
+        if (p === 'top-1/2') b.style.top = '50%';
+        if (p === '-translate-y-1/2') b.style.transform = 'translateY(-50%)';
+        if (p === 'left-4') b.style.left = '1rem';
+        if (p === 'right-4') b.style.right = '1rem';
+        if (p === 'top-4') b.style.top = '1rem';
+    });
+    return b;
+  };
 
-  const close = document.createElement("button");
-  close.id = "lb-close";
-  close.innerHTML = "✕";
-  close.className = "lightbox-btn right-4 top-4";
+  const prev = mkBtn("lb-prev", "‹", "left-4 top-1/2 -translate-y-1/2");
+  const next = mkBtn("lb-next", "›", "right-4 top-1/2 -translate-y-1/2");
+  const close = mkBtn("lb-close", "✕", "right-4 top-4");
 
   prev.addEventListener("click", (e) => { e.stopPropagation(); openLightboxIndex(LB_INDEX - 1); });
   next.addEventListener("click", (e) => { e.stopPropagation(); openLightboxIndex(LB_INDEX + 1); });
@@ -76,12 +82,8 @@ function openLightboxIndex(i) {
   const item = LB_ITEMS[LB_INDEX];
   ensureLightboxControls();
 
-  if (item.tipo === "video") {
-    // Lógica para vídeo (se necessário no futuro)
-  } else {
-    img.src = cloudAny(item.src, { w: 2200 }); // Imagem maior para o lightbox
-    img.alt = item.alt || "";
-  }
+  img.src = cloudAny(item.src, { w: 2200 });
+  img.alt = item.alt || "";
 
   lb.classList.remove("hidden");
   document.body.style.overflow = "hidden";
@@ -98,65 +100,50 @@ function closeLightbox() {
 (async () => {
   const params = new URLSearchParams(location.search);
   const id = Number(params.get("id") || "0");
-
   const data = await getJSON("/_content/galeria.json") || {};
   const albuns = asArray(data.albuns) || [];
   const album = albuns[id];
 
-  if (!album) {
-    $("#album-title").textContent = "Álbum não encontrado";
-    return;
-  }
+  if (!album) { $("#album-title").textContent = "Álbum não encontrado"; return; }
 
-  const titulo = pick(album, ["titulo", "title", "nome"], "Álbum");
-  const descricao = pick(album, ["descricao", "descrição", "description"], "");
+  const titulo = pick(album, ["titulo", "title"], "Álbum");
+  const descricao = pick(album, ["descricao"], "");
   
   $("#album-title").textContent = titulo;
-  $("#album-desc").textContent = descricao || "";
+  $("#album-desc").textContent = descricao;
 
-  const fotos = asArray(album.fotos_multi).flat().map(item => {
-    return (typeof item === 'object' && item.imagem) ? item.imagem : item;
-  }).filter(Boolean);
-
-  const videosList = asArray(pick(album, ["videos", "vídeos"], []));
+  const fotos = asArray(album.fotos_multi).flat().map(item => (typeof item === 'object' && item.imagem) ? item.imagem : item).filter(Boolean);
+  const videos = asArray(pick(album, ["videos"], []));
   
   LB_ITEMS = [
-    ...fotos.map((src) => ({ tipo: "foto", src, alt: titulo })),
-    ...videosList.map((v) => ({ tipo: "video", src: v.url || v.src || "" }))
+    ...fotos.map(src => ({ tipo: "foto", src, alt: titulo })),
+    ...videos.map(v => ({ tipo: "video", src: v.url || v.src || "" }))
   ].filter(it => it.src);
 
   const grid = $("#album-grid");
   if (!grid) return;
   
-  if (LB_ITEMS.length === 0) {
-      grid.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
-      return;
-  }
+  if (LB_ITEMS.length === 0) { grid.innerHTML = `<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>`; return; }
 
   grid.innerHTML = "";
   LB_ITEMS.forEach((item, i) => {
     const wrap = document.createElement("div");
-    wrap.className = "rounded-lg overflow-hidden bg-gray-800 relative aspect-square cursor-pointer";
-    
+    wrap.className = "rounded-lg overflow-hidden bg-gray-900 relative aspect-square cursor-pointer";
     const img = document.createElement("img");
-    img.src = cloudAny(item.src, { w: 600 }); // Imagem menor para a grade
+    img.src = cloudAny(item.src, { w: 600 });
     img.alt = titulo;
     img.className = "w-full h-full object-contain";
     img.addEventListener("click", () => openLightboxIndex(i));
     wrap.appendChild(img);
-    
     grid.appendChild(wrap);
   });
 
-  // Event Listeners para o Lightbox (teclado e clique fora)
   const lb = $("#lightbox");
-  lb.addEventListener("click", (e) => {
-    if (e.target.dataset.close === "lightbox" || e.target === lb) closeLightbox();
-  });
+  lb.addEventListener("click", (e) => { if (e.target.dataset.close === "lightbox" || e.target === lb) closeLightbox(); });
   document.addEventListener("keydown", (e) => {
     if (lb.classList.contains("hidden")) return;
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") openLightboxIndex(LB_INDEX + 1);
-    if (e.key === "ArrowLeft")  openLightboxIndex(LB_INDEX - 1);
+    if (e.key === "ArrowLeft") openLightboxIndex(LB_INDEX - 1);
   });
 })();
