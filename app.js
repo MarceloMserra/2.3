@@ -28,28 +28,25 @@ function cloudAny(url, { w = 800 } = {}) {
 
 // ===================== Interatividade da UI (Menu, Scroll, Formulário) =====================
 function setupUI() {
-    // Menu Hambúrguer
     const menuToggle = $("#menuToggle");
     const mobileMenu = $("#mobileMenu");
+    if (!menuToggle || !mobileMenu) return;
+
     const menuIcon = menuToggle.querySelector('i');
 
     const closeMenu = () => {
-        mobileMenu.style.display = 'none'; // Usa display para evitar conflito de classes
+        mobileMenu.classList.add('hidden');
         menuIcon.classList.remove('fa-times');
         menuIcon.classList.add('fa-bars');
     };
 
-    const openMenu = () => {
-        mobileMenu.style.display = 'flex';
-        menuIcon.classList.remove('fa-bars');
-        menuIcon.classList.add('fa-times');
-    };
-
     menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isHidden = mobileMenu.style.display === 'none' || mobileMenu.style.display === '';
+        const isHidden = mobileMenu.classList.contains('hidden');
         if (isHidden) {
-            openMenu();
+            mobileMenu.classList.remove('hidden');
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-times');
         } else {
             closeMenu();
         }
@@ -57,7 +54,6 @@ function setupUI() {
 
     mobileMenu.addEventListener('click', closeMenu);
 
-    // Botão Voltar ao Topo
     const scrollToTopBtn = document.querySelector(".scroll-to-top");
     if (scrollToTopBtn) {
         window.addEventListener("scroll", () => {
@@ -67,7 +63,6 @@ function setupUI() {
         scrollToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     }
 
-    // Formulário de Credenciamento
     const form = $("#form");
     if(form) {
         form.addEventListener('submit', async (e) => {
@@ -78,9 +73,7 @@ function setupUI() {
             
             try {
                 const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
+                    method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }
                 });
 
                 if (response.ok) {
@@ -107,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGallery();
 });
 
-// --- Funções de Renderização ---
+// --- Irmandade (Carrossel 3D Dinâmico e Escalável) ---
 async function renderRingCarousel() {
   const ringContainer = $("#ring-container");
   if (!ringContainer) return;
@@ -142,5 +135,53 @@ async function renderRingCarousel() {
   });
 }
 
-async function renderEvents() { /* ...código dos eventos... */ }
-async function renderGallery() { /* ...código da galeria... */ }
+// --- Eventos (Cards) - CONTEÚDO RESTAURADO ---
+async function renderEvents() {
+  const container = $("#eventos-container");
+  if (!container) return;
+  const data = await getJSON("/_content/events.json") || {};
+  const list = asArray(data.events) || [];
+  if (!list.length) { container.innerHTML = `<p class="text-center text-gray-500">Nenhum evento disponível.</p>`; return; }
+  container.innerHTML = "";
+  list.forEach((event) => {
+    const card = document.createElement('div');
+    card.className = "rounded shadow bg-gray-900 border border-gray-800 overflow-hidden";
+    const image = pick(event, ["image", "imagem"]);
+    card.innerHTML = `
+      <div class="overflow-hidden h-48 bg-gray-800 flex items-center justify-center">
+        <img src="${cloudAny(image, { w: 800 })}" alt="Evento" class="w-full h-full object-contain">
+      </div>
+      <div class="p-4">
+        <h3 class="text-lg font-bold">${pick(event, ["name", "titulo"], "Evento")}</h3>
+        <p class="text-sm text-gray-300">${[pick(event, ["date", "data"], ""), pick(event, ["place", "local"], "")].filter(Boolean).join(" — ")}</p>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// --- Galeria (Cards dos Álbuns) - CONTEÚDO RESTAURADO ---
+async function renderGallery() {
+  const container = $("#galeria-container");
+  if (!container) return;
+  const data = await getJSON("/_content/galeria.json") || {};
+  const albuns = asArray(data.albuns) || [];
+  if (!albuns.length) { container.innerHTML = `<p class="text-center text-gray-400">Nenhum álbum publicado ainda.</p>`; return; }
+  container.innerHTML = "";
+  albuns.forEach((album, index) => {
+    const card = document.createElement('a');
+    card.href = `album.html?id=${index}`;
+    card.className = "rounded-lg bg-gray-800 border border-gray-700 overflow-hidden shadow-lg block transform hover:scale-105 transition-transform duration-300";
+    const capa = pick(album, ["capa", "cover"]);
+    card.innerHTML = `
+      <div class="overflow-hidden h-56 bg-gray-900 flex items-center justify-center">
+        <img src="${cloudAny(capa, { w: 800 })}" alt="Capa" class="w-full h-full object-contain">
+      </div>
+      <div class="p-4">
+        <h3 class="text-lg font-bold truncate">${pick(album, ["titulo", "title"], "Álbum")}</h3>
+        <p class="text-sm text-gray-400">Clique para ver</p>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
