@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Movimento 2.3 - Unidos na Estrada</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -76,12 +76,27 @@
       </button>
     </div>
     <div id="mobileMenu" class="absolute top-full right-4 mt-2 w-56 bg-black border border-gray-700 rounded-lg p-4 space-y-3 text-white text-base hidden shadow-lg z-50">
-      </div>
+        <a href="#inicio" class="block hover:text-yellow-400">Início</a>
+        <a href="#sobre" class="block hover:text-yellow-400">O Movimento</a>
+        <a href="#galeria" class="block hover:text-yellow-400">Galeria</a>
+        <a href="#irmandade" class="block hover:text-yellow-400">Irmandade</a>
+        <a href="#eventos" class="block hover:text-yellow-400">Eventos</a>
+    </div>
   </header>
 
   <main>
     <section id="inicio" class="hero-section flex items-center justify-center pt-20">
-        </section>
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 metal-text">
+          <span class="block">JUNTOS NA ESTRADA</span>
+          <span class="block">FORTES NA LUTA</span>
+          <span class="block">UNIDOS NO MOVIMENTO 2.3</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-300">
+          A união dos grupos de 2 e 3 rodas do Brasil, valorizando todos igualmente com irmandade e respeito mútuo.
+        </p>
+      </div>
+    </section>
 
     <section id="sobre" class="py-20 bg-black">
         <div class="container mx-auto px-4">
@@ -110,13 +125,42 @@
     </section>
 
     <section id="galeria" class="py-20 bg-gray-900">
-        </section>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">GALERIA</h2>
+          <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+          <p class="text-gray-300 mt-4 max-w-2xl mx-auto">
+            Momentos marcantes da nossa irmandade sobre rodas.
+          </p>
+        </div>
+        <div id="galeria-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          </div>
+      </div>
+    </section>
 
     <section id="irmandade" class="py-20 bg-black">
-        </section>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">IRMANDADE</h2>
+          <p class="text-gray-400 max-w-2xl mx-auto">Conheça os grupos que fazem parte do Movimento 2.3.</p>
+        </div>
+        <div class="stage">
+          <div class="ring" id="ring-container">
+            </div>
+        </div>
+      </div>
+    </section>
 
     <section id="eventos" class="py-20 bg-gray-900">
-        </section>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 metal-text">EVENTOS</h2>
+          <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
+        </div>
+        <div id="eventos-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          </div>
+      </div>
+    </section>
   </main>
   
   <footer class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
