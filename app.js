@@ -7,16 +7,14 @@ const pick = (obj, keys, def = undefined) => {
 async function getJSON(url) {
   try {
     const r = await fetch(url, { cache: "no-store" }); if (!r.ok) throw new Error(r.statusText); return await r.json();
-  } catch (e) {
-    console.warn("Falha ao buscar JSON:", url, e); return null;
-  }
+  } catch (e) { console.warn("Falha ao buscar JSON:", url, e); return null; }
 }
 
 // ===================== Cloudinary =====================
 const CLOUDINARY_CLOUD = "dae2wp1hy";
 function cloudAny(url, { w = 800 } = {}) {
-  if (!url) return '';
-  const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`; // c_limit enquadra sem cortar
+  if (!url || typeof url !== 'string') return '';
+  const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`;
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
     const parts = url.split("/upload/");
     if (parts.length > 1) {
@@ -48,7 +46,6 @@ async function renderCarousel() {
     const emblem = pick(group, ["emblem", "logo"]);
     const slide = document.createElement('div');
     slide.className = "swiper-slide p-2 flex items-center justify-center";
-    // A imagem agora usa object-contain para não cortar
     slide.innerHTML = `<img src="${cloudAny(emblem, { w: 400 })}" alt="${name}" class="mx-auto h-32 md:h-40 object-contain" title="${name}">`;
     container.appendChild(slide);
   });
@@ -71,7 +68,6 @@ async function renderEvents() {
     const card = document.createElement('div');
     card.className = "rounded shadow bg-gray-900 border border-gray-800 overflow-hidden";
     const image = pick(event, ["image", "imagem"]);
-    // O container da imagem tem um fundo e a imagem usa object-contain para não cortar
     card.innerHTML = `
       <div class="overflow-hidden h-48 bg-gray-800 flex items-center justify-center">
         <img src="${cloudAny(image, { w: 800 })}" alt="Evento" class="w-full h-full object-contain">
@@ -94,11 +90,10 @@ async function renderGallery() {
   if (!albuns.length) { container.innerHTML = `<p class="text-center text-gray-400">Nenhum álbum publicado ainda.</p>`; return; }
   container.innerHTML = "";
   albuns.forEach((album, index) => {
-    const card = document.createElement('a'); // Agora é um link
-    card.href = `album.html?id=${index}`; // Aponta para a página do álbum
+    const card = document.createElement('a');
+    card.href = `album.html?id=${index}`;
     card.className = "rounded-lg bg-gray-800 border border-gray-700 overflow-hidden shadow-lg block transform hover:scale-105 transition-transform duration-300";
     const capa = pick(album, ["capa", "cover"]);
-    // Container da capa com fundo e object-contain para não cortar
     card.innerHTML = `
       <div class="overflow-hidden h-56 bg-gray-900 flex items-center justify-center">
         <img src="${cloudAny(capa, { w: 800 })}" alt="Capa" class="w-full h-full object-contain">

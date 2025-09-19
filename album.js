@@ -1,38 +1,29 @@
-// ===================== Funções Utilitárias (compartilhadas) =====================
+// ===================== Funções Utilitárias =====================
 const $ = (sel) => document.querySelector(sel);
-
 async function getJSON(url) {
   try {
-    const r = await fetch(url, { cache: "no-store" });
-    if (!r.ok) throw new Error(r.statusText);
-    return await r.json();
-  } catch (e) {
-    console.warn("Falha ao buscar JSON:", url, e);
-    return null;
-  }
+    const r = await fetch(url, { cache: "no-store" }); if (!r.ok) throw new Error(r.statusText); return await r.json();
+  } catch (e) { console.warn("Falha ao buscar JSON:", url, e); return null; }
 }
-
 const asArray = (x) => (Array.isArray(x) ? x : x ? [x] : []);
 
-// ===================== Cloudinary =====================
-const CLOUDINARY_CLOUD = "dae2wp1hy"; // Cloud Name do Movimento 2.3
-
+// ===================== Cloudinary (adaptado para o Movimento 2.3) =====================
+const CLOUDINARY_CLOUD = "dae2wp1hy";
 function cloudAny(url, { w = 800 } = {}) {
-  if (!url || typeof url !== 'string') return ''; // Proteção contra valores inválidos
+  if (!url || typeof url !== 'string') return '';
+  const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`;
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
     const parts = url.split("/upload/");
     if (parts.length > 1) {
       if (/\b(c_|w_|h_)/.test(parts[1])) return url;
-      const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`;
       return url.replace("/upload/", `/upload/${t}/`);
     }
   }
   const abs = new URL(url, window.location.origin).href;
-  const t = `f_auto,q_auto,dpr_auto,c_limit,w_${w}`;
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/${t}/${encodeURIComponent(abs)}`;
 }
 
-// ===================== Lógica da Página do Álbum =====================
+// ===================== Lógica da Página do Álbum (baseada no HCP) =====================
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const albumId = parseInt(params.get('id'));
@@ -59,17 +50,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   descricaoEl.textContent = album.descricao || "";
   gridEl.innerHTML = "";
 
-  // Lógica para ler o campo 'fotos' que pode ser uma string ou um array
-  let fotosArray = [];
-  if (album.fotos) {
-    fotosArray = typeof album.fotos === 'string' ? album.fotos.split(',') : asArray(album.fotos);
-  }
-  
-  const todasAsMidias = [
-    ...fotosArray.map(src => ({ tipo: 'imagem', src: src.trim() })),
-    ...asArray(album.videos).map(item => ({ tipo: 'video', src: item ? item.url : '' }))
-  ].filter(item => item && item.src); // Garante que apenas itens válidos continuem
+  const fotosArray = asArray(album.fotos_multi).map(item => {
+    const src = (typeof item === 'object' && item.imagem) ? item.imagem : item;
+    if (typeof src === 'string' && src) return { tipo: 'imagem', src };
+    return null;
+  }).filter(Boolean); // Remove itens nulos
 
+  const videosArray = asArray(album.videos).map(item => {
+    if (item && item.url) return { tipo: 'video', src: item.url };
+    return null;
+  }).filter(Boolean);
+
+  const todasAsMidias = [...fotosArray, ...videosArray];
+  
   if (todasAsMidias.length === 0) {
     gridEl.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
     return;

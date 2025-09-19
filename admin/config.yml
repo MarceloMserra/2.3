@@ -1,24 +1,18 @@
-# Arquivo de configuração do Decap CMS
-
 backend:
   name: git-gateway
   branch: main
 
-# Configuração GLOBAL do Cloudinary (para todas as seções)
+# Configuração da biblioteca de mídia (igual ao HCP)
 media_library:
   name: cloudinary
-  output_filename_only: false
   config:
-    cloud_name: "dae2wp1hy"
-    api_key: "161675469855318"
+    cloud_name: "dae2wp1hy" # Cloud Name do Movimento 2.3
+    api_key: "161675469855318" # Sua API Key
     default_transformations:
       - - fetch_format: auto
           quality: auto
 
-media_folder: "img/uploads"
-public_folder: "/img/uploads"
 publish_mode: simple
-
 collections:
   - name: "groups"
     label: "Grupos da Irmandade"
@@ -26,14 +20,13 @@ collections:
       - name: "groups_file"
         label: "Grupos"
         file: "_content/groups.json"
-        format: "json"
         fields:
           - label: "Grupos"
             name: "groups"
             widget: "list"
             fields:
-              - { label: "Nome",   name: "name",   widget: "string" }
-              - { label: "Emblema (URL ou upload)", name: "emblem", widget: "image", choose_url: true }
+              - { label: "Nome", name: "name", widget: "string" }
+              - { label: "Emblema", name: "emblem", widget: "image" }
 
   - name: "events"
     label: "Eventos"
@@ -41,16 +34,15 @@ collections:
       - name: "events_file"
         label: "Eventos"
         file: "_content/events.json"
-        format: "json"
         fields:
           - label: "Eventos"
             name: "events"
             widget: "list"
             fields:
               - { label: "Título", name: "name", widget: "string" }
-              - { label: "Data",   name: "date", widget: "string", required: false }
-              - { label: "Local",  name: "place", widget: "string", required: false }
-              - { label: "Imagem (URL ou upload)", name: "image", widget: "image", choose_url: true }
+              - { label: "Data", name: "date", widget: "datetime", required: false }
+              - { label: "Local", name: "place", widget: "string", required: false }
+              - { label: "Imagem", name: "image", widget: "image" }
               - { label: "Descrição", name: "description", widget: "text", required: false }
 
   - name: "galeria"
@@ -59,7 +51,6 @@ collections:
       - name: "galeria_file"
         label: "Álbuns da Galeria"
         file: "_content/galeria.json"
-        format: "json"
         fields:
           - label: "Álbuns"
             name: "albuns"
@@ -69,14 +60,19 @@ collections:
               - { label: "Título do Álbum", name: "titulo", widget: "string" }
               - { label: "Descrição (opcional)", name: "descricao", widget: "text", required: false }
               - { label: "Imagem de Capa", name: "capa", widget: "image" }
-              # ===== ESTA É A VERSÃO MAIS ESTÁVEL =====
-              - label: "Fotos do Álbum"
-                name: "fotos"
-                widget: "image"
-                media_library:
-                  config:
-                    multiple: true
-              # ==========================================
+              # Estrutura de FOTOS MÚLTIPLAS - exatamente como no HCP
+              - label: "Fotos (múltiplas)"
+                name: "fotos_multi"
+                widget: "list"
+                summary: "{{fields.imagem}}" # Mostra a URL da imagem no resumo
+                field:
+                  label: "Imagem"
+                  name: "imagem"
+                  widget: "image"
+                  media_library:
+                    config:
+                      multiple: true
+              # Estrutura de VÍDEOS
               - label: "Vídeos (links do YouTube, etc)"
                 name: "videos"
                 widget: "list"
