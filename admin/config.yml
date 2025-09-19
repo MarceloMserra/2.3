@@ -22,40 +22,22 @@ public_folder: "/img/uploads"   # como é servido no site
 # (Opcional) Sem workflow de revisão
 publish_mode: simple
 
-# Arquivo: config.yml
-
-# ... (o resto do arquivo fica igual) ...
-
 collections:
-  # ... (a coleção "groups" e "events" ficam iguais) ...
-
-  # GARANTA QUE A SEÇÃO DA GALERIA SEJA ESTA:
-  - name: "galeria"
-    label: "Galeria de Álbuns"
+  # IRMANDADE — arquivo único JSON com lista
+  - name: "groups"
+    label: "Grupos da Irmandade"
     files:
-      - name: "galeria_file"
-        label: "Álbuns da Galeria"
-        file: "_content/galeria.json"
+      - name: "groups_file"
+        label: "Grupos"
+        file: "_content/groups.json"
         format: "json"
         fields:
-          # A chave principal agora é "albuns"
-          - label: "Álbuns"
-            name: "albuns"
+          - label: "Grupos"
+            name: "groups"
             widget: "list"
             fields:
-              - { label: "Título do Álbum", name: "titulo", widget: "string" }
-              - { label: "Imagem de Capa", name: "capa", widget: "image" }
-              - label: "Mídias (fotos e vídeos)"
-                name: "midias"
-                widget: "list"
-                fields:
-                  - label: "Tipo"
-                    name: "tipo"
-                    widget: "select"
-                    options: ["imagem", "video"]
-                    default: "imagem"
-                  - { label: "Imagem (se for imagem)", name: "src", widget: "image", required: false }
-                  - { label: "URL do Vídeo (se for vídeo, ex: YouTube, Cloudinary)", name: "url", widget: "string", required: false }
+              - { label: "Nome",   name: "name",   widget: "string" }
+              - { label: "Emblema (URL ou upload)", name: "emblem", widget: "image", choose_url: true }
 
   # EVENTOS — arquivo único JSON com lista
   - name: "events"
