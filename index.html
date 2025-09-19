@@ -41,14 +41,18 @@
       .swiper-button-next, .swiper-button-prev {
         color: #FFDD00 !important;
       }
-      .swiper-slide {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
       .scroll-to-top.active {
           display: flex !important;
       }
+
+      /* ===== CÓDIGO NOVO ADICIONADO AQUI ===== */
+      .irmandade-carousel .swiper-slide {
+        min-height: 200px; /* Força uma altura mínima para o slide */
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
+      /* ========================================= */
     </style>
   </head>
   <body>
@@ -126,7 +130,7 @@
           </p>
         </div>
         <div class="swiper irmandade-carousel">
-          <div id="irmandade-container" class="swiper-wrapper flex items-center">
+          <div id="irmandade-container" class="swiper-wrapper">
             </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
