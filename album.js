@@ -9,12 +9,11 @@ async function getJSON(url) {
   } catch { return null; }
 }
 
-// ========= Cloudinary (fetch) - VERSÃO CORRIGIDA =========
+// ========= Cloudinary (fetch) =========
 const CLOUDINARY_CLOUD = "dae2wp1hy";
 
 function cloudAny(url, { w = 1600 } = {}) {
   if (!url || typeof url !== 'string') return '';
-  // AJUSTE FINAL: q_auto:best para melhor qualidade e e_brightness:20 para clarear
   const t = `f_auto,q_auto:best,e_brightness:20,dpr_auto,c_limit,w_${w}`;
   
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
@@ -31,6 +30,7 @@ function cloudAny(url, { w = 1600 } = {}) {
 // ========= lightbox state & controls =========
 let LB_ITEMS = [];
 let LB_INDEX = 0;
+let isLightboxOpen = false;
 
 function ensureLightboxControls() {
   const lb = $("#lightbox");
@@ -85,14 +85,19 @@ function openLightboxIndex(i) {
   img.src = cloudAny(item.src, { w: 2200 });
   img.alt = item.alt || "";
 
-  lb.classList.remove("hidden");
+  // MUDANÇA: Controla o display explicitamente
+  lb.style.display = "flex";
+  isLightboxOpen = true;
   document.body.style.overflow = "hidden";
 }
 
 function closeLightbox() {
   const lb = $("#lightbox");
   if (!lb) return;
-  lb.classList.add("hidden");
+
+  // MUDANÇA: Controla o display explicitamente
+  lb.style.display = "none";
+  isLightboxOpen = false;
   document.body.style.overflow = "auto";
 }
 
@@ -141,7 +146,7 @@ function closeLightbox() {
   const lb = $("#lightbox");
   lb.addEventListener("click", (e) => { if (e.target.dataset.close === "lightbox" || e.target === lb) closeLightbox(); });
   document.addEventListener("keydown", (e) => {
-    if (lb.classList.contains("hidden")) return;
+    if (!isLightboxOpen) return;
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") openLightboxIndex(LB_INDEX + 1);
     if (e.key === "ArrowLeft") openLightboxIndex(LB_INDEX - 1);

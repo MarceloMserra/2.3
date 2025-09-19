@@ -25,7 +25,8 @@
       inset: 0;
       background-color: rgba(0, 0, 0, 0.9);
       z-index: 1000;
-      display: flex;
+      /* MUDANÇA PRINCIPAL: COMEÇA ESCONDIDO */
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -78,7 +79,7 @@
     </div>
   </footer>
 
-  <div id="lightbox" class="hidden" data-close="lightbox">
+  <div id="lightbox" data-close="lightbox">
     <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl">
     </div>
 
