@@ -2,12 +2,11 @@ backend:
   name: git-gateway
   branch: main
 
-# Configuração da biblioteca de mídia (igual ao HCP)
 media_library:
   name: cloudinary
   config:
-    cloud_name: "dae2wp1hy" # Cloud Name do Movimento 2.3
-    api_key: "161675469855318" # Sua API Key
+    cloud_name: "dae2wp1hy"
+    api_key: "161675469855318"
     default_transformations:
       - - fetch_format: auto
           quality: auto
@@ -60,11 +59,11 @@ collections:
               - { label: "Título do Álbum", name: "titulo", widget: "string" }
               - { label: "Descrição (opcional)", name: "descricao", widget: "text", required: false }
               - { label: "Imagem de Capa", name: "capa", widget: "image" }
-              # Estrutura de FOTOS MÚLTIPLAS - exatamente como no HCP
+              # Campo para FOTOS MÚLTIPLAS - igual ao HCP
               - label: "Fotos (múltiplas)"
                 name: "fotos_multi"
                 widget: "list"
-                summary: "{{fields.imagem}}" # Mostra a URL da imagem no resumo
+                summary: "{{fields.imagem}}"
                 field:
                   label: "Imagem"
                   name: "imagem"
@@ -72,7 +71,7 @@ collections:
                   media_library:
                     config:
                       multiple: true
-              # Estrutura de VÍDEOS
+              # Campo para VÍDEOS - igual ao HCP
               - label: "Vídeos (links do YouTube, etc)"
                 name: "videos"
                 widget: "list"

@@ -8,47 +8,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
-    body {
-      font-family: 'Oswald', sans-serif;
-      background-color: #000;
-      color: #fff;
-    }
+    body { font-family: 'Oswald', sans-serif; background-color: #000; color: #fff; }
     .metal-text {
       background: linear-gradient(135deg, #e2e2e2 0%, #b1b1b1 50%, #e2e2e2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     }
-    /* Estilos para o Lightbox e seus controles */
-    #lightbox {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      /* MUDANÇA PRINCIPAL: COMEÇA ESCONDIDO */
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      backdrop-filter: blur(8px);
-    }
     .lightbox-btn {
-      position: fixed;
-      pointer-events: auto;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border-radius: 9999px;
-      width: 2.75rem; /* 44px */
-      height: 2.75rem; /* 44px */
-      display: grid;
-      place-items: center;
-      font-size: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: background-color 0.2s;
+      position: fixed; pointer-events: auto; background-color: rgba(0, 0, 0, 0.5);
+      color: white; border-radius: 9999px; width: 2.75rem; height: 2.75rem;
+      display: grid; place-items: center; font-size: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2); transition: background-color 0.2s;
     }
-    .lightbox-btn:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
+    .lightbox-btn:hover { background-color: rgba(0, 0, 0, 0.8); }
   </style>
 </head>
 <body class="bg-black">
@@ -67,9 +39,7 @@
     <div class="max-w-6xl mx-auto">
       <h1 id="album-title" class="text-4xl md:text-6xl font-bold mb-2 text-center metal-text">Carregando Álbum...</h1>
       <p id="album-desc" class="text-lg text-gray-400 mb-10 text-center"></p>
-      
-      <div id="album-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        </div>
+      <div id="album-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
     </div>
   </main>
 
@@ -79,9 +49,14 @@
     </div>
   </footer>
 
-  <div id="lightbox" data-close="lightbox">
-    <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl">
-    </div>
+  <div id="lightbox" class="hidden fixed inset-0 z-[9999]">
+    <div class="absolute inset-0 bg-black/90 cursor-pointer" data-close="lightbox"></div>
+    <div id="lightbox-container" class="relative z-10 flex items-center justify-center w-full h-full p-4">
+      </div>
+    <button id="lb-prev" class="lightbox-btn left-4 top-1/2 -translate-y-1/2">‹</button>
+    <button id="lb-next" class="lightbox-btn right-4 top-1/2 -translate-y-1/2">›</button>
+    <button id="lb-close" class="lightbox-btn top-4 right-4">✕</button>
+  </div>
 
   <script src="album.js"></script>
 </body>
