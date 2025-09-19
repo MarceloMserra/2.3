@@ -1,9 +1,11 @@
 # Arquivo de configuração do Decap CMS
 
 backend:
-  name: git-gateway
-  branch: main
+  name: git-gateway        # usando o Git Gateway do Netlify
+  branch: main             # branch padrão do site
+  # dica: com git-gateway não precisa de "repo:" aqui
 
+# Biblioteca de mídia: Cloudinary (apenas API KEY, sem secret)
 media_library:
   name: cloudinary
   output_filename_only: false
@@ -14,11 +16,14 @@ media_library:
       - - fetch_format: auto
           quality: auto
 
-media_folder: "img/uploads"
-public_folder: "/img/uploads"
+media_folder: "img/uploads"     # onde o Decap salva no repositório
+public_folder: "/img/uploads"   # como é servido no site
+
+# (Opcional) Sem workflow de revisão
 publish_mode: simple
 
 collections:
+  # IRMANDADE — arquivo único JSON com lista
   - name: "groups"
     label: "Grupos da Irmandade"
     files:
@@ -34,6 +39,7 @@ collections:
               - { label: "Nome",   name: "name",   widget: "string" }
               - { label: "Emblema (URL ou upload)", name: "emblem", widget: "image", choose_url: true }
 
+  # EVENTOS — arquivo único JSON com lista
   - name: "events"
     label: "Eventos"
     files:
@@ -52,6 +58,7 @@ collections:
               - { label: "Imagem (URL ou upload)", name: "image", widget: "image", choose_url: true }
               - { label: "Descrição", name: "description", widget: "text", required: false }
 
+  # GALERIA — agora com álbuns
   - name: "galeria"
     label: "Galeria de Álbuns"
     files:
@@ -60,28 +67,21 @@ collections:
         file: "_content/galeria.json"
         format: "json"
         fields:
+          # A chave principal agora é "albuns"
           - label: "Álbuns"
             name: "albuns"
             widget: "list"
-            summary: "{{fields.titulo}}"
             fields:
               - { label: "Título do Álbum", name: "titulo", widget: "string" }
-              - { label: "Descrição (opcional)", name: "descricao", widget: "text", required: false }
               - { label: "Imagem de Capa", name: "capa", widget: "image" }
-              - label: "Fotos (selecione várias de uma vez)"
-                name: "fotos_multi"
+              - label: "Mídias (fotos e vídeos)"
+                name: "midias"
                 widget: "list"
-                summary: "{{fields.imagem}}"
-                field:
-                  label: "Imagem"
-                  name: "imagem"
-                  widget: "image"
-                  media_library:
-                    config:
-                      multiple: true
-              - label: "Vídeos (links do YouTube, etc)"
-                name: "videos"
-                widget: "list"
-                collapsed: true
                 fields:
-                  - { label: "URL do Vídeo", name: "url", widget: "string" }
+                  - label: "Tipo"
+                    name: "tipo"
+                    widget: "select"
+                    options: ["imagem", "video"]
+                    default: "imagem"
+                  - { label: "Imagem (se for imagem)", name: "src", widget: "image", required: false }
+                  - { label: "URL do Vídeo (se for vídeo, ex: YouTube, Cloudinary)", name: "url", widget: "string", required: false }
