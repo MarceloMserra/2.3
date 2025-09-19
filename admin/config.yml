@@ -1,32 +1,29 @@
 # Arquivo de configuração do Decap CMS
 
 backend:
-  name: git-gateway
-  repo: MarceloMserra/2.3
-  branch: main
+  name: git-gateway        # usando o Git Gateway do Netlify
+  branch: main             # branch padrão do site
+  # dica: com git-gateway não precisa de "repo:" aqui
 
-# NOVA CONFIGURAÇÃO DE MÍDIA: CLOUDINARY
+# Biblioteca de mídia: Cloudinary (apenas API KEY, sem secret)
 media_library:
   name: cloudinary
   output_filename_only: false
   config:
-    cloud_name: "dae2wp1hy"            # exatamente como no painel (sem espaços)
-    api_key: "161675469855318"         # SUA API KEY (sem o secret)
+    cloud_name: "dae2wp1hy"
+    api_key: "161675469855318"
     default_transformations:
       - - fetch_format: auto
           quality: auto
-backend:
-  name: git-gateway
-  branch: main
 
-media_folder: "img/uploads"
-public_folder: "/img/uploads"
+media_folder: "img/uploads"     # onde o Decap salva no repositório
+public_folder: "/img/uploads"   # como é servido no site
 
-# (Opcional) Deixe como 'simple' se não usa o fluxo de revisão
+# (Opcional) Sem workflow de revisão
 publish_mode: simple
 
 collections:
-  # IRMANDADE (um JSON com uma lista de grupos)
+  # IRMANDADE — arquivo único JSON com lista
   - name: "groups"
     label: "Grupos da Irmandade"
     files:
@@ -34,17 +31,15 @@ collections:
         label: "Grupos"
         file: "_content/groups.json"
         format: "json"
-        create: true
-        delete: true  
         fields:
           - label: "Grupos"
             name: "groups"
             widget: "list"
             fields:
-              - { label: "Nome", name: "name", widget: "string" }
+              - { label: "Nome",   name: "name",   widget: "string" }
               - { label: "Emblema (URL ou upload)", name: "emblem", widget: "image", choose_url: true }
 
-  # EVENTOS (um JSON com uma lista de eventos)
+  # EVENTOS — arquivo único JSON com lista
   - name: "events"
     label: "Eventos"
     files:
@@ -52,20 +47,18 @@ collections:
         label: "Eventos"
         file: "_content/events.json"
         format: "json"
-        create: true
-        delete: true  
         fields:
           - label: "Eventos"
             name: "events"
             widget: "list"
             fields:
               - { label: "Título", name: "name", widget: "string" }
-              - { label: "Data", name: "date", widget: "string", required: false }
-              - { label: "Local", name: "place", widget: "string", required: false }
+              - { label: "Data",   name: "date", widget: "string", required: false }
+              - { label: "Local",  name: "place", widget: "string", required: false }
               - { label: "Imagem (URL ou upload)", name: "image", widget: "image", choose_url: true }
               - { label: "Descrição", name: "description", widget: "text", required: false }
 
-  # GALERIA (um JSON simples com lista de fotos)
+  # GALERIA — arquivo único JSON com lista
   - name: "galeria"
     label: "Galeria"
     files:
@@ -73,8 +66,6 @@ collections:
         label: "Galeria (fotos)"
         file: "_content/galeria.json"
         format: "json"
-        create: true
-        delete: true  
         fields:
           - label: "Fotos"
             name: "fotos"
