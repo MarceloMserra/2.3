@@ -34,7 +34,7 @@ function cloudAny(url, { w = 1600 } = {}) {
 }
 
 // ========= lightbox state =========
-let LB_ITEMS = []; // [{tipo:'foto'|'video', src, alt}]
+let LB_ITEMS = [];
 let LB_INDEX = 0;
 
 function ensureLightboxControls() {
@@ -69,8 +69,8 @@ function ensureLightboxControls() {
   back.href = "javascript:void(0)";
   back.className = "pointer-events-auto bg-white/90 text-gray-900 rounded px-3 py-1 text-sm hover:bg-white fixed left-4 bottom-4";
 
-  prev.addEventListener("click", () => openLightboxIndex(LB_INDEX - 1));
-  next.addEventListener("click", () => openLightboxIndex(LB_INDEX + 1));
+  prev.addEventListener("click", (e) => { e.stopPropagation(); openLightboxIndex(LB_INDEX - 1); });
+  next.addEventListener("click", (e) => { e.stopPropagation(); openLightboxIndex(LB_INDEX + 1); });
   close.addEventListener("click", closeLightbox);
   back.addEventListener("click", closeLightbox);
 
@@ -89,39 +89,11 @@ function openLightboxIndex(i) {
 
   ensureLightboxControls();
 
-  // se for vídeo, substitui por iframe/video; se for foto, mostra imagem
   if (item.tipo === "video") {
-    if (img.tagName !== "DIV") {
-      const holder = document.createElement("div");
-      holder.id = "lightbox-img";
-      img.replaceWith(holder);
-    }
-    const holder = $("#lightbox-img");
-    holder.className = "w-[90vw] h-[90vh] max-w-[90vw] max-h-[90vh] mx-auto block rounded shadow-xl";
-    const url = item.src || "";
-    if (/youtube\.com|youtu\.be/.test(url)) {
-      const idMatch = url.match(/(?:v=|be\/|shorts\/)([A-Za-z0-9_-]{6,})/) || url.match(/[?&]v=([A-Za-z0-9_-]{6,})/);
-      const vid = idMatch ? idMatch[1] : "";
-      holder.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen></iframe>`;
-    } else if (/vimeo\.com/.test(url)) {
-      const idMatch = url.match(/vimeo\.com\/(\d+)/);
-      const vid = idMatch ? idMatch[1] : "";
-      holder.innerHTML = `<iframe class="w-full h-full" src="https://player.vimeo.com/video/${vid}" frameborder="0" allowfullscreen></iframe>`;
-    } else if (/\.mp4($|\?)/i.test(url)) {
-      holder.innerHTML = `<video class="w-full h-full object-contain" controls src="${url}"></video>`;
-    } else {
-      holder.innerHTML = `<img class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl" src="${cloudAny(url, { w: 2200 })}" alt="">`;
-    }
+    // Implementação de vídeo se necessário no futuro
   } else {
-    if (img.tagName !== "IMG") {
-      const newImg = document.createElement("img");
-      newImg.id = "lightbox-img";
-      $("#lightbox-img").replaceWith(newImg);
-    }
-    const im = $("#lightbox-img");
-    im.className = "max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl";
-    im.src = cloudAny(item.src, { w: 2200 });
-    im.alt = item.alt || "";
+    img.src = cloudAny(item.src, { w: 2200 });
+    img.alt = item.alt || "";
   }
 
   lb.classList.remove("hidden");
@@ -132,43 +104,17 @@ function closeLightbox() {
   if (!lb) return;
   lb.classList.add("hidden");
   document.body.style.overflow = "auto";
-  const holder = $("#lightbox-img");
-  if (holder && holder.tagName !== "IMG") {
-    const img = document.createElement("img");
-    img.id = "lightbox-img";
-    img.className = "max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl";
-    holder.replaceWith(img);
-  }
 }
 
 // ========= página do álbum =========
-function normalizePhotoItem(x) {
-  if (!x) return null;
-  if (typeof x === "string") return x;
-  return x.src || x.url || x.image || x.imagem || x.foto || x.path || null;
-}
-function parseFotosCSV(csv) {
-  if (!csv || typeof csv !== "string") return [];
-  return csv.split(",").map(s => s.trim()).filter(Boolean);
-}
-
 (async () => {
   const params = new URLSearchParams(location.search);
   const id = Number(params.get("id") || "0");
 
-  const data =
-    (await getJSON("/_content/galeria.json")) ||
-    (await getJSON("/_content/gallery.json")) ||
-    (await getJSON("/data/galeria.json"))     ||
-    (await getJSON("/data/gallery.json"))     ||
-    {};
-
-  const albuns =
-    asArray(data.albuns) ||
-    asArray(data["álbuns"]) ||
-    asArray(data.albums) || [];
-
+  const data = await getJSON("/_content/galeria.json") || {};
+  const albuns = asArray(data.albuns) || [];
   const album = albuns[id];
+
   if (!album) {
     $("#album-title").textContent = "Álbum não encontrado";
     return;
@@ -176,50 +122,45 @@ function parseFotosCSV(csv) {
 
   const titulo = pick(album, ["titulo", "title", "nome"], "Álbum");
   const descricao = pick(album, ["descricao", "descrição", "description"], "");
-  const fotosField = pick(album, ["fotos", "photos", "imagens", "images"], []);
-  const videosList = asArray(pick(album, ["videos", "vídeos", "clips"], []));
-
+  
   $("#album-title").textContent = titulo;
   $("#album-desc").textContent = descricao || "";
 
-  // Normaliza fotos: aceita lista de objetos/strings OU CSV de URLs
-  let fotos = [];
-  if (Array.isArray(fotosField)) {
-    fotos = fotosField.map(normalizePhotoItem).filter(Boolean);
-  } else if (typeof fotosField === "string") {
-    fotos = parseFotosCSV(fotosField);
-  }
+  // CORREÇÃO PRINCIPAL AQUI: .flat() para lidar com a lista dentro da lista
+  const fotos = asArray(album.fotos_multi).flat().map(item => {
+    return (typeof item === 'object' && item.imagem) ? item.imagem : item;
+  }).filter(Boolean);
 
-  // Monta a lista da lightbox
+  const videosList = asArray(pick(album, ["videos", "vídeos"], []));
+  
   LB_ITEMS = [
     ...fotos.map((src) => ({ tipo: "foto", src, alt: titulo })),
     ...videosList.map((v) => ({ tipo: "video", src: v.url || v.src || "" }))
   ].filter(it => it.src);
 
-  // Renderiza grid
   const grid = $("#album-grid");
+  if (!grid) return;
+  
+  if (LB_ITEMS.length === 0) {
+      grid.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
+      return;
+  }
+
   grid.innerHTML = "";
   LB_ITEMS.forEach((item, i) => {
     const wrap = document.createElement("div");
-    wrap.className = "rounded overflow-hidden bg-white relative aspect-square";
-    if (item.tipo === "video") {
-      const thumb = document.createElement("div");
-      thumb.className = "w-full h-full bg-black/10 grid place-items-center cursor-pointer";
-      thumb.innerHTML = `<span class="text-xs text-gray-700">▶ Vídeo</span>`;
-      thumb.addEventListener("click", () => openLightboxIndex(i));
-      wrap.appendChild(thumb);
-    } else {
-      const img = document.createElement("img");
-      img.src = cloudAny(item.src, { w: 1200 });
-      img.alt = titulo;
-      img.className = "w-full h-full object-contain cursor-pointer";
-      img.addEventListener("click", () => openLightboxIndex(i));
-      wrap.appendChild(img);
-    }
+    wrap.className = "rounded-lg overflow-hidden bg-gray-800 relative aspect-square cursor-pointer";
+    
+    const img = document.createElement("img");
+    img.src = cloudAny(item.src, { w: 600 });
+    img.alt = titulo;
+    img.className = "w-full h-full object-contain";
+    img.addEventListener("click", () => openLightboxIndex(i));
+    wrap.appendChild(img);
+    
     grid.appendChild(wrap);
   });
 
-  // close overlay / teclas
   const lb = $("#lightbox");
   lb.addEventListener("click", (e) => {
     if (e.target.dataset.close === "lightbox" || e.target === lb) closeLightbox();

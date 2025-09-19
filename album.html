@@ -19,6 +19,17 @@
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     }
+    /* Estilo para o Lightbox que será criado pelo JS */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
   </style>
 </head>
 <body class="bg-black">
@@ -35,8 +46,8 @@
 
   <main class="container mx-auto px-4 py-12">
     <div class="max-w-6xl mx-auto">
-      <h1 id="album-titulo" class="text-4xl md:text-6xl font-bold mb-2 text-center metal-text">Carregando Álbum...</h1>
-      <p id="album-descricao" class="text-lg text-gray-400 mb-10 text-center"></p>
+      <h1 id="album-title" class="text-4xl md:text-6xl font-bold mb-2 text-center metal-text">Carregando Álbum...</h1>
+      <p id="album-desc" class="text-lg text-gray-400 mb-10 text-center"></p>
       
       <div id="album-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         </div>
@@ -49,8 +60,9 @@
     </div>
   </footer>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+  <div id="lightbox" class="hidden" data-close="lightbox">
+    <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain mx-auto block rounded shadow-xl">
+  </div>
 
   <script src="album.js"></script>
 </body>
