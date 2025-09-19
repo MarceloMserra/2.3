@@ -33,7 +33,7 @@ function setupUI() {
     if (!menuToggle || !mobileMenu) return;
 
     const menuIcon = menuToggle.querySelector('i');
-
+    
     const closeMenu = () => {
         mobileMenu.classList.add('hidden');
         menuIcon.classList.remove('fa-times');
@@ -42,17 +42,12 @@ function setupUI() {
 
     menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isHidden = mobileMenu.classList.contains('hidden');
-        if (isHidden) {
-            mobileMenu.classList.remove('hidden');
-            menuIcon.classList.remove('fa-bars');
-            menuIcon.classList.add('fa-times');
-        } else {
-            closeMenu();
-        }
+        mobileMenu.classList.toggle('hidden');
+        menuIcon.classList.toggle('fa-bars');
+        menuIcon.classList.toggle('fa-times');
     });
 
-    mobileMenu.addEventListener('click', closeMenu);
+    mobileMenu.addEventListener('click', closeMenu); // Clicar nos links do menu também fecha
 
     const scrollToTopBtn = document.querySelector(".scroll-to-top");
     if (scrollToTopBtn) {
@@ -61,34 +56,6 @@ function setupUI() {
             else scrollToTopBtn.classList.remove("active");
         }, { passive: true });
         scrollToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-    }
-
-    const form = $("#form");
-    if(form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitButton = form.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Enviando...';
-            
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }
-                });
-
-                if (response.ok) {
-                    window.location.href = '/Obrigado.html';
-                } else {
-                    alert('Ocorreu um erro ao enviar. Tente novamente.');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'ENVIAR CREDENCIAMENTO';
-                }
-            } catch (error) {
-                alert('Erro de conexão. Verifique sua internet.');
-                submitButton.disabled = false;
-                submitButton.textContent = 'ENVIAR CREDENCIAMENTO';
-            }
-        });
     }
 }
 
@@ -100,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGallery();
 });
 
-// --- Irmandade (Carrossel 3D Dinâmico e Escalável) ---
+// --- Funções de Renderização ---
 async function renderRingCarousel() {
   const ringContainer = $("#ring-container");
   if (!ringContainer) return;
@@ -135,7 +102,6 @@ async function renderRingCarousel() {
   });
 }
 
-// --- Eventos (Cards) - CONTEÚDO RESTAURADO ---
 async function renderEvents() {
   const container = $("#eventos-container");
   if (!container) return;
@@ -160,7 +126,6 @@ async function renderEvents() {
   });
 }
 
-// --- Galeria (Cards dos Álbuns) - CONTEÚDO RESTAURADO ---
 async function renderGallery() {
   const container = $("#galeria-container");
   if (!container) return;
