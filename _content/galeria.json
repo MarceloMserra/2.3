@@ -16,6 +16,22 @@
           "src": "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758287267/fotocapa_xipiuj.png"
         }
       ]
+    },
+    {
+      "fotos_multi": [
+        [
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758293954/fotomoto_ffzwvj.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758293953/motorock1_fycgyv.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758293953/fotocapa_frbpom.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758287268/fotomoto_ihla0l.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758287267/ChatGPT_Image_24_de_jun._de_2025_11_47_15_sqakcj.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758287267/fotocapa_xipiuj.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758217684/main-sample.png",
+          "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758217684/cld-sample-4.jpg"
+        ]
+      ],
+      "capa": "https://res.cloudinary.com/dae2wp1hy/image/upload/f_auto,q_auto/v1758293954/fotomoto_ffzwvj.png",
+      "titulo": "teste03"
     }
   ]
 }
