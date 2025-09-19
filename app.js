@@ -10,11 +10,10 @@ async function getJSON(url) {
   } catch (e) { console.warn("Falha ao buscar JSON:", url, e); return null; }
 }
 
-// ===================== Cloudinary - VERSÃO CORRIGIDA =====================
+// ===================== Cloudinary =====================
 const CLOUDINARY_CLOUD = "dae2wp1hy";
 function cloudAny(url, { w = 800 } = {}) {
   if (!url || typeof url !== 'string') return '';
-  // AJUSTE FINAL: q_auto:best para melhor qualidade e e_brightness:20 para clarear
   const t = `f_auto,q_auto:best,e_brightness:20,dpr_auto,c_limit,w_${w}`;
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
     const parts = url.split("/upload/");
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGallery();
 });
 
-// --- Irmandade (Carrossel) ---
+// --- Irmandade (Carrossel) - COM EFEITO COVERFLOW ---
 async function renderCarousel() {
   const container = $("#irmandade-container");
   if (!container) return;
@@ -46,14 +45,37 @@ async function renderCarousel() {
     const name = pick(group, ["name", "nome"]);
     const emblem = pick(group, ["emblem", "logo"]);
     const slide = document.createElement('div');
-    slide.className = "swiper-slide p-2 flex items-center justify-center";
-    slide.innerHTML = `<img src="${cloudAny(emblem, { w: 400 })}" alt="${name}" class="mx-auto h-32 md:h-40 object-contain" title="${name}">`;
+    slide.className = "swiper-slide"; // Apenas a classe base é necessária aqui
+    slide.innerHTML = `
+      <div class="flex items-center justify-center h-full">
+        <img src="${cloudAny(emblem, { w: 400 })}" alt="${name}" class="max-h-36 w-auto object-contain" title="${name}">
+      </div>
+    `;
     container.appendChild(slide);
   });
+
+  // NOVA CONFIGURAÇÃO DO SWIPER COM EFEITO DE RODA 3D
   new Swiper('.irmandade-carousel', {
-    loop: true, slidesPerView: 2, spaceBetween: 10, autoplay: { delay: 1500, disableOnInteraction: false },
-    breakpoints: { 640: { slidesPerView: 3 }, 768: { slidesPerView: 4 }, 1024: { slidesPerView: 5 } },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    effect: 'coverflow', // Ativa o efeito de "roda"
+    grabCursor: true,    // Mostra a mãozinha ao passar o mouse
+    centeredSlides: true,  // Garante que um slide fique sempre no centro
+    slidesPerView: 'auto', // Deixa o Swiper calcular quantos slides cabem
+    loop: true,            // Cria um loop infinito
+    autoplay: {
+      delay: 2500,         // Pausa de 2.5 segundos em cada brasão
+      disableOnInteraction: false, // Não para ao ser tocado pelo usuário
+    },
+    coverflowEffect: {
+      rotate: 50,       // Rotação dos slides laterais
+      stretch: 0,
+      depth: 100,       // Profundidade do efeito 3D
+      modifier: 1,
+      slideShadows: false, // Remove sombras desnecessárias
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
   });
 }
 
