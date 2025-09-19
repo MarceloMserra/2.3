@@ -23,7 +23,7 @@ function cloudAny(url, { w = 1600 } = {}) {
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/${t}/${encodeURIComponent(abs)}`;
 }
 
-// ========= Lógica do Lightbox (Versão Simplificada e Corrigida) =========
+// ========= Lógica do Lightbox =========
 let lightboxItems = [];
 let currentLightboxIndex = 0;
 const lightbox = $("#lightbox");
@@ -38,14 +38,31 @@ function updateLightboxContent() {
 
   if (item.tipo === 'video') {
     const url = item.src || '';
-    const videoWrapper = document.createElement('div');
-    videoWrapper.className = 'relative w-full max-w-5xl aspect-video';
     let videoId = '';
     const idMatch = url.match(/(?:v=|\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
     videoId = idMatch ? idMatch[1] : '';
+
     if (videoId) {
-      videoWrapper.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-      lightboxContainer.appendChild(videoWrapper);
+      // CORREÇÃO: Estrutura para vídeo responsivo
+      const responsiveWrapper = document.createElement('div');
+      responsiveWrapper.className = 'relative w-[90vw] h-[90vh] max-w-5xl max-h-[calc(90vw_*_9/16)] bg-black flex items-center justify-center'; // Limita a 90% da viewport e proporção 16:9
+      
+      const iframeWrapper = document.createElement('div');
+      iframeWrapper.className = 'relative w-full h-full'; // Garante que o iframeWrapper ocupe todo o espaço
+      iframeWrapper.style.paddingBottom = '56.25%'; // Proporção 16:9 (altura é 56.25% da largura)
+      iframeWrapper.style.height = '0';
+      iframeWrapper.style.overflow = 'hidden';
+
+      const iframe = document.createElement('iframe');
+      iframe.className = 'absolute top-0 left-0 w-full h-full';
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'autoplay; fullscreen');
+      iframe.setAttribute('allowfullscreen', '');
+
+      iframeWrapper.appendChild(iframe);
+      responsiveWrapper.appendChild(iframeWrapper);
+      lightboxContainer.appendChild(responsiveWrapper);
     }
   } else {
     const img = document.createElement('img');
@@ -91,7 +108,7 @@ function navigateLightbox(direction) {
   const fotos = asArray(album.fotos_multi).flat().map(item => (typeof item === 'object' && item.imagem) ? item.imagem : item).filter(Boolean);
   const videos = asArray(album.videos).map(item => item.url).filter(Boolean);
   
-  lightboxItems = [ // Atribui os itens à variável global
+  lightboxItems = [
     ...fotos.map(src => ({ tipo: "foto", src })),
     ...videos.map(src => ({ tipo: "video", src }))
   ];
@@ -102,6 +119,7 @@ function navigateLightbox(direction) {
     return;
   }
 
+  grid.innerHTML = "";
   lightboxItems.forEach((item, i) => {
     const wrap = document.createElement("div");
     wrap.className = "rounded-lg overflow-hidden bg-gray-900 relative aspect-square cursor-pointer group";
