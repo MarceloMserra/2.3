@@ -23,7 +23,7 @@ const pick = (obj, keys, def = undefined) => {
 const CLOUDINARY_CLOUD = "dae2wp1hy"; // Cloud Name do Movimento 2.3
 
 function cloudAny(url, { w = 800 } = {}) {
-  if (!url) return '';
+  if (!url || typeof url !== 'string') return ''; // Proteção extra
   if (/^https?:\/\/res\.cloudinary\.com\//.test(url)) {
     const parts = url.split("/upload/");
     if (parts.length > 1) {
@@ -64,17 +64,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   descricaoEl.textContent = album.descricao || "";
   gridEl.innerHTML = ""; // Limpa a área
 
-  // ===== AJUSTE PARA LER A ESTRUTURA CORRETA DO CONFIG.YML =====
-  const fotosArray = asArray(album.fotos_multi).map(item => {
-    // A estrutura agora pode ser um objeto { imagem: "url" } ou só a "url"
-    const src = (typeof item === 'object' && item.imagem) ? item.imagem : item;
-    return { tipo: 'imagem', src };
-  });
+  // ===== CÓDIGO MAIS ROBUSTO PARA LIDAR COM ITENS VAZIOS =====
+  const fotosArray = asArray(album.fotos_multi)
+    .map(item => {
+      // Extrai a URL da imagem, seja de um objeto ou de uma string simples
+      const src = (typeof item === 'object' && item && item.imagem) ? item.imagem : item;
+      // Retorna o objeto apenas se a 'src' for uma string válida
+      if (typeof src === 'string' && src.trim() !== '') {
+        return { tipo: 'imagem', src: src };
+      }
+      return null; // Retorna nulo para itens vazios ou inválidos
+    })
+    .filter(Boolean); // Remove todos os nulos da lista
 
-  const videosArray = asArray(album.videos).map(item => ({ tipo: 'video', src: item.url }));
+  const videosArray = asArray(album.videos)
+    .map(item => {
+      if (item && item.url) {
+        return { tipo: 'video', src: item.url };
+      }
+      return null;
+    })
+    .filter(Boolean);
 
   const todasAsMidias = [...fotosArray, ...videosArray];
-  // ==============================================================
+  // ==========================================================
   
   if (todasAsMidias.length === 0) {
     gridEl.innerHTML = '<p class="text-gray-400 col-span-full text-center">Este álbum ainda não tem mídias.</p>';
@@ -82,8 +95,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   todasAsMidias.forEach(item => {
-    if (!item.src) return; // Pula itens sem link de imagem/vídeo
-
     const card = document.createElement('div');
     card.className = "rounded-lg bg-gray-800 overflow-hidden cursor-pointer aspect-square flex items-center justify-center";
 
