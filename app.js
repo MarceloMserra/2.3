@@ -81,7 +81,8 @@ if (form) {
       });
       if (!r.ok) throw 0;
       form.reset();
-      alert("Mensagem enviada com sucesso!");
+      // Redireciona para a página de obrigado
+      window.location.href = "/Obrigado.html";
     } catch {
       alert("Não foi possível enviar. Tente novamente.");
     } finally {
@@ -91,22 +92,20 @@ if (form) {
 }
 
 // Scroll-to-top (opcional)
-const scrollToTopBtn = $("#scrollToTop");
+const scrollToTopBtn = document.querySelector(".scroll-to-top");
 if (scrollToTopBtn) {
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) scrollToTopBtn.classList.remove("hidden");
-    else scrollToTopBtn.classList.add("hidden");
+    if (window.scrollY > 300) scrollToTopBtn.classList.add("active");
+    else scrollToTopBtn.classList.remove("active");
   }, { passive: true });
-  scrollToTopBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  scrollToTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 }
 
 // ===================== Conteúdo dinâmico =====================
 document.addEventListener("DOMContentLoaded", () => {
   renderCarousel();
   renderEvents();
-  renderGallery(); // se ainda não tiver, fica “no-op”
+  renderGallery();
 });
 
 // --- Irmandade (carrossel/lista de grupos) ---
@@ -114,43 +113,56 @@ async function renderCarousel() {
   const container = $("#irmandade-container");
   if (!container) return;
 
-  // tenta vários caminhos comuns
   const data =
     (await getJSON("/_content/groups.json")) ||
-    (await getJSON("/_content/irmandade.json")) ||
     (await getJSON("/data/groups.json")) ||
-    (await getJSON("/data/irmandade.json")) ||
     {};
 
-  const list =
-    asArray(data.groups) ||
-    asArray(data.itens) ||
-    asArray(data.items) ||
-    asArray(data.lista);
+  const list = asArray(data.groups) || [];
 
-  if (!list.length) {
-    container.innerHTML = `<p class="text-center text-gray-500">Nenhum grupo encontrado.</p>`;
-    return;
-  }
+  if (!list.length) return;
 
   container.innerHTML = "";
   list.forEach((group) => {
-    const name = pick(group, ["name", "nome", "title", "titulo"], "Grupo");
-    const emblem = pick(group, ["emblem", "logo", "icone", "image", "imagem"]);
-    const slide = el("div", "p-2");
+    const name = pick(group, ["name", "nome"], "Grupo");
+    const emblem = pick(group, ["emblem", "logo"]);
+    
+    // Adicionamos a classe 'swiper-slide' que é essencial para o carrossel
+    const slide = el("div", "swiper-slide p-2 flex items-center justify-center"); 
     slide.innerHTML = `
-      <img src="${cloudAny(emblem, { w: 400 })}"
+      <img src="${cloudAny(emblem, { w: 500 })}"
            alt="${name}"
-           class="mx-auto h-24 object-contain"
+           class="mx-auto h-32 md:h-40 object-contain"
            title="${name}">
     `;
     container.appendChild(slide);
+  });
+
+  // INICIA O CARROSSEL AQUI
+  new Swiper('.irmandade-carousel', {
+    loop: true,
+    slidesPerView: 2, // 2 logos visíveis em telas pequenas
+    spaceBetween: 10,
+    autoplay: {
+      delay: 1000, // Tempo de 1 segundo
+      disableOnInteraction: false,
+    },
+    breakpoints: {
+      // telas maiores
+      640: { slidesPerView: 3, spaceBetween: 20 },
+      768: { slidesPerView: 4, spaceBetween: 30 },
+      1024: { slidesPerView: 5, spaceBetween: 40 },
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
   });
 }
 
 // --- Eventos (cards) ---
 async function renderEvents() {
-  const container = $("#events-container");
+  const container = $("#eventos-container"); // Corrigido de #events-container para #eventos-container
   if (!container) return;
 
   const data =
@@ -162,7 +174,7 @@ async function renderEvents() {
     asArray(data.events) ||
     asArray(data.itens) ||
     asArray(data.items) ||
-    asArray(data.lista);
+    asArray(data.lista) || [];
 
   if (!list.length) {
     container.innerHTML = `<p class="text-center text-gray-500">Nenhum evento disponível.</p>`;
@@ -177,22 +189,73 @@ async function renderEvents() {
     const place = pick(event, ["place", "local", "location"], "");
     const desc  = pick(event, ["description", "descricao", "descrição"], "");
 
-    const card = el("div", "rounded shadow bg-white overflow-hidden");
+    const card = el("div", "rounded shadow bg-gray-900 border border-gray-800 overflow-hidden");
     card.innerHTML = `
       <div class="overflow-hidden h-48">
         <img src="${cloudAny(image, { w: 1000 })}" alt="Imagem do evento ${name}" class="w-full h-48 object-cover">
       </div>
       <div class="p-4">
         <h3 class="text-lg font-bold">${name}</h3>
-        ${date ? `<p class="text-sm text-gray-600">${date}${place ? " — " + place : ""}</p>` : ""}
-        ${desc ? `<p class="mt-2 text-gray-700 text-sm">${desc}</p>` : ""}
+        ${date ? `<p class="text-sm text-gray-300">${date}${place ? " — " + place : ""}</p>` : ""}
+        ${desc ? `<p class="mt-2 text-gray-400 text-sm">${desc}</p>` : ""}
       </div>
     `;
     container.appendChild(card);
   });
 }
 
-// --- Galeria (placeholder; adapte se precisar) ---
-function renderGallery() {
-  // se não houver galeria ainda, não faz nada.
+// --- Galeria (agora com álbuns e lightbox) ---
+async function renderGallery() {
+  const container = $("#galeria-container");
+  if (!container) return;
+
+  const data = await getJSON("/_content/galeria.json") || {};
+  const albuns = asArray(data.albuns) || [];
+
+  if (!albuns.length) {
+    container.innerHTML = `<p class="text-center text-gray-400">Nenhuma foto publicada ainda.</p>`;
+    return;
+  }
+
+  container.innerHTML = "";
+  albuns.forEach((album) => {
+    const titulo = pick(album, ["titulo", "title"], "Álbum");
+    const capa = pick(album, ["capa", "cover"]);
+    const midias = asArray(album.midias) || [];
+
+    const card = el("div", "rounded-lg bg-gray-800 border border-gray-700 overflow-hidden shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300");
+    card.innerHTML = `
+      <div class="overflow-hidden h-56">
+        <img src="${cloudAny(capa, { w: 800 })}" alt="Capa do álbum ${titulo}" class="w-full h-full object-cover">
+      </div>
+      <div class="p-4">
+        <h3 class="text-lg font-bold truncate">${titulo}</h3>
+        <p class="text-sm text-gray-400">${midias.length} mídias</p>
+      </div>
+    `;
+
+    // Ação de clique para abrir o Lightbox
+    card.addEventListener('click', () => {
+      const carouselItems = midias.map(midia => {
+        if (midia.tipo === 'video' && midia.url) {
+          // Para vídeos, usamos um iframe
+          return `<div class="video-container" style="padding-top: 56.25%; position: relative;">
+                    <iframe src="${midia.url.replace('watch?v=', 'embed/')}" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                  </div>`;
+        }
+        // Para imagens
+        return `<img src="${cloudAny(midia.src, { w: 1600 })}">`;
+      }).join('');
+
+      // Cria e mostra a galeria com basicLightbox (se houver itens)
+      if(carouselItems) {
+        const instance = basicLightbox.create(`
+            <div class="w-full h-full">${carouselItems}</div>
+        `);
+        instance.show();
+      }
+    });
+
+    container.appendChild(card);
+  });
 }

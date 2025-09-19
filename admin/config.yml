@@ -58,20 +58,30 @@ collections:
               - { label: "Imagem (URL ou upload)", name: "image", widget: "image", choose_url: true }
               - { label: "Descrição", name: "description", widget: "text", required: false }
 
-  # GALERIA — arquivo único JSON com lista
+  # GALERIA — agora com álbuns
   - name: "galeria"
-    label: "Galeria"
+    label: "Galeria de Álbuns"
     files:
       - name: "galeria_file"
-        label: "Galeria (fotos)"
+        label: "Álbuns da Galeria"
         file: "_content/galeria.json"
         format: "json"
         fields:
-          - label: "Fotos"
-            name: "fotos"
+          # A chave principal agora é "albuns"
+          - label: "Álbuns"
+            name: "albuns"
             widget: "list"
-            field:
-              label: "Imagem (URL ou upload)"
-              name: "src"
-              widget: "image"
-              choose_url: true
+            fields:
+              - { label: "Título do Álbum", name: "titulo", widget: "string" }
+              - { label: "Imagem de Capa", name: "capa", widget: "image" }
+              - label: "Mídias (fotos e vídeos)"
+                name: "midias"
+                widget: "list"
+                fields:
+                  - label: "Tipo"
+                    name: "tipo"
+                    widget: "select"
+                    options: ["imagem", "video"]
+                    default: "imagem"
+                  - { label: "Imagem (se for imagem)", name: "src", widget: "image", required: false }
+                  - { label: "URL do Vídeo (se for vídeo, ex: YouTube, Cloudinary)", name: "url", widget: "string", required: false }
