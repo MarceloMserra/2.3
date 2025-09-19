@@ -28,50 +28,53 @@ function cloudAny(url, { w = 800 } = {}) {
 
 // ===================== Conteúdo Dinâmico =====================
 document.addEventListener("DOMContentLoaded", () => {
-  renderRingCarousel(); // Chama a nova função do carrossel 3D
+  renderRingCarousel();
   renderEvents();
   renderGallery();
 });
 
-// --- Irmandade (Carrossel 3D em Anel) ---
+// --- Irmandade (Carrossel 3D Dinâmico e Escalável) ---
 async function renderRingCarousel() {
   const ringContainer = $("#ring-container");
   if (!ringContainer) return;
 
   const data = await getJSON("/_content/groups.json") || {};
   const list = asArray(data.groups) || [];
-  if (!list.length) return;
+  if (list.length < 1) return;
 
-  ringContainer.innerHTML = ""; // Limpa o container
+  ringContainer.innerHTML = "";
 
   list.forEach(group => {
     const name = pick(group, ["name", "nome"]);
     const emblem = pick(group, ["emblem", "logo"]);
-    
     const item = document.createElement('div');
     item.className = 'item';
-    item.innerHTML = `
-      <div class="badge">
-        <img src="${cloudAny(emblem, { w: 300 })}" alt="${name}" title="${name}">
-      </div>
-    `;
+    item.innerHTML = `<div class="badge"><img src="${cloudAny(emblem, { w: 300 })}" alt="${name}" title="${name}"></div>`;
     ringContainer.appendChild(item);
   });
 
-  // Lógica para posicionar os itens em um círculo 3D
+  // ===== CÁLCULO DINÂMICO PARA ESCALAR ATÉ 150+ GRUPOS =====
   const items = [...ringContainer.querySelectorAll('.item')];
   const n = items.length;
+  
   const rootStyle = getComputedStyle(document.documentElement);
-  const raio = parseInt(rootStyle.getPropertyValue('--raio'));
+  const itemWidth = parseInt(rootStyle.getPropertyValue('--w'));
+  const itemGap = 40; // Espaço extra entre os brasões
+
+  const circumference = n * (itemWidth + itemGap);
+  const newRadius = Math.max(250, circumference / (2 * Math.PI));
+
+  document.documentElement.style.setProperty('--raio', `${newRadius}px`);
+  
+  ringContainer.style.transform = `translateZ(calc(${newRadius}px * -1.2))`;
 
   items.forEach((item, i) => {
     const angDeg = (360 / n) * i;
-    item.style.transform = `rotateY(${angDeg}deg) translateZ(${raio}px)`;
+    item.style.transform = `rotateY(${angDeg}deg) translateZ(${newRadius}px)`;
   });
 }
 
 // --- Eventos (Cards) ---
-// (Esta função permanece sem alterações)
 async function renderEvents() {
   const container = $("#eventos-container");
   if (!container) return;
@@ -97,7 +100,6 @@ async function renderEvents() {
 }
 
 // --- Galeria (Cards dos Álbuns) ---
-// (Esta função permanece sem alterações)
 async function renderGallery() {
   const container = $("#galeria-container");
   if (!container) return;
@@ -121,4 +123,11 @@ async function renderGallery() {
     `;
     container.appendChild(card);
   });
+}
+
+// --- UI Básica ---
+const menuToggle = $("#menuToggle");
+const mobileMenu = $("#mobileMenu");
+if (menuToggle && mobileMenu) {
+  menuToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 }
