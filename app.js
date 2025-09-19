@@ -33,14 +33,22 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGallery();
 });
 
-// --- Irmandade (Carrossel 3D Dinâmico e Escalável) ---
+// --- Irmandade (Carrossel 3D com Início Aleatório) ---
 async function renderRingCarousel() {
   const ringContainer = $("#ring-container");
   if (!ringContainer) return;
 
   const data = await getJSON("/_content/groups.json") || {};
-  const list = asArray(data.groups) || [];
+  let list = asArray(data.groups) || []; // Usamos 'let' para poder modificar a lista
   if (list.length < 1) return;
+
+  // ===== ADIÇÃO PARA INÍCIO ALEATÓRIO =====
+  // Embaralha a lista de grupos usando o algoritmo Fisher-Yates
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+  // ==========================================
 
   ringContainer.innerHTML = "";
 
@@ -53,13 +61,12 @@ async function renderRingCarousel() {
     ringContainer.appendChild(item);
   });
 
-  // ===== CÁLCULO DINÂMICO PARA ESCALAR ATÉ 150+ GRUPOS =====
   const items = [...ringContainer.querySelectorAll('.item')];
   const n = items.length;
   
   const rootStyle = getComputedStyle(document.documentElement);
   const itemWidth = parseInt(rootStyle.getPropertyValue('--w'));
-  const itemGap = 40; // Espaço extra entre os brasões
+  const itemGap = 40;
 
   const circumference = n * (itemWidth + itemGap);
   const newRadius = Math.max(250, circumference / (2 * Math.PI));
